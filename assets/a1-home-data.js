@@ -12,6 +12,8 @@
     return String(value == null ? '' : value).trim();
   }
 
+  const ORGANIZATION_SHORT_NAME = clean(root && root.PPD_SYSTEM_CONFIG && root.PPD_SYSTEM_CONFIG.organization && root.PPD_SYSTEM_CONFIG.organization.organizationShortName).toUpperCase();
+
   function schoolKey(value) {
     return clean(value).toUpperCase();
   }
@@ -104,7 +106,7 @@
       officialByZone[n] = list
         .map(clean)
         .filter(Boolean)
-        .filter(name => schoolKey(name) !== 'PPD CONTOH');
+        .filter(name => schoolKey(name) !== ORGANIZATION_SHORT_NAME);
       officialByZone[n].forEach(name => officialSchoolToZone.set(schoolKey(name), n));
     }
     const officialOfficerKeys = new Set(
@@ -118,7 +120,7 @@
     const validVisitRecords = input.filter(record => {
       if (!record) return false;
       if (record.report_type && record.report_type !== 'school_visit') return false;
-      return schoolKey(record.school) !== 'PPD CONTOH';
+      return schoolKey(record.school) !== ORGANIZATION_SHORT_NAME;
     });
 
     const periodRecords = validVisitRecords.filter(record => {

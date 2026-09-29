@@ -2609,8 +2609,9 @@
         stat1Val = '<span class="skel"></span>';
       }
 
-      // 2. Sekolah dilawati (≤ 83)
-      let stat2Val, stat2Denom = '<small>/83</small>', stat2Desc = 'liputan bulan ini';
+      // 2. Sekolah dilawati
+      const configuredSchoolTotal = ((window.PPD_SYSTEM_CONFIG && window.PPD_SYSTEM_CONFIG.schools) || []).filter(function(s){ return String(s.zon || '').toUpperCase() !== 'ZON PPD'; }).length;
+      let stat2Val, stat2Denom = configuredSchoolTotal ? '<small>/' + configuredSchoolTotal + '</small>' : '', stat2Desc = 'liputan bulan ini';
       if (monthStats) {
         stat2Val = String(monthStats.visitedOfficialCount);
       } else if (homeSummaryError) {
@@ -2822,7 +2823,7 @@
       if (uStrip) {
         uStrip.innerHTML = [
           ['Jumlah lawatan', '<span class="skel"></span>', '', '—'],
-          ['Sekolah dilawati', '<span class="skel"></span>', '<small>/83</small>', 'liputan bulan ini'],
+          ['Sekolah dilawati', '<span class="skel"></span>', (((window.PPD_SYSTEM_CONFIG && window.PPD_SYSTEM_CONFIG.schools) || []).filter(function(s){ return String(s.zon || '').toUpperCase() !== 'ZON PPD'; }).length ? '<small>/' + ((window.PPD_SYSTEM_CONFIG && window.PPD_SYSTEM_CONFIG.schools) || []).filter(function(s){ return String(s.zon || '').toUpperCase() !== 'ZON PPD'; }).length + '</small>' : ''), 'liputan bulan ini'],
           ['Laporan ISD', '<span class="skel"></span>', '', 'ada No. ISD'],
           ['Rekod keseluruhan', '<span class="skel"></span>', '', 'sejak mula']
         ].map(function(item) {

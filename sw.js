@@ -3,7 +3,7 @@
  * Strategy: Stale-While-Revalidate & Network-First with Offline Fallback
  */
 
-const CACHE_NAME = 'ppdk-pwa-v26-a1-__BUILD_VERSION__';
+const CACHE_NAME = 'ppd-ict-pwa-v1-__BUILD_VERSION__';
 
 const PRECACHE_RESOURCES = [
   "/",
@@ -25,6 +25,7 @@ const PRECACHE_RESOURCES = [
   "/a1/a1-home-data.js?v=__BUILD_VERSION__",
   "/a1/a1-icons.js?v=__BUILD_VERSION__",
   "/a1/a1-production-data.js?v=__BUILD_VERSION__",
+  "/a1/public-config.js?v=__BUILD_VERSION__",
   "/a1/a1-shell.js?v=__BUILD_VERSION__",
   "/a1/a1-theme.js?v=__BUILD_VERSION__",
   "/a1/a1-tokens.css?v=__BUILD_VERSION__",
@@ -37,9 +38,6 @@ const PRECACHE_RESOURCES = [
   "/a1/ptis-a1.css?v=__BUILD_VERSION__",
   "/a1/pwa-a1.css?v=__BUILD_VERSION__",
   "/a1/pwa/icon-512.png?v=__BUILD_VERSION__",
-  "/a1/pwa/screenshot-mobile-borang.png?v=__BUILD_VERSION__",
-  "/a1/pwa/screenshot-mobile-dashboard.png?v=__BUILD_VERSION__",
-  "/a1/pwa/screenshot-mobile-peta.png?v=__BUILD_VERSION__",
   "/a1/qr-a1.css?v=__BUILD_VERSION__",
   "/a1/tuntutan-core.js?v=__BUILD_VERSION__",
   "/a1/tuntutan-print.css?v=__BUILD_VERSION__",

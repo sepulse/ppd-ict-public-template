@@ -289,7 +289,7 @@
       <div class="strip">
         <div class="stat">
           <span class="mono">Sekolah dilawati</span>
-          <div class="num" id="overviewMetricSchools">21<small>/83</small></div>
+          <div class="num" id="overviewMetricSchools">—<small>/—</small></div>
           <p id="overviewMetricSchoolsSub">25% liputan · 62 belum</p>
         </div>
         <div class="stat">
@@ -1874,7 +1874,7 @@
       const officialSchoolsByZone = (bootstrapFilters && bootstrapFilters.schoolsByZone) || {};
       const officialSchoolTotal = selectedZone !== 'all' && Array.isArray(officialSchoolsByZone[selectedZone])
         ? officialSchoolsByZone[selectedZone].length
-        : (getOfficialSchoolSet().size || 83);
+        : (getOfficialSchoolSet().size || ((window.PPD_SYSTEM_CONFIG && window.PPD_SYSTEM_CONFIG.schools || []).filter(s => String(s.zon || '').toUpperCase() !== 'ZON PPD').length));
       const schools = countOfficialVisitedSchools(filteredRecords);
       const zones = new Set(filteredRecords.map(r => r.zoneName).filter(z => z && !z.includes('PPD'))).size;
       const peopleStats = getPeopleStats();
@@ -2581,7 +2581,7 @@
       if (metricsStrip) {
         const totalVisits = comparativeRows.length;
         const totalVisited = new Set(comparativeRows.map(r => r.school).filter(isOfficialSchool).map(x => String(x).trim().toUpperCase())).size;
-        const officialSchoolTarget = getOfficialSchoolSet().size || 83;
+        const officialSchoolTarget = getOfficialSchoolSet().size || ((window.PPD_SYSTEM_CONFIG && window.PPD_SYSTEM_CONFIG.schools || []).filter(s => String(s.zon || '').toUpperCase() !== 'ZON PPD').length);
         const activeZones = zoneStats.filter(z => z.visits > 0).length;
         const maxVisits = Math.max(...zoneStats.map(z => z.visits), 0);
         const topZones = zoneStats.filter(z => z.visits === maxVisits && z.visits > 0);

@@ -28,7 +28,7 @@ const ORGANIZATION_CONFIG = TEMPLATE_RUNTIME.organization || {};
 const ZONE_CONFIG = Array.isArray(TEMPLATE_RUNTIME.zones) ? TEMPLATE_RUNTIME.zones : [];
 const CANONICAL_SCHOOLS = TEMPLATE_RUNTIME.schoolsByZone || {};
 const CANONICAL_OFFICERS = TEMPLATE_RUNTIME.officersByZone || {};
-const ALL_OFFICIAL_83_SCHOOLS = Object.entries(CANONICAL_SCHOOLS)
+const ALL_OFFICIAL_SCHOOLS = Object.entries(CANONICAL_SCHOOLS)
   .filter(([zone]) => zone !== 'ZON PPD')
   .flatMap(([, schools]) => Array.isArray(schools) ? schools : []);
 
@@ -656,7 +656,7 @@ const SQL_SORT_DATE = \`CASE
   ELSE '1970-01-01'
 END\`;
 
-const ALL_OFFICIAL_83_SCHOOLS = ` + JSON.stringify(ALL_OFFICIAL_83_SCHOOLS, null, 2) + `;
+const ALL_OFFICIAL_SCHOOLS = ` + JSON.stringify(ALL_OFFICIAL_SCHOOLS, null, 2) + `;
 const CANONICAL_SCHOOLS = ` + JSON.stringify(CANONICAL_SCHOOLS, null, 2) + `;
 
 const CANONICAL_OFFICERS = ` + JSON.stringify(CANONICAL_OFFICERS, null, 2) + `;
@@ -7776,7 +7776,7 @@ async function handlePublicBootstrapApi(request, env) {
       years: Array.from(yearSet).sort((a,b) => b - a),
       months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       zones: ZONE_DEFS.slice(0, 8),
-      schools: ALL_OFFICIAL_83_SCHOOLS.slice().sort(),
+      schools: ALL_OFFICIAL_SCHOOLS.slice().sort(),
       members: Array.from(memberSet).sort(),
       purposes: Array.from(purposeSet).sort(),
       issues: Array.from(issueSet).sort(),
