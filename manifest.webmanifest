@@ -1,0 +1,127 @@
+{
+  "name": "PPD-ICT - Portal Unit ICT PPD Contoh",
+  "short_name": "PPD-ICT",
+  "description": "Portal pengurusan laporan, dashboard, peta dan utiliti ICT untuk Pejabat Pendidikan Daerah Contoh.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "window-controls-overlay"
+  ],
+  "orientation": "portrait-primary",
+  "background_color": "#0c0e12",
+  "theme_color": "#0c0e12",
+  "lang": "ms-MY",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "categories": [
+    "education",
+    "productivity",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png?v=10",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png?v=10",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192-maskable.png?v=10",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-512-maskable.png?v=10",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon.svg?v=10",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Papan Pemuka JTK",
+      "short_name": "Dashboard",
+      "description": "Lihat Analisis & Rekod JTK",
+      "url": "https://dashboard.ppd.example.invalid",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png?v=10",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Borang PTIS",
+      "short_name": "Borang",
+      "description": "Isi Laporan Khidmat Bantu PTIS",
+      "url": "https://ptis.ppd.example.invalid",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png?v=10",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Radar 60FPS",
+      "short_name": "Radar",
+      "description": "Radar Geospatial Sekolah",
+      "url": "/radar.html",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png?v=10",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Peta GIS Sekolah",
+      "short_name": "Peta",
+      "description": "Peta Taburan Sekolah",
+      "url": "/map.html",
+      "icons": [
+        {
+          "src": "/icons/icon-192.png?v=10",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "scope_extensions": [
+    {
+      "origin": "https://ppd.example.invalid"
+    },
+    {
+      "origin": "https://www.ppd.example.invalid"
+    },
+    {
+      "origin": "https://dashboard.ppd.example.invalid"
+    },
+    {
+      "origin": "https://ptis.ppd.example.invalid"
+    },
+    {
+      "origin": "https://admin.ppd.example.invalid"
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ms" data-a1>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PPD-ICT — Pasang aplikasi</title>
+<meta name="description" content="Pasang PPD-ICT untuk membuka Borang PTIS, Dashboard dan Peta dari skrin utama.">
+<link rel="canonical" href="https://ppd.example.invalid/pwa">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PPD-ICT">
+<script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
+  <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
+<link rel="manifest" href="/manifest.webmanifest?v=10">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=10">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=10">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png?v=10">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png?v=10">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png?v=10">
+<link rel="icon" type="image/svg+xml" href="/icons/icon.svg?v=10">
+<link rel="shortcut icon" href="/favicon.ico">
+<script>
+// Keadaan lab asal: pendaftaran SW dilumpuhkan.
+if(false && 'serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(()=>{}));}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/a1/a1-tokens.css?v=__BUILD_VERSION__">
+<link rel="stylesheet" href="/a1/a1-components.css?v=__BUILD_VERSION__">
+<script src="/a1/a1-shell.js?v=__BUILD_VERSION__"></script>
+<link rel="stylesheet" href="/a1/pwa-a1.css?v=__BUILD_VERSION__">
+</head>
+<body data-page="pwa">
+<div class="shell">
+  <aside class="side" id="sidebar">
+    <div class="brand">PPDK<i>.CH</i></div>
+    <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
+    <nav class="nav" aria-label="Utama">
+      <div class="nav-label mono">Ruang kerja</div>
+      <a href="/" data-nav="home"><svg class="i"><use href="#i-home"/></svg>Home<span class="k">01</span></a>
+      <a href="/ptis" data-nav="ptis"><svg class="i"><use href="#i-form"/></svg>Borang PTIS<span class="k">02</span></a>
+      <a href="/dashboard#overview" data-nav="overview"><svg class="i"><use href="#i-grid"/></svg>Dashboard<span class="k">03</span></a>
+      <a href="/dashboard#zones" data-nav="zones"><svg class="i"><use href="#i-bar"/></svg>Analitik Zon<span class="k">04</span></a>
+      <a href="/dashboard#members" data-nav="members"><svg class="i"><use href="#i-team"/></svg>Ahli JTK<span class="k">05</span></a>
+      <a href="/dashboard#issues" data-nav="issues"><svg class="i"><use href="#i-alert"/></svg>Isu &amp; Tujuan<span class="k">06</span></a>
+      <a href="/dashboard#records" data-nav="records"><svg class="i"><use href="#i-log"/></svg>Rekod Lawatan<span class="k">07</span></a>
+      <a href="/map" data-nav="geospatial"><svg class="i"><use href="#i-map"/></svg>Peta<span class="k">08</span></a>
+      <a href="/dashboard#report" data-nav="report"><svg class="i"><use href="#i-report"/></svg>Laporan Rasmi<span class="k">09</span></a>
+      <a href="/qrcode" data-nav="qr"><svg class="i"><use href="#i-qr"/></svg>QR &amp; Short URL<span class="k">10</span></a>
+    </nav>
+    <div class="side-foot"><a href="/admin"><svg class="i"><use href="#i-lock"/></svg>Login Admin</a></div>
+  </aside>
+  <div class="scrim" id="sideBackdrop" hidden></div>
+  <main class="main">
+    <header class="top">
+      <button class="iconbtn menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
+      <div class="crumb mono"><span>PPD-ICT</span><span>/</span><b>Pasang aplikasi</b></div>
+      <div class="top-r"><button class="iconbtn" id="darkModeBtn" type="button" aria-label="Tukar tema"><svg class="i"><use href="#i-moon"/></svg></button></div>
+    </header>
+    <section class="mast">
+      <div><div class="eyebrow mono">Aplikasi</div><h1>PPD-ICT pada skrin utama anda</h1>
+        <p class="lead">Buka Borang PTIS, Dashboard dan Peta terus dari ikon — tanpa bar pelayar. Borang boleh diisi tanpa talian dan dihantar apabila talian pulih.</p></div>
+    </section>
+
+    <div class="w-top">
+      <section class="w-panel" aria-live="polite">
+        <div class="w-app"><img src="/a1/pwa/icon-512.png?v=__BUILD_VERSION__" alt="Ikon aplikasi PPD-ICT"><div><b>PPD-ICT</b><span>Unit ICT PPD Contoh</span></div></div>
+        <div class="w-state" id="state"><span class="skel"></span></div>
+        <p class="w-foot mono">Percuma · tiada gedung aplikasi · kemas kini sendiri</p>
+      </section>
+      <section class="w-guide" id="installGuide" tabindex="-1">
+        <h2>Cara memasang</h2>
+        <div class="seg" role="group" aria-label="Peranti"><button type="button" data-os="android" aria-pressed="false">Android</button><button type="button" data-os="ios" aria-pressed="false">iPhone / iPad</button><button type="button" data-os="desktop" aria-pressed="false">Komputer</button></div>
+        <ol class="w-steps" id="steps"></ol>
+      </section>
+    </div>
+
+    <section class="w-sec">
+      <div class="sec-h"><h2>Dalam aplikasi</h2></div>
+      <div class="w-cards">
+        <article class="w-card"><div><h3>Borang PTIS</h3><p>Isi laporan lawatan di sekolah, walaupun tanpa talian. Dihantar sendiri apabila talian pulih.</p><a class="lnk" href="/ptis">Buka borang</a></div></article>
+        <article class="w-card"><div><h3>Dashboard</h3><p>Liputan lawatan bulan ini mengikut zon dan sekolah.</p><a class="lnk" href="/dashboard">Buka Dashboard</a></div></article>
+        <article class="w-card"><div><h3>Peta</h3><p>Lokasi sekolah di peta, dengan mod Radar untuk sekolah berhampiran.</p><a class="lnk" href="/map">Buka Peta</a></div></article>
+      </div>
+    </section>
+
+
+  </main>
+</div>
+<div class="a-toast" id="toast" role="status"><i></i><span id="toastT"></span></div>
+
+<script src="/a1/a1-icons.js?v=__BUILD_VERSION__"></script>
+<script>
+
+const $=id=>document.getElementById(id);
+const IC={
+  dots:'<span class="ic" aria-label="menu"><svg viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg></span>',
+  share:'<span class="ic" aria-label="Kongsi"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M6 11v9h12v-9"/></svg></span>',
+  plus:'<span class="ic" aria-label="Tambah"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><path d="M12 8v8M8 12h8"/></svg></span>',
+  inst:'<span class="ic" aria-label="Pasang"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12"/><path d="M12 7v6M9 10l3 3 3-3M8 20h8"/></svg></span>'
+};
+const PWA_DOMAINS=(window.PPD_SYSTEM_CONFIG&&window.PPD_SYSTEM_CONFIG.organization&&window.PPD_SYSTEM_CONFIG.organization.domains)||{};
+const PWA_ROOT_DOMAIN=PWA_DOMAINS.root||'ppd.example.invalid';
+const PWA_URL='https://'+PWA_ROOT_DOMAIN+'/pwa';
+const STEPS={
+  android:[['Tekan "Pasang aplikasi"','Jika butang itu tiada, tekan menu '+IC.dots+' Chrome.'],['Pilih "Pasang aplikasi" atau "Tambah ke skrin utama"','Sahkan. Ikon PPD-ICT muncul pada skrin utama.']],
+  ios:[['Buka '+PWA_ROOT_DOMAIN+'/pwa dalam Safari','Pemasangan pada iPhone hanya melalui Safari.'],['Tekan Kongsi '+IC.share,'Di bar bawah Safari.'],['Pilih "Tambah ke Skrin Utama" '+IC.plus,'Tekan "Tambah" di penjuru kanan atas.']],
+  desktop:[['Tekan ikon pasang '+IC.inst+' di bar alamat','Chrome atau Edge. Atau tekan butang "Pasang aplikasi".'],['Sahkan "Pasang"','Aplikasi dibuka dalam tetingkapnya sendiri.']]
+};
+function setOS(os){ document.querySelectorAll('[data-os]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.os===os)));
+  $('steps').innerHTML=STEPS[os].map((s,i)=>'<li><span class="n">0'+(i+1)+'</span><div><b>'+s[0]+'</b><p>'+s[1]+'</p></div></li>').join(''); }
+document.querySelector('.w-guide .seg').addEventListener('click',e=>{const b=e.target.closest('[data-os]'); if(b) setOS(b.dataset.os);});
+function toast(t){ $('toastT').textContent=t; $('toast').classList.add('on'); clearTimeout(toast.t); toast.t=setTimeout(()=>$('toast').classList.remove('on'),3200); }
+let deferredPrompt=null,installPending=false,installed=matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const ua=navigator.userAgent,isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1),isAndroid=/Android/.test(ua),iosSafari=isIOS&&/Safari\//.test(ua)&&!/CriOS|FxiOS|EdgiOS|OPiOS|DuckDuckGo/.test(ua);
+const ST={
+ prompt:'<button class="btn btn-mint" type="button" id="install">Pasang aplikasi<svg class="i"><use href="#i-install"/></svg></button><p>Android, Chrome dan Edge.</p>',
+ ios:'<p>Pada iPhone, pasang melalui butang Kongsi di Safari.</p><a class="lnk" href="#installGuide" id="iosGuideLink">Lihat panduan iPhone</a>',
+ iosother:'<p>Buka '+PWA_ROOT_DOMAIN+'/pwa dalam Safari untuk memasang.</p><button class="btn btn-mint" type="button" id="copyLink">Salin pautan</button>',
+ installed:'<div class="w-done"><i></i>Aplikasi sudah dipasang pada peranti ini.</div>',
+ none:'<p>Pelayar ini tidak menyokong pemasangan. Cuba Chrome atau Edge.</p>'
+};
+function renderInstallState(){const state=installed?'installed':isIOS?(iosSafari?'ios':'iosother'):deferredPrompt?'prompt':'none';$('state').dataset.state=state;
+ $('state').innerHTML=installPending&&!installed?'<p>Ikut dialog pelayar untuk melengkapkan pemasangan.</p>':ST[state];
+ const install=$('install');if(install)install.addEventListener('click',installApp);
+ const copy=$('copyLink');if(copy)copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(PWA_URL);toast('Pautan disalin')}catch(_){toast('Salinan automatik gagal. Salin '+PWA_URL+'.')}});
+ const guide=$('iosGuideLink');if(guide)guide.addEventListener('click',()=>{setOS('ios');$('installGuide').focus({preventScroll:true})});
+}
+async function installApp(){const prompt=deferredPrompt;if(!prompt||installed||installPending)return;const btn=$('install');if(btn)btn.disabled=true;installPending=true;
+ try{await prompt.prompt();const choice=await prompt.userChoice;deferredPrompt=null;installPending=choice&&choice.outcome==='accepted';if(!installPending)toast('Pemasangan dibatalkan.');}
+ catch(_){deferredPrompt=null;installPending=false;toast('Pemasangan tidak dapat dibuka. Cuba melalui menu pelayar.');}
+ renderInstallState();
+}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();if(installed)return;deferredPrompt=e;installPending=false;renderInstallState()});
+window.addEventListener('appinstalled',()=>{installed=true;deferredPrompt=null;installPending=false;renderInstallState()});
+const standalone=matchMedia('(display-mode: standalone)');standalone.addEventListener('change',e=>{if(e.matches){installed=true;renderInstallState()}});
+setOS(isIOS?'ios':isAndroid?'android':'desktop');renderInstallState();
+</script>
+</body>
+</html>

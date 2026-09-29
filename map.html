@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="ms" data-a1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PPD-ICT — Peta (A-1)</title>
+  <link rel="manifest" href="/manifest.webmanifest?v=10">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=10">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=10">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png?v=10">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png?v=10">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png?v=10">
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg?v=10">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
+  <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
+  <script src="/a1/a1-shell.js?v=__BUILD_VERSION__"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="/a1/a1-tokens.css?v=__BUILD_VERSION__">
+  <link rel="stylesheet" href="/a1/a1-components.css?v=__BUILD_VERSION__">
+  <link rel="stylesheet" href="/a1/peta-a1.css?v=__BUILD_VERSION__">
+  <style>
+    /* Peta A-1 living overrides: 0 !important */
+    .svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+  </style>
+<script src="/a1/a1-production-data.js?v=__BUILD_VERSION__"></script>
+</head>
+<body data-page="geospatial">
+<svg class="svg-defs" aria-hidden="true">
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6.4-6.4"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+  <symbol id="i-loc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-form" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+  <symbol id="i-nav" viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-pclose" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM9 4v16"/><path d="M16 9l-3 3 3 3"/></symbol>
+  <symbol id="i-popen" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM9 4v16"/><path d="M13 9l3 3-3 3"/></symbol>
+  <symbol id="i-rail" viewBox="0 0 24 24"><path d="M11 7l-5 5 5 5M18 7l-5 5 5 5"/></symbol>
+  <symbol id="i-fs" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z"/></symbol>
+</svg>
+
+<div class="shell" id="shell">
+  <aside class="side" id="sidebar">
+    <div class="brand">PPDK<i>.CH</i></div>
+    <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
+    <nav class="nav" aria-label="Utama">
+      <div class="nav-label mono">Ruang kerja</div>
+      <a href="/" title="Home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home<span class="k">01</span></a>
+      <a href="/ptis" title="Borang PTIS"><svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>Borang PTIS<span class="k">02</span></a>
+      <a href="/dashboard#overview" title="Dashboard"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>Dashboard<span class="k">03</span></a>
+      <a href="/dashboard#zones" title="Analitik Zon"><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Analitik Zon<span class="k">04</span></a>
+      <a href="/dashboard#members" title="Ahli JTK"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg>Ahli JTK<span class="k">05</span></a>
+      <a href="/dashboard#issues" title="Isu &amp; Tujuan"><svg viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/></svg>Isu &amp; Tujuan<span class="k">06</span></a>
+      <a href="/dashboard#records" title="Rekod Lawatan"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>Rekod Lawatan<span class="k">07</span></a>
+      <a class="on" href="/map" title="Peta" aria-current="page"><svg viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Peta<span class="k">08</span></a>
+      <a href="/dashboard#report" title="Laporan Rasmi"><svg viewBox="0 0 24 24"><path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4M7 12l3-3 2 2 4-4"/></svg>Laporan Rasmi<span class="k">09</span></a>
+      <a href="/qrcode" title="QR &amp; Short URL"><svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z"/></svg>QR &amp; Short URL<span class="k">10</span></a>
+    </nav>
+    <div class="side-foot">
+      <div class="sim mono"><span class="dot"></span><span id="lblDataStatus">Peta A-1 · Data Aktif</span></div>
+      <button class="g-railbtn" id="railBtn" aria-expanded="true" title="Lipat menu"><svg><use href="#i-rail"/></svg>Lipat menu</button>
+      <a href="/admin" title="Login Admin"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Login Admin</a>
+    </div>
+  </aside>
+
+  <div class="g-wrap" id="wrap">
+    <header class="g-mtop top">
+      <button class="iconbtn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg><use href="#i-menu"/></svg></button>
+      <b>Peta</b>
+      <button class="iconbtn" id="darkModeBtn" type="button" aria-label="Tukar tema"><svg class="i"><use href="#i-moon"/></svg></button>
+    </header>
+
+    <section class="g-panel" id="panel" aria-label="Kawalan peta">
+      <button class="g-grab" id="grab" aria-expanded="false" aria-controls="panel"><i></i><span id="grabT">Senarai &amp; tapis</span></button>
+      <header class="g-ph">
+        <div><span class="mono">PPD-ICT / Peta</span><h1>Peta sekolah</h1></div>
+        <button class="iconbtn" id="pToggle" aria-label="Lipat panel" aria-controls="panel" aria-expanded="true" title="Lipat panel"><svg><use href="#i-pclose"/></svg></button>
+      </header>
+      <div class="g-body" id="panelBody">
+        <div class="g-cov"><b id="covVisited">—</b><span id="covTotal">/—</span><em class="mono" id="covMeta">— dilawati</em></div>
+        <div class="g-meter"><i id="covMeter"></i></div>
+        <div class="g-search"><svg><use href="#i-search"/></svg><input id="q" placeholder="Cari sekolah…" autocomplete="off" aria-label="Cari sekolah"><div class="g-res" id="res" role="listbox"></div></div>
+        <div class="g-filter" role="group" aria-label="Tapis status"><button data-f="all" aria-pressed="true" id="fAll">Semua · —</button><button data-f="v" aria-pressed="false" id="fVis">Dilawati · —</button><button data-f="n" aria-pressed="false" id="fRem">Belum · —</button></div>
+        <button class="g-near" id="near" aria-pressed="false"><svg><use href="#i-loc"/></svg>Sekolah berhampiran saya</button>
+        <div class="g-nearlist" id="nearList"></div>
+        <div class="g-h"><b>Liputan zon</b><span class="mono">klik untuk fokus</span></div>
+        <div id="zones"></div>
+        <div class="g-tools" hidden>
+          <span class="mono">Alat Pentadbiran</span>
+          <button type="button" class="btn btn-line btn-sm" id="btnCalibrateToggle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+            <span id="calibToggleLabel">Selaras GPS</span>
+          </button>
+        </div>
+        <p class="g-note" id="geoNote">Status lawatan berdasarkan rekod rasmi terkini. Koordinat sekolah D1. Hab PPD Contoh dikecualikan daripada liputan.</p>
+      </div>
+    </section>
+
+    <div class="g-stage" id="stage">
+      <div id="gmap" role="region" aria-label="Peta sekolah"></div>
+      <svg class="g-ov" id="ov" aria-hidden="true"></svg>
+      <div class="g-labels" id="labels"></div>
+
+      <div class="g-bar">
+        <button class="g-tb" id="pOpen" aria-controls="panel" aria-expanded="false"><svg><use href="#i-popen"/></svg>Panel</button>
+        <div class="g-seg" role="group" aria-label="Mod peta"><button data-mode="map" aria-pressed="true" id="btnModeMap"><svg><use href="#i-map"/></svg>Jelajah</button><button data-mode="radar" aria-pressed="false" id="btnModeRadar"><svg><use href="#i-radar"/></svg>Radar</button></div>
+        <nav class="g-zs" id="zs" aria-label="Zon radar"></nav>
+        <div class="g-right"><button class="g-tb" id="fsBtn"><svg><use href="#i-fs"/></svg>Skrin penuh</button></div>
+      </div>
+
+      <div class="g-legend mono"><span><i class="sq v" style="--c:var(--ink)"></i>Dilawati</span><span><i class="sq" style="--c:var(--ink)"></i>Belum</span><span><i class="hub"></i>Hab PPD</span></div>
+
+      <section class="g-card" id="card" aria-live="polite" aria-label="Zon semasa">
+        <div class="g-ch"><span class="zb" id="cZb">ZON 1</span><span class="area" id="cArea">KAWASAN 1</span><span class="idx" id="cIdx">01 / 08</span></div>
+        <div class="g-cb"><div class="big" id="cBig">0<small>/0</small></div><div class="meta mono" id="cMeta"></div></div>
+        <div class="g-cf"><span class="lt" id="cLt"></span>
+          <button id="tPrev" aria-label="Zon sebelum"><svg><use href="#i-prev"/></svg></button><button id="tPlay" aria-label="Jeda"><svg><use href="#i-pause"/></svg></button><button id="tNext" aria-label="Zon seterusnya"><svg><use href="#i-next"/></svg></button></div>
+      </section>
+
+      <aside class="g-drawer" id="drawer" aria-label="Profil sekolah">
+        <div class="g-dh"><span class="zb" id="dZb">ZON 5</span><button class="g-dx" id="dX" aria-label="Tutup profil"><svg><use href="#i-x"/></svg></button></div>
+        <div class="g-db" id="dBody"></div>
+        <div class="g-da"><a class="btn btn-ink" href="/ptis" id="dCreate">Cipta laporan lawatan<svg viewBox="0 0 24 24"><use href="#i-form"/></svg></a><a class="btn btn-line" href="#" id="dNav" target="_blank" rel="noopener">Navigasi (Google Maps)<svg viewBox="0 0 24 24"><use href="#i-nav"/></svg></a></div>
+      </aside>
+
+      <div class="g-calib-bar" id="calibratePanel">
+        <div class="g-calib-info">
+          <strong id="calibSchoolName">Pilih sekolah untuk diselaras</strong>
+          <span id="calibCoords">Heret pin atau klik lokasi tepat di atas bumbung sekolah pada peta</span>
+        </div>
+        <div class="g-calib-actions">
+          <button type="button" class="btn btn-ink btn-sm" id="btnSaveCoord">Simpan ke D1</button>
+          <button type="button" class="btn btn-line btn-sm" id="btnCancelCoord">Batal</button>
+        </div>
+      </div>
+
+      <div class="g-toast" id="toastPopup"></div>
+    </div>
+  </div>
+</div>
+
+<script src="/a1/a1-icons.js?v=__BUILD_VERSION__"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+
+<script src="/a1/a1-categories.js?v=__BUILD_VERSION__"></script>
+<script src="/a1/a1-home-data.js?v=__BUILD_VERSION__"></script>
+<script src="/a1/a1-geo-data.js?v=__BUILD_VERSION__"></script>
+<script>
+(function() {
+  'use strict';
+
+  const $ = id => document.getElementById(id);
+  const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isEmbed = new URLSearchParams(window.location.search).get('embed') === 'dashboard';
+  if (isEmbed) document.body.classList.add('embed-dashboard');
+
+  const css = getComputedStyle(document.documentElement);
+  const ZC = z => css.getPropertyValue('--z' + z).trim() || '#2563EB';
+
+  const km = (a, b) => {
+    const R = 6371;
+    const t = x => x * Math.PI / 180;
+    const dl = t(b.lat - a.lat);
+    const dn = t(b.lng - a.lng);
+    const h = Math.sin(dl / 2) ** 2 + Math.cos(t(a.lat)) * Math.cos(t(b.lat)) * Math.sin(dn/2) ** 2;
+    return 2 * R * Math.asin(Math.sqrt(h));
+  };
+
+  const title = n => String(n || '')
+    .toLowerCase()
+    .replace(/\b[a-z]/g, c => c.toUpperCase())
+    .replace(/\b(Sk|Smk|Sjkc|Sm|Dpha)\b/g, m => m.toUpperCase());
+
+  let S = [];
+  let byZ = {};
+  const TEMPLATE_ORG = (window.PPD_SYSTEM_CONFIG && window.PPD_SYSTEM_CONFIG.organization) || {};
+  let HUB = { lat: 3.139, lng: 101.6869, n: TEMPLATE_ORG.organizationShortName || 'PPD Contoh' };
+  let RTM = { lat: 3.145, lng: 101.695, n: 'Hab Kedua' };
+  let AREA = {};
+  let homeData = null;
+  let map = null;
+  let hulls = {};
+  let zb = {};
+  let ALL = null;
+  let focusZ = null;
+  let labelZ = null;
+  let sel = null;
+  let nearLayer = null;
+
+  let curMonthShort = 'Sep';
+  let curPeriodLabel = 'Sep 2026';
+
+  // Calibrate state
+  let isCalibrateMode = false;
+  let selectedCalibItem = null;
+  let tempLat = null;
+  let tempLng = null;
+
+  // Toast
+  function showToast(msg) {
+    const t = $('toastPopup');
+    if (!t) return;
+    t.textContent = msg;
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 3000);
+  }
+
+  // Hull calculation
+  function hull(p) {
+    p = p.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    const c = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+    const lo = [], up = [];
+    for (const q of p) {
+      while (lo.length > 1 && c(lo[lo.length - 2], lo[lo.length - 1], q) <= 0) lo.pop();
+      lo.push(q);
+    }
+    for (const q of p.slice().reverse()) {
+      while (up.length > 1 && c(up[up.length - 2], up[up.length - 1], q) <= 0) up.pop();
+      up.push(q);
+    }
+    return lo.slice(0, -1).concat(up.slice(0, -1));
+  }
+
+  // Set tiles
+  const ESRI = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_';
+  const TL = {};
+  function setTiles() {
+    if (!map) return;
+    const d = document.documentElement.dataset.theme === 'dark';
+    const k = d ? 'Dark_Gray' : 'Light_Gray';
+    Object.values(TL).forEach(l => map.removeLayer(l));
+    TL.b = L.tileLayer(ESRI + k + '_Base/MapServer/tile/{z}/{y}/{x}', { maxZoom: 16, attribution: 'Tiles © Esri' }).addTo(map);
+    TL.r = L.tileLayer(ESRI + k + '_Reference/MapServer/tile/{z}/{y}/{x}', { maxZoom: 16, pane: 'shadowPane', opacity: 0.8 }).addTo(map);
+  }
+
+  // Layout calculations
+  const LW = 208, LH = 38, GAP = 44, NS = 'http://www.w3.org/2000/svg';
+  function lay() {
+    const W = $('stage').clientWidth;
+    const dr = $('drawer').classList.contains('on');
+    if (W < 700) return 'i';
+    if (dr) return 'l';
+    return W < 900 ? 'r' : 'two';
+  }
+
+  function fitZone(z, dur) {
+    if (!map || !zb[z]) return;
+    const m = lay();
+    const C = LW + GAP + 24;
+    const radar = document.body.classList.contains('radar');
+    const dr = $('drawer').classList.contains('on') ? 370 : 0;
+    const cardEl = $('card');
+    const cardH = (radar && cardEl && cardEl.offsetHeight > 0) ? cardEl.offsetHeight : 150;
+    const bottomPad = radar ? (cardH + 40) : 60;
+    const o = {
+      two: { paddingTopLeft: [C, 90], paddingBottomRight: [C, 60] },
+      r: { paddingTopLeft: [70, 90], paddingBottomRight: [C, bottomPad] },
+      l: { paddingTopLeft: [C, 90], paddingBottomRight: [dr + 40, bottomPad] },
+      i: { paddingTopLeft: [30, radar ? 120 : 80], paddingBottomRight: [30, bottomPad] }
+    }[m];
+    o.maxZoom = 15;
+    if (dur === 0 || RM) map.fitBounds(zb[z], o);
+    else map.flyToBounds(zb[z], { ...o, duration: dur });
+  }
+
+  function spread(items, top, bot) {
+    items.sort((a, b) => a.p.y - b.p.y);
+    let y = top - LH;
+    items.forEach(it => {
+      it.ly = Math.max(it.p.y - LH / 2, y + LH + 6);
+      y = it.ly;
+    });
+    let over = (items.length ? items[items.length - 1].ly + LH : 0) - bot;
+    for (let i = items.length - 1; i >= 0 && over > 0; i--) {
+      const lim = i === items.length - 1 ? bot - LH : items[i + 1].ly - LH - 6;
+      items[i].ly = Math.min(items[i].ly, lim);
+    }
+    items.forEach(it => { it.ly = Math.max(top, it.ly); });
+  }
+
+  function clearCallouts() {
+    $('labels').innerHTML = '';
+    $('ov').innerHTML = '';
+  }
+
+  function drawCallouts(sweep) {
+    clearCallouts();
+    if (!labelZ || !byZ[labelZ]) return;
+    const z = labelZ;
+    const a = byZ[z];
+    const W = $('stage').clientWidth;
+    const H = $('stage').clientHeight;
+    const c = ZC(z);
+    const radar = document.body.classList.contains('radar');
+    const pts = a.filter(s => {
+      const el = s.m.getElement();
+      return !(el && el.classList.contains('hide'));
+    }).map(s => ({ s, p: map.latLngToContainerPoint([s.lat, s.lng]) }));
+    if (!pts.length) return;
+
+    const xs = pts.map(q => q.p.x);
+    const ys = pts.map(q => q.p.y);
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const cx = (minX + maxX) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2;
+    const mode = lay();
+    const top = 70, bot = H - 24;
+
+    const cardEl = $('card');
+    const cardVisible = radar && cardEl && cardEl.offsetHeight > 0 && getComputedStyle(cardEl).display !== 'none';
+    const stageRect = $('stage').getBoundingClientRect();
+    const cardRect = cardVisible ? cardEl.getBoundingClientRect() : null;
+    const cardTopStage = (cardVisible && cardRect) ? (cardRect.top - stageRect.top) : H;
+    const cardLeftStage = (cardVisible && cardRect) ? (cardRect.left - stageRect.left) : 0;
+    const cardRightStage = (cardVisible && cardRect) ? (cardRect.right - stageRect.left) : 0;
+    const cardLimitY = cardVisible ? Math.max(top, cardTopStage - 14) : bot;
+
+    const lx = Math.max(8, minX - GAP - LW);
+    const rx = Math.min(maxX + GAP, W - LW - 8);
+    const inline = mode === 'i';
+
+    const svg = $('ov');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', W);
+    svg.setAttribute('height', H);
+
+    const R = Math.max(...pts.map(q => Math.hypot(q.p.x - cx, q.p.y - cy))) + 34;
+    if (radar) {
+      [R, R * 0.5].forEach(r => {
+        const e = document.createElementNS(NS, 'circle');
+        e.setAttribute('class', 'ring');
+        e.setAttribute('cx', cx);
+        e.setAttribute('cy', cy);
+        e.setAttribute('r', r);
+        svg.appendChild(e);
+      });
+      const t = document.createElementNS(NS, 'text');
+      t.setAttribute('class', 'tick');
+      t.setAttribute('x', cx + 4);
+      t.setAttribute('y', cy - R - 6);
+      t.textContent = km(map.containerPointToLatLng([cx, cy]), map.containerPointToLatLng([cx, cy - R])).toFixed(1) + ' KM';
+      svg.appendChild(t);
+    }
+
+    let placed = [];
+    if (inline) {
+      const box = [];
+      const inlineMaxY = cardVisible ? (cardLimitY - 26) : (bot - 25);
+      pts.slice().sort((p, q) => p.p.y - q.p.y).forEach(q => {
+        const elx = Math.min(q.p.x + 10, W - 170);
+        let ely = Math.min(q.p.y - 11, inlineMaxY);
+        for (let k = 0; k < box.length; k++) {
+          const b = box[k];
+          if (elx < b.x + 165 && elx + 165 > b.x && ely < b.y + 25 && ely + 25 > b.y) {
+            ely = b.y + 26;
+            k = -1;
+          }
+        }
+        if (cardVisible && ely > inlineMaxY) ely = inlineMaxY;
+        box.push({ x: elx, y: ely });
+        placed.push({ ...q, side: 'i', lx: elx, ly: ely });
+      });
+    } else {
+      const sorted = pts.slice().sort((p, q) => p.p.x - q.p.x);
+      let left = [], right = [];
+      if (mode === 'two') {
+        left = sorted.slice(0, Math.ceil(sorted.length / 2));
+        right = sorted.slice(Math.ceil(sorted.length / 2));
+      } else if (mode === 'l') {
+        left = sorted;
+      } else {
+        right = sorted;
+      }
+
+      const leftOverlapsCardH = cardVisible && Math.min(lx + LW, cardRightStage) - Math.max(lx, cardLeftStage) > 0;
+      const rightOverlapsCardH = cardVisible && Math.min(rx + LW, cardRightStage) - Math.max(rx, cardLeftStage) > 0;
+      const leftBot = leftOverlapsCardH ? Math.min(bot, cardLimitY) : bot;
+      const rightBot = rightOverlapsCardH ? Math.min(bot, cardLimitY) : bot;
+
+      spread(left, top, leftBot);
+      spread(right, top, rightBot);
+      left.forEach(q => placed.push({ ...q, side: 'l', lx: lx, ly: q.ly }));
+      right.forEach(q => placed.push({ ...q, side: 'r', lx: rx, ly: q.ly }));
+    }
+
+    if (cardVisible && cardRect) {
+      placed.forEach(q => {
+        const lWidth = (q.side === 'i' ? 165 : LW);
+        const lRight = q.lx + lWidth;
+        const lBottom = q.ly + LH;
+        const hOver = Math.min(lRight, cardRightStage) - Math.max(q.lx, cardLeftStage) > 0;
+        const vOver = Math.min(lBottom, cardRect.bottom - stageRect.top) - Math.max(q.ly, cardTopStage) > 0;
+        if (hOver && vOver) {
+          q.ly = Math.max(top, cardTopStage - 14 - LH);
+        }
+      });
+    }
+
+    const ang = q => ((Math.atan2(q.p.x - cx, -(q.p.y - cy)) * 180 / Math.PI) + 360) % 360;
+    const SW = 1600;
+
+    placed.forEach(q => {
+      const delay = sweep && !RM ? (ang(q) / 360 * SW) : 0;
+      if (q.side === 'i' && Math.abs(q.ly - (q.p.y - 11)) > 4) {
+        const ln = document.createElementNS(NS, 'path');
+        ln.setAttribute('d', `M${q.p.x},${q.p.y}L${q.lx},${q.ly + 11}`);
+        ln.setAttribute('class', 'ln');
+        ln.style.stroke = c;
+        svg.appendChild(ln);
+        setTimeout(() => ln.classList.add('on'), delay);
+      }
+      if (q.side !== 'i') {
+        const ln = document.createElementNS(NS, 'path');
+        const ey = q.ly + LH / 2;
+        const ex = q.side === 'l' ? q.lx + LW : q.lx;
+        const kx = q.side === 'l' ? ex + 14 : ex - 14;
+        ln.setAttribute('d', `M${q.p.x},${q.p.y}L${kx},${ey}L${ex},${ey}`);
+        ln.setAttribute('class', 'ln');
+        ln.style.stroke = c;
+        svg.appendChild(ln);
+        setTimeout(() => ln.classList.add('on'), delay);
+      }
+
+      const b = document.createElement('button');
+      b.className = 'g-lab' + (q.side === 'r' ? ' r' : '') + (q.side === 'i' ? ' inline' : '');
+      b.style.setProperty('--c', c);
+      b.style.setProperty('--lw', LW + 'px');
+      b.style.left = q.lx + 'px';
+      b.style.top = q.ly + 'px';
+      const visitLabel = q.s.last ? ('DILAWATI · ' + q.s.last.toUpperCase()) : 'DILAWATI';
+      b.innerHTML = `<i class="sq ${q.s.v ? 'v' : ''}"></i><span class="n">${title(q.s.n)}</span><span class="m ${q.s.v ? 'v' : ''}">${q.s.v ? visitLabel : 'BELUM DILAWATI'}</span>`;
+      b.onclick = () => openSchool(q.s);
+      b.onmouseenter = () => q.s.m.getElement()?.classList.add('hot');
+      b.onmouseleave = () => q.s.m.getElement()?.classList.remove('hot');
+      $('labels').appendChild(b);
+      setTimeout(() => {
+        b.classList.add('on');
+        if (sweep && !RM) {
+          const el = q.s.m.getElement();
+          if (el) {
+            el.classList.add('hot');
+            setTimeout(() => el.classList.remove('hot'), 260);
+          }
+        }
+      }, delay);
+    });
+
+    if (radar && sweep && !RM) {
+      const g = document.createElementNS(NS, 'g');
+      const id = 'sw' + Date.now();
+      g.innerHTML = `<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${c}" stop-opacity="0"/><stop offset="1" stop-color="${c}" stop-opacity=".28"/></linearGradient></defs>`;
+      const w = document.createElementNS(NS, 'path');
+      const a0 = -Math.PI / 2 - 0.55, a1 = -Math.PI / 2;
+      w.setAttribute('d', `M${cx},${cy}L${cx + R * Math.cos(a0)},${cy + R * Math.sin(a0)}A${R},${R} 0 0 1 ${cx + R * Math.cos(a1)},${cy + R * Math.sin(a1)}Z`);
+      w.setAttribute('fill', `url(#${id})`);
+      const arm = document.createElementNS(NS, 'line');
+      arm.setAttribute('x1', cx);
+      arm.setAttribute('y1', cy);
+      arm.setAttribute('x2', cx);
+      arm.setAttribute('y2', cy - R);
+      arm.setAttribute('stroke', c);
+      arm.setAttribute('stroke-width', '1.5');
+      g.append(w, arm);
+      svg.appendChild(g);
+      g.style.transformBox = 'view-box';
+      g.style.transformOrigin = `${cx}px ${cy}px`;
+      g.animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }], { duration: SW, easing: 'linear' })
+        .onfinish = () => g.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 300, fill: 'forwards' });
+    }
+  }
+
+  let pendingSweep = false;
+
+  function dimTo(z) {
+    Object.entries(hulls).forEach(([k, h]) => h.setStyle({
+      fillOpacity: !z ? 0.07 : (k === String(z) ? 0.1 : 0.02),
+      opacity: !z || k === String(z) ? 1 : 0.2
+    }));
+    S.forEach(s => {
+      const el = s.m.getElement();
+      if (el) el.classList.toggle('dim', Boolean(z && s.z !== Number(z)));
+    });
+  }
+
+  function focusZone(z, fly = true) {
+    focusZ = z ? Number(z) : null;
+    labelZ = radarOn ? focusZ : null;
+    document.querySelectorAll('.g-zone').forEach(b => b.setAttribute('aria-expanded', String(Number(b.dataset.z) === focusZ)));
+    dimTo(focusZ);
+    if (focusZ && fly && zb[focusZ]) map.flyToBounds(zb[focusZ], { padding: [70, 70], duration: RM ? 0 : 0.9, maxZoom: 14 });
+    clearCallouts();
+  }
+
+  function schoolLogo(s) {
+    const code = String(s.kod || '').trim().toUpperCase();
+    const box = document.createElement('div');
+    box.className = 'g-school-logo';
+    const fallback = document.createElement('span');
+    fallback.className = 'g-school-code mono';
+    fallback.textContent = code || '—';
+    box.append(fallback);
+    if (/^[A-Z0-9]+$/.test(code)) {
+      const image = document.createElement('img');
+      image.alt = 'Logo ' + s.n;
+      image.loading = 'lazy';
+      image.decoding = 'async';
+      image.onload = () => box.classList.add('loaded');
+      image.onerror = () => {
+        box.classList.remove('loaded');
+        image.remove();
+      };
+      image.src = '/school_logos/thumbnails/' + code + '.png';
+      box.append(image);
+    }
+    return box;
+  }
+
+  function openSchool(s) {
+    if (radarOn) {
+      setPaused(true);
+      if (ZS[tIdx] !== s.z) {
+        showZone(ZS.indexOf(s.z), false);
+      }
+    } else if (focusZ !== s.z) {
+      focusZ = s.z;
+      document.querySelectorAll('.g-zone').forEach(b => b.setAttribute('aria-expanded', String(Number(b.dataset.z) === s.z)));
+      dimTo(s.z);
+    }
+
+    if (sel && sel.m.getElement()) sel.m.getElement().classList.remove('sel');
+    sel = s;
+    if (s.m.getElement()) s.m.getElement().classList.add('sel');
+
+    $('dZb').style.setProperty('--c', `var(--z${s.z})`);
+    $('dZb').textContent = 'ZON ' + s.z;
+
+    const ppdDist = (window.A1Geo && typeof window.A1Geo.dist === 'function') ? window.A1Geo.dist(s.n, 'ppd') : null;
+    const rtmDist = (window.A1Geo && typeof window.A1Geo.dist === 'function') ? window.A1Geo.dist(s.n, 'rtm') : null;
+    const ppdText = (typeof ppdDist === 'number') ? ppdDist.toFixed(1) : '—';
+    const rtmText = (typeof rtmDist === 'number') ? rtmDist.toFixed(1) : '—';
+
+    $('dBody').innerHTML = `<div class="g-school-head"><h2>${s.n}</h2></div>
+      <span class="g-st ${s.v ? 'ok' : 'no'}">${s.v ? ('DILAWATI · ' + (s.last ? s.last.toUpperCase() : 'BULAN INI')) : 'BELUM DILAWATI BULAN INI'}</span>
+      <div class="g-kv">
+        <div><span class="mono">Dari ${HUB.n || 'PPD'}</span><b>${ppdText}<small>km jalan</small></b></div>
+        <div><span class="mono">Dari ${RTM.n || 'Hab Kedua'}</span><b>${rtmText}<small>km jalan</small></b></div>
+        <div><span class="mono">Lawatan · ${curMonthShort}</span><b>${s.v ? (s.count || 1) : 0}</b></div>
+        <div><span class="mono">Zon</span><b>${s.z}<small>/ ${byZ[s.z] ? byZ[s.z].length : 0} sekolah</small></b></div>
+      </div>
+      <p class="g-co mono">${s.lat.toFixed(6)}, ${s.lng.toFixed(6)}</p>
+      <div class="g-hist">
+        <span class="mono">Rekod terkini</span>
+        <p>${s.v ? ((s.last || 'Bulan ini') + ' · ' + (s.summary || 'Khidmat bantu teknikal di sekolah.')) : 'Tiada lawatan direkod bulan ini. Calon untuk lawatan seterusnya.'}</p>
+      </div>`;
+
+    $('dBody').querySelector('.g-school-head').prepend(schoolLogo(s));
+
+    $('dCreate').href = '/ptis';
+    $('dNav').href = `https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}`;
+
+    $('drawer').classList.add('on');
+    document.body.classList.add('drawer-open');
+    $('panel').classList.remove('open');
+    $('grab').setAttribute('aria-expanded', 'false');
+
+    if (radarOn) fitZone(s.z, 0.6);
+    else map.flyTo([s.lat, s.lng], Math.max(map.getZoom(), 14), { duration: RM ? 0 : 0.6 });
+  }
+
+  function closeDrawer() {
+    $('drawer').classList.remove('on');
+    document.body.classList.remove('drawer-open');
+    if (sel && sel.m.getElement()) sel.m.getElement().classList.remove('sel');
+    sel = null;
+    if (labelZ && radarOn) fitZone(labelZ, 0.6);
+  }
+
+  // Radar cycle logic
+  const DUR = 8000;
+  let ZS = [1, 2, 3, 4, 5, 6, 7, 8];
+  let radarOn = false;
+  let tIdx = 0;
+  let tTimer = null;
+  let paused = false;
+  let tStart = 0;
+  let tLeft = DUR;
+  let panelWasOpen = true;
+
+  function schedule(ms) {
+    clearTimeout(tTimer);
+    tLeft = ms;
+    tStart = Date.now();
+    if (!paused && radarOn) tTimer = setTimeout(() => showZone(tIdx + 1), ms);
+  }
+
+  function setPaused(p) {
+    paused = p;
+    $('zs').classList.toggle('paused', p);
+    $('tPlay').innerHTML = `<svg><use href="#i-${p ? 'play' : 'pause'}"/></svg>`;
+    $('tPlay').setAttribute('aria-label', p ? 'Main' : 'Jeda');
+    if (p) {
+      clearTimeout(tTimer);
+      tLeft -= Date.now() - tStart;
+    } else {
+      schedule(Math.max(tLeft, 300));
+    }
+  }
+
+  function showZone(i, autoplay = true) {
+    tIdx = (i + ZS.length) % ZS.length;
+    const z = ZS[tIdx];
+    const a = byZ[z] || [];
+    const vCount = a.filter(s => s.v).length;
+    const areaName = (window.A1Geo && window.A1Geo.AREA && window.A1Geo.AREA['ZON ' + z])
+      ? window.A1Geo.AREA['ZON ' + z]
+      : ((AREA && (AREA['ZON ' + z] || AREA[z])) || ('ZON ' + z));
+
+    $('cZb').style.setProperty('--c', `var(--z${z})`);
+    $('cZb').textContent = 'ZON ' + z;
+    $('cArea').textContent = areaName;
+    $('cIdx').textContent = String(tIdx + 1).padStart(2, '0') + ' / ' + String(Math.max(1, Object.keys(byZ).filter(z => byZ[z] && byZ[z].length).length)).padStart(2, '0');
+    $('cBig').innerHTML = `${vCount}<small>/${a.length} dilawati</small>`;
+
+    const latest = a.filter(s => s.v).sort((p, q) => (q.lastDate || '').localeCompare(p.lastDate || ''))[0];
+    const lastLabel = latest ? latest.last : '—';
+    $('cMeta').innerHTML = `<span>Terakhir <b>${lastLabel}</b></span><span>${a.length - vCount} belum dilawati</span>`;
+    $('cLt').innerHTML = latest ? `Terkini · <b>${title(latest.n)}</b>` : 'Tiada lawatan bulan ini';
+
+    [...$('zs').children].forEach((el, k) => {
+      el.setAttribute('aria-current', String(k === tIdx));
+      const bar = el.querySelector('b');
+      if (bar) {
+        bar.style.animation = 'none';
+        void bar.offsetWidth;
+        bar.style.animation = '';
+      }
+      el.style.setProperty('--dur', DUR + 'ms');
+    });
+
+    if ($('zs').children[tIdx]) {
+      $('zs').children[tIdx].scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    }
+
+    focusZ = z;
+    labelZ = z;
+    dimTo(z);
+    clearCallouts();
+
+    pendingSweep = true;
+    map.once('moveend', () => {
+      pendingSweep = false;
+      drawCallouts(true);
+    });
+
+    fitZone(z, 1.1);
+    if (RM) {
+      pendingSweep = false;
+      drawCallouts(false);
+    }
+    if (autoplay) schedule(DUR);
+  }
+
+  function setMode(m) {
+    radarOn = m === 'radar';
+    document.body.classList.toggle('radar', radarOn);
+    document.querySelectorAll('.g-seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === m)));
+    closeDrawer();
+    if (nearLayer) {
+      $('near').click();
+    }
+    if (radarOn) {
+      panelWasOpen = !$('wrap').classList.contains('pc');
+      setPanel(false);
+      paused = false;
+      setPaused(false);
+      showZone(0);
+    } else {
+      clearTimeout(tTimer);
+      setPanel(panelWasOpen);
+      focusZone(null, false);
+      if (ALL) map.flyToBounds(ALL, { padding: [70, 40], duration: RM ? 0 : 0.9 });
+    }
+  }
+
+  function afterLayout() {
+    setTimeout(() => {
+      if (map) map.invalidateSize({ pan: false });
+      if (labelZ) fitZone(labelZ, 0);
+    }, 260);
+  }
+
+  function setPanel(open) {
+    $('wrap').classList.toggle('pc', !open);
+    $('pToggle').setAttribute('aria-expanded', String(open));
+    $('pOpen').setAttribute('aria-expanded', String(open));
+    afterLayout();
+  }
+
+  // Auth & Calibration functions
+  function getAdminAuth() {
+    let token = '';
+    let session = null;
+    if (typeof window !== 'undefined') {
+      if (window.__adminToken) token = window.__adminToken;
+      if (window.__authSession) session = window.__authSession;
+      if (window.AuthGate) {
+        if (!token && typeof window.AuthGate.getToken === 'function') token = window.AuthGate.getToken() || '';
+        if (!session && typeof window.AuthGate.getSession === 'function') session = window.AuthGate.getSession() || null;
+      }
+    }
+    for (const k of ['jtkAdminToken', 'ppdkStaffToken', 'adminToken', 'authToken']) {
+      if (token) break;
+      try {
+        token = localStorage.getItem(k) || sessionStorage.getItem(k) || '';
+      } catch (_) {}
+    }
+    for (const k of ['JTK_ADMIN_PROFILE', 'ppdkStaffSession', 'adminSession', 'userSession']) {
+      if (session) break;
+      try {
+        const raw = localStorage.getItem(k) || sessionStorage.getItem(k);
+        if (raw) session = JSON.parse(raw);
+      } catch (_) {}
+    }
+    return { token: String(token || '').trim(), session };
+  }
+
+  const ALLOWED_GPS_ROLES = ['SUPER_ADMIN'];
+  function isAuthorizedAdmin() {
+    const { token, session } = getAdminAuth();
+    if (!token) return false;
+    const role = String(session?.role || '').trim().toUpperCase();
+    return ALLOWED_GPS_ROLES.includes(role);
+  }
+
+  function updateAdminToolsVisibility() {
+    const tools = document.querySelector('.g-tools');
+    if (tools) {
+      tools.hidden = !isAuthorizedAdmin();
+    }
+  }
+
+  function enableDraggingOnMarkers(enabled) {
+    S.forEach(s => {
+      if (!s.m) return;
+      if (enabled) {
+        if (s.m.dragging && typeof s.m.dragging.enable === 'function') s.m.dragging.enable();
+        s.m.on('dragstart', function() {
+          selectForCalibration(s, s.m);
+        });
+        s.m.on('dragend', function(e) {
+          const newLatLng = e.target.getLatLng();
+          tempLat = newLatLng.lat;
+          tempLng = newLatLng.lng;
+          $('calibSchoolName').textContent = s.n + ' (ZON ' + s.z + ')';
+          $('calibCoords').textContent = 'Diselaraskan: ' + tempLat.toFixed(6) + ', ' + tempLng.toFixed(6);
+        });
+        s.m.on('click', function() {
+          if (isCalibrateMode) {
+            selectForCalibration(s, s.m);
+          }
+        });
+      } else {
+        if (s.m.dragging && typeof s.m.dragging.disable === 'function') s.m.dragging.disable();
+        s.m.off('dragstart');
+        s.m.off('dragend');
+      }
+    });
+  }
+
+  function selectForCalibration(schoolData, marker, overrideLat, overrideLng) {
+    if (selectedCalibItem && selectedCalibItem.marker && selectedCalibItem.marker !== marker) {
+      if (selectedCalibItem.origLat != null && selectedCalibItem.origLng != null) {
+        selectedCalibItem.marker.setLatLng([selectedCalibItem.origLat, selectedCalibItem.origLng]);
+      }
+    }
+    selectedCalibItem = {
+      data: schoolData,
+      marker: marker,
+      origLat: schoolData.lat,
+      origLng: schoolData.lng
+    };
+    tempLat = (overrideLat != null) ? overrideLat : schoolData.lat;
+    tempLng = (overrideLng != null) ? overrideLng : schoolData.lng;
+    $('calibSchoolName').textContent = schoolData.n + ' (ZON ' + schoolData.z + ')';
+    $('calibCoords').textContent = 'Koordinat: ' + tempLat.toFixed(6) + ', ' + tempLng.toFixed(6);
+  }
+
+  let inited = false;
+  // Main init function
+  async function initPeta() {
+    updateAdminToolsVisibility();
+    if (inited) return;
+    inited = true;
+    let geo = null;
+    try {
+      await window.PPDKData.ready;
+      if (!window.A1Geo || typeof window.A1Geo.load !== 'function') {
+        throw new Error('A1Geo tidak tersedia');
+      }
+      geo = await window.A1Geo.load();
+    } catch (err) {
+      console.warn('[PETA] Gagal memuatkan modul A1Geo:', err);
+    }
+
+    if (!geo || !Array.isArray(geo.schools) || geo.schools.length === 0) {
+      $('panelBody').innerHTML = `<div class="g-err err">
+        <strong>Data Peta Tidak Tersedia</strong>
+        <p>Gagal memuatkan senarai sekolah daripada pangkalan data mahupun sandaran koordinat rasmi.</p>
+        <button type="button" class="btn btn-sm btn-ink" onclick="location.reload()">Cuba semula</button>
+      </div>`;
+      return;
+    }
+
+    HUB = (geo.hubs && geo.hubs.PPD) ? { lat: geo.hubs.PPD.lat, lng: geo.hubs.PPD.lng, n: geo.hubs.PPD.name || TEMPLATE_ORG.organizationShortName || 'PPD' } : HUB;
+    RTM = (geo.hubs && geo.hubs.RTM) ? { lat: geo.hubs.RTM.lat, lng: geo.hubs.RTM.lng, n: geo.hubs.RTM.name || 'Hab Kedua' } : RTM;
+    AREA = (window.A1Geo && window.A1Geo.AREA) ? window.A1Geo.AREA : {};
+
+    const statusEl = $('lblDataStatus');
+    if (geo.source === 'sandaran') {
+      $('geoNote').textContent = 'Nota: Menggunakan koordinat sandaran rasmi. Status lawatan daripada rekod Home.';
+      if (statusEl) statusEl.textContent = 'Sandaran rasmi';
+    } else {
+      if (statusEl) statusEl.textContent = 'D1 Live';
+    }
+
+    const rawRecords = (typeof window !== 'undefined' && (window.PPDK_RECORDS || window.allRecords)) || [];
+    const records = Array.isArray(rawRecords) ? rawRecords : [];
+
+    const MONTH_TITLE_SHORT = ['', 'Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'];
+
+    if (window.A1Home && typeof window.A1Home.build === 'function') {
+      homeData = window.A1Home.build(records, {
+        directory: window.PPDK_DATA
+      });
+      if (homeData && homeData.period) {
+        const p = homeData.period;
+        curMonthShort = MONTH_TITLE_SHORT[p.month] || ('Bln ' + p.month);
+        curPeriodLabel = `${curMonthShort} ${p.year}`;
+      }
+    }
+
+    const visitMap = (homeData && homeData.schoolVisits) ? homeData.schoolVisits : {};
+    const normKey = (window.A1Geo && typeof window.A1Geo.normalizeSchoolKey === 'function')
+      ? window.A1Geo.normalizeSchoolKey
+      : (n => String(n || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, ''));
+
+    S = geo.schools.map(s => {
+      const zNum = Number(String(s.zon).replace(/\D+/g, '')) || 1;
+      const cleanUpper = String(s.nama || '').trim().toUpperCase();
+      const k = normKey(s.nama);
+      const vEntry = visitMap[cleanUpper] || visitMap[k] || null;
+      return {
+        n: s.nama,
+        kod: s.kod,
+        z: zNum,
+        lat: s.lat,
+        lng: s.lng,
+        v: vEntry && vEntry.count > 0 ? 1 : 0,
+        count: vEntry ? vEntry.count : 0,
+        last: vEntry ? vEntry.lastLabel : '',
+        lastDate: vEntry ? vEntry.lastDate : '',
+        summary: vEntry ? vEntry.summary : ''
+      };
+    });
+
+    byZ = {};
+    const configuredZones = ((window.PPD_SYSTEM_CONFIG && window.PPD_SYSTEM_CONFIG.zones) || [])
+      .filter(z => z && z.id !== 'ZON PPD')
+      .map(z => Number(String(z.id).replace(/\D+/g, '')))
+      .filter(Number.isFinite);
+    configuredZones.forEach(z => { byZ[z] = []; });
+    S.forEach(s => {
+      if (!byZ[s.z]) byZ[s.z] = [];
+      byZ[s.z].push(s);
+    });
+
+    Object.values(byZ).forEach(arr => {
+      arr.sort((p, q) => (q.v || 0) - (p.v || 0) || p.n.localeCompare(q.n));
+    });
+
+    // Update panel coverage
+    const totalVisited = S.filter(s => s.v).length;
+    const totalSchools = S.length;
+    const pct = Math.round((totalVisited / totalSchools) * 100);
+    $('covVisited').textContent = totalVisited;
+    $('covTotal').textContent = '/' + totalSchools;
+    $('covMeta').textContent = `${pct}% dilawati · ${curPeriodLabel}`;
+    $('covMeter').style.width = pct + '%';
+    $('fAll').textContent = `Semua · ${totalSchools}`;
+    $('fVis').textContent = `Dilawati · ${totalVisited}`;
+    $('fRem').textContent = `Belum · ${totalSchools - totalVisited}`;
+
+    // Initialize Leaflet Map
+    map = L.map('gmap', {
+      zoomControl: false,
+      attributionControl: true,
+      minZoom: 9,
+      fadeAnimation: false,
+      zoomSnap: 0.25
+    });
+
+    setTiles();
+    window.addEventListener('a1:theme', setTiles);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    ALL = L.latLngBounds(S.map(s => [s.lat, s.lng]));
+    hulls = {};
+    zb = {};
+
+    Object.entries(byZ).forEach(([z, a]) => {
+      if (!a.length) return;
+      const pts = a.map(s => [s.lng, s.lat]);
+      const h = hull(pts);
+      const cx = pts.reduce((m, p) => m + p[0], 0) / pts.length;
+      const cy = pts.reduce((m, p) => m + p[1], 0) / pts.length;
+      const pad = h.map(([x, y]) => {
+        const dx = x - cx, dy = y - cy, d = Math.hypot(dx, dy) || 1;
+        return [y + dy / d * 0.006, x + dx / d * 0.006];
+      });
+      hulls[z] = L.polygon(pad, {
+        color: ZC(z),
+        weight: 1.3,
+        dashArray: '5 4',
+        fillColor: ZC(z),
+        fillOpacity: 0.07,
+        interactive: false
+      }).addTo(map);
+      zb[z] = L.latLngBounds(a.map(s => [s.lat, s.lng]));
+    });
+
+    S.forEach(s => {
+      s.m = L.marker([s.lat, s.lng], {
+        icon: L.divIcon({
+          className: 'g-mk',
+          html: `<i class="${s.v ? 'v' : ''}" style="--c:${ZC(s.z)}"></i>`,
+          iconSize: [14, 14],
+          iconAnchor: [7, 7]
+        }),
+        keyboard: true,
+        title: s.n,
+        alt: s.n
+      }).bindTooltip(title(s.n), {
+        direction: 'top',
+        offset: [0, -9],
+        className: 'g-tip'
+      }).on('click', () => {
+        if (!isCalibrateMode) openSchool(s);
+      }).addTo(map);
+    });
+
+    L.marker([HUB.lat, HUB.lng], {
+      icon: L.divIcon({
+        className: 'g-hub',
+        html: '<i></i>',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10]
+      }),
+      interactive: false
+    }).addTo(map).bindTooltip('HAB · ' + (HUB.n || 'PPD'), {
+      permanent: true,
+      direction: 'right',
+      offset: [12, 0],
+      className: 'g-lbl g-hublbl'
+    });
+
+    map.fitBounds(ALL, { padding: [70, 40] });
+
+    map.on('movestart zoomstart', () => { if (labelZ) clearCallouts(); });
+    map.on('moveend', () => { if (labelZ && !pendingSweep) drawCallouts(false); });
+    window.addEventListener('resize', () => { if (labelZ) drawCallouts(false); });
+
+    // Populate zone list in panel
+    $('zones').innerHTML = ZS.map(z => {
+      const a = byZ[z] || [];
+      const v = a.filter(s => s.v).length;
+      return `<button class="g-zone" data-z="${z}" aria-expanded="false" style="--c:${ZC(z)}">
+        <div class="g-zrow">
+          <span class="zb" style="--c:var(--z${z})">ZON ${z}</span>
+          <div class="tr"><i style="--w:${a.length ? (v / a.length * 100) : 0}%"></i></div>
+          <span class="f">${v}/${a.length}</span>
+          <svg><use href="#i-chev"/></svg>
+        </div>
+      </button>
+      <div class="g-slist" style="--c:${ZC(z)}">
+        ${a.map(s => `<button data-s="${S.indexOf(s)}"><i class="sq ${s.v ? 'v' : ''}" style="--c:${ZC(z)}"></i>${title(s.n)}</button>`).join('')}
+      </div>`;
+    }).join('');
+
+    // Populate radar strip
+    $('zs').innerHTML = ZS.map((z, i) => {
+      const a = byZ[z] || [];
+      const v = a.filter(s => s.v).length;
+      return `<button data-i="${i}" style="--c:var(--z${z})" aria-current="false"><i></i>ZON ${z}<span>${v}/${a.length}</span><b></b></button>`;
+    }).join('');
+
+    // Filter buttons
+    document.querySelector('.g-filter').addEventListener('click', e => {
+      const b = e.target.closest('button');
+      if (!b) return;
+      document.querySelectorAll('.g-filter button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+      const f = b.dataset.f;
+      S.forEach(s => {
+        const el = s.m.getElement();
+        if (el) el.classList.toggle('hide', (f === 'v' && !s.v) || (f === 'n' && s.v));
+      });
+      if (labelZ) drawCallouts(false);
+    });
+
+    // Search input
+    $('q').addEventListener('input', e => {
+      const q = e.target.value.trim().toUpperCase();
+      const r = $('res');
+      if (q.length < 2) {
+        r.classList.remove('on');
+        r.innerHTML = '';
+        return;
+      }
+      const hits = S.filter(s => s.n.includes(q)).slice(0, 6);
+      r.innerHTML = hits.length
+        ? hits.map(s => `<button data-s="${S.indexOf(s)}" role="option"><i class="sq ${s.v ? 'v' : ''}" style="--c:${ZC(s.z)}"></i>${title(s.n)}<span class="mono">ZON ${s.z}</span></button>`).join('')
+        : '<button disabled>Tiada padanan</button>';
+      r.classList.add('on');
+    });
+
+    $('res').addEventListener('click', e => {
+      const b = e.target.closest('[data-s]');
+      if (!b) return;
+      $('res').classList.remove('on');
+      $('q').value = '';
+      openSchool(S[+b.dataset.s]);
+    });
+
+    // Zone click
+    $('zones').addEventListener('click', e => {
+      const sb = e.target.closest('[data-s]');
+      if (sb) {
+        openSchool(S[+sb.dataset.s]);
+        return;
+      }
+      const zbtn = e.target.closest('.g-zone');
+      if (!zbtn) return;
+      const z = Number(zbtn.dataset.z);
+      if (focusZ === z) {
+        focusZone(null);
+        map.flyToBounds(ALL, { padding: [70, 40], duration: RM ? 0 : 0.9 });
+      } else {
+        focusZone(z);
+      }
+    });
+
+    // Radar strip click
+    $('zs').addEventListener('click', e => {
+      const b = e.target.closest('[data-i]');
+      if (b) showZone(+b.dataset.i);
+    });
+
+    // Near me button
+    $('near').onclick = () => {
+      const on = $('near').getAttribute('aria-pressed') !== 'true';
+      $('near').setAttribute('aria-pressed', String(on));
+      const L2 = $('nearList');
+      if (nearLayer) {
+        map.removeLayer(nearLayer);
+        nearLayer = null;
+      }
+      if (!on) {
+        L2.classList.remove('on');
+        return;
+      }
+      focusZone(null, false);
+
+      function renderNear(center, labelText) {
+        const near = S.map(s => ({ s, d: km(center, s) })).sort((a, b) => a.d - b.d).slice(0, 5);
+        nearLayer = L.layerGroup([
+          L.circle([center.lat, center.lng], {
+            radius: 3000,
+            color: ZC(1),
+            weight: 1.2,
+            dashArray: '4 4',
+            fillOpacity: 0.03,
+            interactive: false
+          }),
+          L.circleMarker([center.lat, center.lng], {
+            radius: 6,
+            color: getComputedStyle(document.documentElement).getPropertyValue('--paper').trim(),
+            weight: 2,
+              fillColor: getComputedStyle(document.documentElement).getPropertyValue('--petrol').trim(),
+            fillOpacity: 1,
+            interactive: false
+          })
+        ]).addTo(map);
+        map.flyTo([center.lat, center.lng], 13, { duration: RM ? 0 : 0.9 });
+        L2.innerHTML = `<p class="mono">${labelText}</p>` + near.map(({ s, d }) => `
+          <button data-s="${S.indexOf(s)}">
+            <i class="sq ${s.v ? 'v' : ''}" style="--c:${ZC(s.z)}"></i>
+            <span>${title(s.n)}</span>
+            <span class="d">${d.toFixed(1)} km (garis lurus)</span>
+          </button>
+        `).join('');
+        L2.classList.add('on');
+      }
+
+      function showNearNotice(msg) {
+        if (nearLayer) {
+          map.removeLayer(nearLayer);
+          nearLayer = null;
+        }
+        L2.innerHTML = `<p class="mono">${msg}</p>`;
+        L2.classList.add('on');
+      }
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            renderNear({ lat: pos.coords.latitude, lng: pos.coords.longitude }, 'Lokasi GPS dikesan · 5 terdekat (garis lurus)');
+          },
+          () => {
+            showNearNotice('GPS tidak dibenarkan atau lokasi tidak tersedia.');
+          },
+          { timeout: 4000 }
+        );
+      } else {
+        showNearNotice('Geolokasi tidak disokong oleh pelayar ini.');
+      }
+    };
+
+    $('nearList').addEventListener('click', e => {
+      const b = e.target.closest('[data-s]');
+      if (b) openSchool(S[+b.dataset.s]);
+    });
+
+    // Calibrate Toggle handler
+    $('btnCalibrateToggle').onclick = () => {
+      if (!isAuthorizedAdmin()) {
+        showToast('Akses terhad: Sila log masuk sesi pentadbir untuk menyelaras GPS.');
+        updateAdminToolsVisibility();
+        return;
+      }
+      isCalibrateMode = !isCalibrateMode;
+      $('btnCalibrateToggle').classList.toggle('active', isCalibrateMode);
+      $('btnCalibrateToggle').setAttribute('aria-pressed', String(isCalibrateMode));
+      $('calibToggleLabel').textContent = isCalibrateMode ? 'Tamat Selaras' : 'Selaras GPS';
+      $('calibratePanel').classList.toggle('on', isCalibrateMode);
+      enableDraggingOnMarkers(isCalibrateMode);
+      if (isCalibrateMode) {
+        showToast('Mod Selaras GPS Aktif: Heret mana-mana pin sekolah ke lokasi tepat.');
+      } else {
+        if (selectedCalibItem && selectedCalibItem.marker && selectedCalibItem.origLat != null) {
+          selectedCalibItem.marker.setLatLng([selectedCalibItem.origLat, selectedCalibItem.origLng]);
+        }
+        selectedCalibItem = null;
+        tempLat = null;
+        tempLng = null;
+      }
+    };
+
+    $('btnCancelCoord').onclick = () => {
+      if (selectedCalibItem && selectedCalibItem.marker && selectedCalibItem.origLat != null) {
+        selectedCalibItem.marker.setLatLng([selectedCalibItem.origLat, selectedCalibItem.origLng]);
+      }
+      $('calibSchoolName').textContent = 'Pilih sekolah untuk diselaras';
+      $('calibCoords').textContent = 'Heret pin atau klik lokasi tepat di atas bumbung sekolah pada peta';
+      selectedCalibItem = null;
+      tempLat = null;
+      tempLng = null;
+    };
+
+    $('btnSaveCoord').onclick = async () => {
+      if (!isAuthorizedAdmin()) {
+        showToast('Akses terhad: Sesi pentadbir diperlukan untuk menyimpan.');
+        updateAdminToolsVisibility();
+        if (selectedCalibItem && selectedCalibItem.marker && selectedCalibItem.origLat != null) {
+          selectedCalibItem.marker.setLatLng([selectedCalibItem.origLat, selectedCalibItem.origLng]);
+        }
+        return;
+      }
+      if (!selectedCalibItem || tempLat == null || tempLng == null) {
+        showToast('Sila pilih dan heret pin sekolah terlebih dahulu.');
+        return;
+      }
+      $('btnSaveCoord').disabled = true;
+      $('btnSaveCoord').textContent = 'Menyimpan...';
+      const auth = getAdminAuth();
+      try {
+        const payload = {
+          id: selectedCalibItem.data.kod || selectedCalibItem.data.id || selectedCalibItem.data.n,
+          lat: tempLat,
+          lng: tempLng
+        };
+        const headers = {
+          'Content-Type': 'application/json'
+        };
+        if (auth.token) {
+          headers['Authorization'] = 'Bearer ' + auth.token;
+        }
+        const apiBase = (window.A1Geo && window.A1Geo.API_BASE) ? window.A1Geo.API_BASE : '';
+        const res = await fetch(apiBase + '/api/sekolah/update', {
+          method: 'POST',
+          headers: headers,
+          body: JSON.stringify(payload)
+        });
+        let json = null;
+        try {
+          json = await res.json();
+        } catch (_) {}
+        if (!res.ok || !json || !json.ok) {
+          const errMsg = (json && json.error) ? json.error : ('HTTP ' + res.status);
+          throw new Error(errMsg);
+        }
+        selectedCalibItem.data.lat = tempLat;
+        selectedCalibItem.data.lng = tempLng;
+        selectedCalibItem.origLat = tempLat;
+        selectedCalibItem.origLng = tempLng;
+        selectedCalibItem.marker.setLatLng([tempLat, tempLng]);
+        const targetInS = S.find(s => s.kod === selectedCalibItem.data.kod || s.n === selectedCalibItem.data.n);
+        if (targetInS) {
+          targetInS.lat = tempLat;
+          targetInS.lng = tempLng;
+        }
+        if (window.A1Geo && Array.isArray(window.A1Geo.DEFAULT_SCHOOL_COORDS)) {
+          const targetInCoords = window.A1Geo.DEFAULT_SCHOOL_COORDS.find(s => s.kod === selectedCalibItem.data.kod || s.nama === selectedCalibItem.data.n);
+          if (targetInCoords) {
+            targetInCoords.lat = tempLat;
+            targetInCoords.lng = tempLng;
+          }
+        }
+        showToast('✅ Koordinat ' + selectedCalibItem.data.n + ' berjaya disimpan!');
+        $('calibCoords').textContent = 'Tersimpan: ' + tempLat.toFixed(6) + ', ' + tempLng.toFixed(6);
+      } catch (err) {
+        if (selectedCalibItem && selectedCalibItem.marker && selectedCalibItem.origLat != null) {
+          selectedCalibItem.marker.setLatLng([selectedCalibItem.origLat, selectedCalibItem.origLng]);
+          tempLat = selectedCalibItem.origLat;
+          tempLng = selectedCalibItem.origLng;
+          $('calibCoords').textContent = 'Koordinat dipulihkan: ' + selectedCalibItem.origLat.toFixed(6) + ', ' + selectedCalibItem.origLng.toFixed(6);
+        }
+        showToast('Gagal menyimpan (' + (err && err.message ? err.message : err) + '). Penanda dipulihkan.');
+      } finally {
+        $('btnSaveCoord').disabled = false;
+        $('btnSaveCoord').textContent = 'Simpan ke D1';
+      }
+    };
+
+    // Check query params for mode=radar
+    if (new URLSearchParams(window.location.search).get('mod') === 'radar') {
+      setTimeout(() => setMode('radar'), 200);
+    }
+  }
+
+  // Bind controls
+  $('dX').onclick = closeDrawer;
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && $('drawer').classList.contains('on')) closeDrawer();
+  });
+
+  document.querySelector('.g-seg').addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (b && (b.dataset.mode === 'radar') !== radarOn) setMode(b.dataset.mode);
+  });
+
+  $('tPlay').onclick = () => setPaused(!paused);
+  $('tNext').onclick = () => showZone(tIdx + 1);
+  $('tPrev').onclick = () => showZone(tIdx - 1);
+
+  document.addEventListener('visibilitychange', () => {
+    if (radarOn && document.hidden && !paused) setPaused(true);
+  });
+
+  $('fsBtn').onclick = () => {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if ($('stage').requestFullscreen) $('stage').requestFullscreen();
+  };
+
+  document.addEventListener('fullscreenchange', () => {
+    $('fsBtn').lastChild.textContent = document.fullscreenElement ? 'Keluar skrin penuh' : 'Skrin penuh';
+    setTimeout(() => {
+      if (map) map.invalidateSize({ pan: false });
+      if (radarOn && ZS[tIdx]) fitZone(ZS[tIdx], 0);
+    }, 60);
+  });
+
+  $('pToggle').onclick = () => setPanel(false);
+  $('pOpen').onclick = () => setPanel(true);
+
+  $('railBtn').onclick = () => {
+    const r = $('shell').classList.toggle('rail');
+    $('railBtn').setAttribute('aria-expanded', String(!r));
+    $('railBtn').title = r ? 'Buka menu' : 'Lipat menu';
+    $('railBtn').lastChild.textContent = r ? 'Buka menu' : 'Lipat menu';
+    afterLayout();
+  };
+
+  const side = document.querySelector('.side');
+  // Klik menu, Escape dan perangkap fokus dikendalikan shell A-1 sekali sahaja.
+  document.addEventListener('click', e => {
+    if (side.classList.contains('open') && !side.contains(e.target) && !e.target.closest('#menuBtn')) {
+      window.A1Shell.close();
+    }
+  });
+
+  $('grab').onclick = () => {
+    const o = $('panel').classList.toggle('open');
+    $('grab').setAttribute('aria-expanded', String(o));
+    $('grabT').textContent = o ? 'Tutup senarai' : 'Senarai & tapis';
+  };
+
+  document.addEventListener('DOMContentLoaded', initPeta);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initPeta();
+  }
+})();
+</script>
+</body>
+</html>

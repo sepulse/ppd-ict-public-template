@@ -1,0 +1,36 @@
+{
+  "systemName": "PPD-ICT",
+  "organizationName": "Pejabat Pendidikan Daerah Contoh",
+  "organizationShortName": "PPD Contoh",
+  "unitName": "Unit ICT",
+  "timezone": "Asia/Kuala_Lumpur",
+  "language": "ms-MY",
+  "domains": {
+    "root": "ppd.example.invalid",
+    "dashboard": "dashboard.ppd.example.invalid",
+    "admin": "admin.ppd.example.invalid",
+    "ptis": "ptis.ppd.example.invalid"
+  },
+  "hub": {
+    "name": "PPD Contoh",
+    "code": "PPD-CONTOH",
+    "lat": 3.139,
+    "lng": 101.6869
+  },
+  "secondaryHub": {
+    "name": "Hab Kedua (pilihan)",
+    "lat": 3.145,
+    "lng": 101.695
+  },
+  "features": {
+    "facebook": false,
+    "telegram": false,
+    "aiAssist": true,
+    "travelClaim": true
+  },
+  "integrations": {
+    "googleAppsScriptLaporanUrl": "",
+    "googleAppsScriptDashboardUrl": "",
+    "googleDriveFolderId": ""
+  }
+}

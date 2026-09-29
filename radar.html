@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html data-a1 lang="ms">
+<head>
+<script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
+  <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
+  <meta charset="utf-8">
+  <title>PPD-ICT — Pengalihan ke Peta Radar</title>
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      params.set('mod', 'radar');
+      const qs = '?' + params.toString();
+      window.location.replace('/map' + qs + window.location.hash);
+    })();
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0;url=map.html?mod=radar">
+  </noscript>
+</head>
+<body>
+  <p>Mengalih ke <a href="/map?mod=radar">Peta Radar</a>...</p>
+</body>
+</html>

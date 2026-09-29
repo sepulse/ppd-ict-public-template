@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ms" data-a1>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PPD-ICT — QR & Short URL</title>
+<link rel="manifest" href="/manifest.webmanifest?v=10">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=10">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=10">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png?v=10">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png?v=10">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png?v=10">
+<link rel="icon" type="image/svg+xml" href="/icons/icon.svg?v=10">
+<link rel="shortcut icon" href="/favicon.ico">
+<script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
+  <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/a1/a1-tokens.css?v=__BUILD_VERSION__">
+<link rel="stylesheet" href="/a1/a1-components.css?v=__BUILD_VERSION__">
+<script src="/a1/a1-shell.js?v=__BUILD_VERSION__"></script>
+<link rel="stylesheet" href="/a1/qr-a1.css?v=__BUILD_VERSION__">
+</head>
+<body data-page="qr">
+<div class="shell">
+  <aside class="side" id="sidebar">
+    <div class="brand">PPDK<i>.CH</i></div>
+    <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
+    <nav class="nav" aria-label="Utama">
+      <div class="nav-label mono">Ruang kerja</div>
+      <a href="/" data-nav="home"><svg class="i"><use href="#i-home"/></svg>Home<span class="k">01</span></a>
+      <a href="/ptis" data-nav="ptis"><svg class="i"><use href="#i-form"/></svg>Borang PTIS<span class="k">02</span></a>
+      <a href="/dashboard#overview" data-nav="overview"><svg class="i"><use href="#i-grid"/></svg>Dashboard<span class="k">03</span></a>
+      <a href="/dashboard#zones" data-nav="zones"><svg class="i"><use href="#i-bar"/></svg>Analitik Zon<span class="k">04</span></a>
+      <a href="/dashboard#members" data-nav="members"><svg class="i"><use href="#i-team"/></svg>Ahli JTK<span class="k">05</span></a>
+      <a href="/dashboard#issues" data-nav="issues"><svg class="i"><use href="#i-alert"/></svg>Isu &amp; Tujuan<span class="k">06</span></a>
+      <a href="/dashboard#records" data-nav="records"><svg class="i"><use href="#i-log"/></svg>Rekod Lawatan<span class="k">07</span></a>
+      <a href="/map" data-nav="geospatial"><svg class="i"><use href="#i-map"/></svg>Peta<span class="k">08</span></a>
+      <a href="/dashboard#report" data-nav="report"><svg class="i"><use href="#i-report"/></svg>Laporan Rasmi<span class="k">09</span></a>
+      <a href="/qrcode" data-nav="qr"><svg class="i"><use href="#i-qr"/></svg>QR &amp; Short URL<span class="k">10</span></a>
+    </nav>
+    <div class="side-foot"><a href="/admin"><svg class="i"><use href="#i-lock"/></svg>Login Admin</a></div>
+  </aside>
+  <div class="scrim" id="sideBackdrop" hidden></div>
+  <main class="main">
+    <header class="top">
+      <button class="iconbtn menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
+      <div class="crumb mono"><span>PPD-ICT</span><span>/</span><b>QR &amp; Short URL</b></div>
+      <div class="top-r"><a class="ag-login-link" id="authGateLogoutLink" href="#" hidden>Log keluar</a><span class="mono">Staf ICT</span><button class="iconbtn" id="darkModeBtn" type="button" aria-label="Tukar tema"><svg class="i"><use href="#i-moon"/></svg></button></div>
+    </header>
+    <section class="mast">
+      <div><div class="eyebrow mono">Utiliti · Staf ICT</div><h1>QR &amp; Short URL</h1><p class="lead">Jana pautan pendek ppd.example.invalid dan kod QR untuk poster, surat dan hebahan.</p></div>
+    </section>
+
+    <div class="q-tool">
+      <form class="q-form" id="shortenerForm" novalidate>
+        <div><h2>Pautan</h2><p class="sub">URL penuh halaman, borang atau dokumen sasaran.</p></div>
+        <div class="q-lock note" id="lock"><p>Log masuk staf diperlukan untuk menjana pautan.</p><button class="btn btn-ink btn-sm" type="button" id="authGateLoginLink">Log masuk</button></div>
+        <label class="field" id="fUrl"><span class="mono">URL sasaran</span>
+          <input id="targetUrl" aria-describedby="urlErr" required type="url" inputmode="url" autocomplete="off" placeholder="https://" disabled>
+          <span class="q-ferr" id="urlErr" hidden>Masukkan URL penuh bermula dengan http:// atau https://</span></label>
+        <label class="field"><span class="mono">Slug · pilihan</span>
+          <span class="q-pre"><span>ppd.example.invalid/</span><input id="customSlug" autocomplete="off" placeholder="contoh: borang-ptis" disabled></span>
+          <span class="q-hint">Kosongkan untuk slug automatik. Huruf kecil, nombor dan sempang sahaja.</span></label>
+        <p class="q-live">Pautan anda: <b id="slugPreview">ppd.example.invalid/(dijana automatik)</b></p>
+        <button class="btn btn-ink q-go" id="btnGenerate" type="submit" disabled><span id="btnGenerateLabel">Jana pautan &amp; kod QR</span><svg class="i"><use href="#i-arrow"/></svg><span class="bar"></span></button>
+        <div class="err" id="errorStage" hidden role="alert"><p id="errorMessage"></p><button class="lnk" type="button" id="retryQrBtn">Cuba semula</button></div>
+      </form>
+
+      <section class="q-stage" aria-live="polite"><div class="q-grid" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="q-sh mono"><span>Kod QR</span><b id="meta"><span class="skel"></span></b></div>
+        <p class="q-empty" id="idleStage">Kod QR akan muncul di sini.</p>
+        <div class="q-tile" id="tile" hidden><div class="q-tile-inner" id="quietZone"><div class="q-qr" id="qrcode" role="img" aria-label="Kod QR"></div></div></div>
+        <div class="q-url" id="shortUrlDisplay"></div>
+        <div class="q-acts" id="acts" hidden>
+          <button class="btn btn-mint" type="button" id="btnCopy">Salin pautan</button>
+          <button class="btn btn-line" type="button" id="btnDownload">Muat turun PNG</button>
+          <a class="lnk" id="testLinkBtn" target="_blank" rel="noopener">Uji pautan</a>
+        </div>
+      </section>
+    </div>
+    <button class="lnk q-new" type="button" id="newQrBtn" hidden>Jana baharu</button>
+  </main>
+</div>
+<div class="a-toast" id="toast" role="status"><i></i><span id="toastMessage"></span></div>
+
+<script src="/a1/a1-icons.js?v=__BUILD_VERSION__"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="/auth-gate.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let requestSeq=0,isBusy=false,resultSnapshot=null,authReady=false,authInitialized=false,noise=null,animations=[];
+const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+const QR_DOMAINS=(window.PPD_SYSTEM_CONFIG&&window.PPD_SYSTEM_CONFIG.organization&&window.PPD_SYSTEM_CONFIG.organization.domains)||{};
+const QR_ROOT_DOMAIN=QR_DOMAINS.root||'ppd.example.invalid';
+function normalizeSlug(value){let raw=String(value||'').trim().toLowerCase();try{if(/^https?:\/\//i.test(raw)){const u=new URL(raw);if(u.hostname===QR_ROOT_DOMAIN||u.hostname==='www.'+QR_ROOT_DOMAIN)raw=u.pathname.replace(/^\/+/, '')}}catch(_){}return raw.replace(/[^a-z0-9_-]+/g,'-').replace(/-+/g,'-').replace(/^[-_]+|[-_]+$/g,'').slice(0,64);}
+function updateSlugPreview(){const input=$('customSlug'),slug=normalizeSlug(input.value);input.value=slug;$('slugPreview').textContent=QR_ROOT_DOMAIN+'/'+(slug||'(dijana automatik)');}
+function validHttpUrl(value){try{const u=new URL(value);return ['http:','https:'].includes(u.protocol)}catch(_){return false}}
+function showToast(text,type='success'){$('toastMessage').textContent=text;$('toast').classList.toggle('is-err',type==='error');$('toast').classList.add('on');clearTimeout(showToast.timer);showToast.timer=setTimeout(()=>$('toast').classList.remove('on'),3200);}
+function setAuth(ready){authReady=!!ready;$('lock').hidden=authReady;for(const id of ['targetUrl','customSlug'])$(id).disabled=!authReady;$('btnGenerate').disabled=!authReady||isBusy;}
+function initAuth(){if(authInitialized)return;authInitialized=true;if(!window.AuthGate)return;AuthGate.init(()=>{const ready=!!AuthGate.getToken();setAuth(ready);if(!ready)$('authGateLoginLink').click();},{optional:true});}
+function setBusy(busy){isBusy=busy;$('btnGenerate').disabled=busy||!authReady;$('btnGenerate').classList.toggle('busy',busy);$('btnGenerateLabel').textContent=busy?'Menjana…':'Jana pautan & kod QR';$('shortenerForm').setAttribute('aria-busy',String(busy));}
+function clearResult(){clearInterval(noise);noise=null;animations.forEach(a=>a.cancel());animations=[];resultSnapshot=null;$('qrcode').replaceChildren();$('tile').hidden=true;$('idleStage').hidden=false;$('acts').hidden=true;$('acts').classList.remove('show');$('newQrBtn').hidden=true;$('shortUrlDisplay').textContent='';$('testLinkBtn').removeAttribute('href');$('meta').replaceChildren();}
+function invalidatePending(){requestSeq++;clearResult();setBusy(false);}
+function handleInputChange(){invalidatePending();$('errorStage').hidden=true;$('urlErr').hidden=true;$('targetUrl').removeAttribute('aria-invalid');$('fUrl').classList.remove('bad');updateSlugPreview();}
+function resetForm(){invalidatePending();$('shortenerForm').reset();updateSlugPreview();$('errorStage').hidden=true;$('urlErr').hidden=true;$('fUrl').classList.remove('bad');$('targetUrl').removeAttribute('aria-invalid');$('targetUrl').focus({preventScroll:true});}
+function matrix(text){const tmp=document.createElement('div'),q=new QRCode(tmp,{text,width:256,height:256,colorDark:'#111819',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M});const m=q._oQRCode;if(!m||typeof m.getModuleCount!=='function'||typeof m.isDark!=='function')return {fallback:tmp};const n=m.getModuleCount(),a=[];for(let r=0;r<n;r++)for(let c=0;c<n;c++)a.push(m.isDark(r,c));return {n,a};}
+function build(n){$('qrcode').style.setProperty('--w',n);$('quietZone').style.setProperty('--f',(400/(n+8))+'%');$('qrcode').innerHTML='<i></i>'.repeat(n*n);return [...$('qrcode').children]}
+const isFinder=(r,c,n)=>(r<7&&c<7)||(r<7&&c>=n-7)||(r>=n-7&&c<7);
+const ringDist=(r,c,n)=>Math.min(...[[3,3],[3,n-4],[n-4,3]].map(([a,b])=>Math.max(Math.abs(r-a),Math.abs(c-b))));
+async function typeURL(text,id){if(reduced()){$('shortUrlDisplay').textContent=text;return}for(let i=1;i<=text.length;i++){if(id!==requestSeq)return;const cursor=document.createElement('span');cursor.className='cur';cursor.setAttribute('aria-hidden','true');$('shortUrlDisplay').replaceChildren(document.createTextNode(text.slice(0,i)),cursor);await sleep(28)}if(id===requestSeq)$('shortUrlDisplay').textContent=text;}
+function showError(message,status){clearResult();$('errorMessage').textContent=message;$('errorStage').hidden=false;const field=status===409?$('customSlug'):$('targetUrl');if(status===401)setAuth(false);field.focus();}
+async function handleGenerate(){if(isBusy||!authReady)return;if(!AuthGate.getToken()){setAuth(false);return}const targetUrl=$('targetUrl').value.trim(),slug=normalizeSlug($('customSlug').value);$('customSlug').value=slug;updateSlugPreview();
+ if(!validHttpUrl(targetUrl)){invalidatePending();$('fUrl').classList.add('bad');$('urlErr').hidden=false;$('targetUrl').setAttribute('aria-invalid','true');$('targetUrl').focus();return}
+ $('urlErr').hidden=true;$('fUrl').classList.remove('bad');$('targetUrl').removeAttribute('aria-invalid');$('errorStage').hidden=true;
+ const id=++requestSeq;clearResult();setBusy(true);let waiting;
+ try{
+  if(typeof QRCode!=='function')throw Error('Pustaka kod QR belum tersedia. Cuba semula.');
+  waiting=setTimeout(()=>{if(id!==requestSeq||!isBusy)return;$('idleStage').hidden=true;$('tile').hidden=false;$('meta').textContent='Menunggu pelayan';const pre=matrix('https://'+QR_ROOT_DOMAIN+'/'+(slug||'xxxxx'));if(pre.n){const cells=build(pre.n);if(!reduced()){const tick=()=>cells.forEach(e=>e.className=Math.random()<.42?'nz':'');tick();noise=setInterval(tick,110)}}},400);
+  const response=await AuthGate.fetchWithAuth('/api/shorten',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({targetUrl,slug})});
+  clearTimeout(waiting);if(id!==requestSeq)return;clearInterval(noise);noise=null;let json;try{json=await response.json()}catch(_){}if(id!==requestSeq)return;
+  if(!response.ok||!json||json.ok!==true||!json.shortUrl){showError(json&&json.error?String(json.error):'Pelayan membalas HTTP '+response.status+'.',response.status);return}
+  const shortUrl=String(json.shortUrl);if(!validHttpUrl(shortUrl))throw Error('Pautan pelayan tidak sah.');const qr=matrix(shortUrl);
+  resultSnapshot={shortUrl,targetUrl,slug:normalizeSlug(new URL(shortUrl).pathname.split('/').filter(Boolean).pop()),...qr};
+  $('idleStage').hidden=true;$('tile').hidden=false;$('testLinkBtn').href=shortUrl;$('newQrBtn').hidden=false;
+  setBusy(false);
+  if(qr.fallback){const image=qr.fallback.querySelector('canvas,img');if(!image)throw Error('Kod QR tidak dapat dipaparkan.');$('qrcode').replaceChildren(image);$('qrcode').style.removeProperty('--w');$('quietZone').style.setProperty('--f','18%');$('meta').textContent='ECC M';$('acts').hidden=false;$('acts').classList.add('show');$('shortUrlDisplay').textContent=shortUrl.replace(/^https?:\/\//,'');return}
+  const {n,a}=qr,cells=build(n);$('meta').textContent=n+'×'+n+' · ECC M';
+  if(!reduced())cells.forEach((e,k)=>{const r=Math.floor(k/n),c=k%n;e.className=a[k]?'on':'';if(!a[k])return;const finder=isFinder(r,c,n);animations.push(e.animate([{opacity:0,transform:finder?'scale(2.2)':'scale(.2)'},{opacity:1,transform:'none'}],{duration:260,delay:finder?(3-ringDist(r,c,n))*90:330+(r+c)*9,easing:'cubic-bezier(.22,1,.36,1)',fill:'backwards'}))});
+  else cells.forEach((e,k)=>e.className=a[k]?'on':'');
+  await Promise.all(animations.map(a=>a.finished.catch(()=>{})));if(id!==requestSeq)return;animations.forEach(a=>a.cancel());animations=[];$('acts').hidden=false;$('acts').classList.add('show');await typeURL(shortUrl.replace(/^https?:\/\//,''),id);
+ }catch(e){clearTimeout(waiting);if(id===requestSeq){clearInterval(noise);showError(e.message||'Ralat sambungan. Cuba semula.')}}
+ finally{if(id===requestSeq)setBusy(false)}
+}
+function buildQrPngDataUrl(){if(!resultSnapshot)return '';const {a,n}=resultSnapshot,c=document.createElement('canvas');c.width=c.height=1024;const x=c.getContext('2d');x.fillStyle='#FFFFFF';x.fillRect(0,0,1024,1024);if(a&&n){const s=Math.floor(1024/(n+8)),offset=Math.floor((1024-n*s)/2);x.fillStyle='#111819';a.forEach((dark,k)=>{if(dark)x.fillRect(offset+(k%n)*s,offset+Math.floor(k/n)*s,s,s)})}else{const source=$('qrcode').querySelector('canvas,img');if(!source)return '';x.imageSmoothingEnabled=false;x.drawImage(source,160,160,704,704)}return c.toDataURL('image/png')}
+async function copyShortUrl(){if(!resultSnapshot)return;const value=resultSnapshot.shortUrl;try{if(navigator.clipboard&&isSecureContext)await navigator.clipboard.writeText(value);else{const text=document.createElement('textarea');text.value=value;text.className='sr';text.setAttribute('readonly','');document.body.append(text);text.select();const ok=document.execCommand('copy');text.remove();if(!ok)throw Error('copy')}showToast('Pautan disalin')}catch(_){showToast('Salinan automatik gagal. Salin pautan yang dipaparkan.','error')}}
+function downloadQrCode(){if(!resultSnapshot)return;const src=buildQrPngDataUrl();if(!src){showToast('PNG tidak dapat disediakan. Cuba semula.','error');return}const link=document.createElement('a');link.href=src;link.download=QR_ROOT_DOMAIN.replace(/[^a-z0-9.-]+/gi,'-')+'-'+resultSnapshot.slug+'.png';link.click();showToast('PNG dimuat turun')}
+$('shortenerForm').addEventListener('submit',e=>{e.preventDefault();handleGenerate()});
+$('targetUrl').addEventListener('input',handleInputChange);$('customSlug').addEventListener('input',handleInputChange);
+$('btnCopy').addEventListener('click',copyShortUrl);$('btnDownload').addEventListener('click',downloadQrCode);$('newQrBtn').addEventListener('click',resetForm);$('retryQrBtn').addEventListener('click',handleGenerate);$('authGateLoginLink').addEventListener('click',initAuth);
+setAuth(false);updateSlugPreview();if(window.AuthGate&&AuthGate.getToken())initAuth();
+
+</script>
+</body>
+</html>

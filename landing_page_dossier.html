@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ms" data-a1>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PPD-ICT — Master A-1 · Home</title>
+<meta name="description" content="Portal rasmi, pengesanan radar sekolah, papan pemuka JTK, dan pelaporan PTIS Unit ICT Pejabat Pendidikan Daerah Contoh.">
+<link rel="canonical" href="https://ppd.example.invalid">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ppd.example.invalid">
+<meta property="og:title" content="PPD-ICT — Master A-1 · Home">
+<meta property="og:description" content="Portal rasmi, pengesanan radar sekolah, papan pemuka JTK, dan pelaporan PTIS Unit ICT PPD Contoh.">
+<meta property="og:image" content="https://ppd.example.invalid/icons/icon-512.png?v=10">
+<meta property="og:site_name" content="PPD-ICT">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PPD-ICT — Master A-1 · Home">
+<meta name="twitter:description" content="Portal rasmi, pengesanan radar sekolah, papan pemuka JTK, dan pelaporan PTIS Unit ICT PPD Contoh.">
+<meta name="twitter:image" content="https://ppd.example.invalid/icons/icon-512.png?v=10">
+
+<!-- PWA Manifest & Icons -->
+<link rel="manifest" href="/manifest.webmanifest?v=10">
+<meta name="theme-color" content="#0A2B2F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PPD-ICT">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=10">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=10">
+<link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png?v=10">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png?v=10">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png?v=10">
+<link rel="icon" type="image/svg+xml" href="/icons/icon.svg?v=10">
+<link rel="shortcut icon" href="/favicon.ico">
+
+<!-- Tipografi Master A-1 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+<!-- Gaya Master A-1 & Halaman -->
+<script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
+  <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
+<link rel="stylesheet" href="/a1/a1-tokens.css?v=__BUILD_VERSION__">
+<link rel="stylesheet" href="/a1/a1-components.css?v=__BUILD_VERSION__">
+<link rel="stylesheet" href="/a1/home-a1.css?v=__BUILD_VERSION__">
+
+<!-- Data & Ikon -->
+
+
+<script src="/a1/a1-icons.js?v=__BUILD_VERSION__"></script>
+<script src="/a1/a1-categories.js?v=__BUILD_VERSION__"></script>
+<script src="/a1/a1-home-data.js?v=__BUILD_VERSION__"></script>
+<script src="/a1/a1-shell.js?v=__BUILD_VERSION__"></script>
+
+<script>
+  if (false && 'serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then(r => console.log('PWA ServiceWorker registered:', r.scope))
+        .catch(e => console.warn('PWA ServiceWorker error:', e));
+    });
+  }
+</script>
+<script src="/a1/a1-production-data.js?v=__BUILD_VERSION__"></script>
+<script src="/auth-gate.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Home remains public even when the PTIS gate is ON.
+  if (window.AuthGate) window.AuthGate.init(null, { optional: true });
+});
+</script>
+</head>
+<body data-page="home">
+
+<!-- SVG SPRITE IDEMPOTEN (Fallback sekiranya a1-icons.js belum disuntik) -->
+<svg width="0" height="0" style="position:absolute;display:none" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-form" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol>
+  <symbol id="i-bar" viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></symbol>
+  <symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/></symbol>
+  <symbol id="i-log" viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+  <symbol id="i-report" viewBox="0 0 24 24"><path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4M7 12l3-3 2 2 4-4"/></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8.5a15 15 0 0 1 20 0M5 12a10 10 0 0 1 14 0M8.5 15.5a5 5 0 0 1 7 0"/><path d="M12 19h.01"/></symbol>
+  <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8"/><path d="M6 14h12v7H6z"/></symbol>
+  <symbol id="i-laptop" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="11"/><path d="M2 19h20"/></symbol>
+  <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/></symbol>
+  <symbol id="i-install" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20"/><path d="M12 7v7M9 11l3 3 3-3M10 18h4"/></symbol>
+  <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12l6-6"/><circle cx="12" cy="12" r="1"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-arrow-ne" viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></symbol>
+</svg>
+
+<div class="shell">
+  <!-- SIDEBAR (A-1 NATIVE) -->
+  <aside class="side" id="sidebar">
+    <div class="brand">PPDK<i>.CH</i></div>
+    <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
+    <nav class="nav" aria-label="Utama">
+      <div class="nav-label mono">Ruang kerja</div>
+      <a class="on" href="/" data-nav="home"><svg class="i"><use href="#i-home"/></svg>Home<span class="k">01</span></a>
+      <a href="/ptis" data-nav="ptis"><svg class="i"><use href="#i-form"/></svg>Borang PTIS<span class="k">02</span></a>
+      <a href="/dashboard" data-nav="overview"><svg class="i"><use href="#i-grid"/></svg>Dashboard<span class="k">03</span></a>
+      <a href="/dashboard#zones" data-nav="zones"><svg class="i"><use href="#i-bar"/></svg>Analitik Zon<span class="k">04</span></a>
+      <a href="/dashboard#members" data-nav="members"><svg class="i"><use href="#i-team"/></svg>Ahli JTK<span class="k">05</span></a>
+      <a href="/dashboard#issues" data-nav="issues"><svg class="i"><use href="#i-alert"/></svg>Isu &amp; Tujuan<span class="k">06</span></a>
+      <a href="/dashboard#records" data-nav="records"><svg class="i"><use href="#i-log"/></svg>Rekod Lawatan<span class="k">07</span></a>
+      <a href="/map" data-nav="geospatial"><svg class="i"><use href="#i-map"/></svg>Peta<span class="k">08</span></a>
+      <a href="/dashboard#report" data-nav="report"><svg class="i"><use href="#i-report"/></svg>Laporan Rasmi<span class="k">09</span></a>
+      <a href="/qrcode" data-nav="qr"><svg class="i"><use href="#i-qr"/></svg>QR &amp; Short URL<span class="k">10</span></a>
+    </nav>
+    <div class="side-foot">
+      <div class="sim mono"><span class="dot"></span>Pangkalan rekod rasmi</div>
+      <a href="/admin"><svg class="i"><use href="#i-lock"/></svg>Login Admin</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="top">
+      <div style="display:flex;align-items:center;gap:14px">
+        <button class="iconbtn menu-btn" id="menuBtn" aria-label="Menu" aria-controls="sidebar" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
+        <div class="crumb mono"><span class="hide-s">PPD-ICT /</span><span class="hide-s">Ruang kerja /</span><b>Home</b></div>
+      </div>
+      <div class="top-r">
+        <a class="ag-login-link" id="authGateLoginLink" href="#authGateOverlay">Log masuk staf</a>
+        <a class="ag-login-link" id="authGateLogoutLink" href="#" hidden>Log keluar</a>
+        <span class="mono" id="topDateLabel"></span>
+        <button class="iconbtn" id="darkModeBtn" type="button" aria-label="Tukar tema" title="Tukar mod paparan"><svg class="i"><use href="#i-moon"/></svg></button>
+      </div>
+    </header>
+
+    <!-- HERO: satu permukaan gelap, satu nombor, satu tandatangan data -->
+    <section class="hero" aria-labelledby="h-liputan" aria-busy="true">
+      <div class="hero-l">
+        <div class="hero-eyebrow mono"><span id="heroPeriodLabel">Liputan · <b>September 2026</b></span><span id="heroDayLabel"></span></div>
+        <div class="big" id="h-liputan"><span class="n" data-count="" id="statUniqueSchools"><span class="skel" style="width:72px;height:44px;display:inline-block"></span></span><span class="of" id="statUniqueDenom"></span></div>
+        <p class="hero-line" id="heroSummaryLine"><span class="skel" style="width:240px;height:16px;display:inline-block"></span></p>
+        <div class="meter" role="img" aria-label="Liputan" id="heroMeter"><span id="heroMeterBar" style="width:0%"></span></div>
+        <div class="meter-l mono"><span id="heroMeterPct"></span><span id="statUpdatedLabel"></span></div>
+        <div class="cta">
+          <a class="btn btn-mint" href="/ptis" id="btnCiptaLaporan">Cipta Laporan Lawatan <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-ghost" href="/dashboard#overview" id="btnBukaAnalisis">Buka Analisis JTK <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+      <div class="hero-r">
+        <h3>Setiap sekolah, satu petak <span class="mono" id="matrixTotalLabel"></span></h3>
+        <div class="matrix" id="matrix"></div>
+        <div class="legend mono"><span><i style="background:var(--mint)"></i>Dilawati</span><span><i style="border:1px solid rgba(255,255,255,.3)"></i>Belum</span></div>
+      </div>
+    </section>
+
+    <!-- STRIP METRIK OPERASI -->
+    <section class="strip" aria-label="Metrik bulan ini" aria-busy="true">
+      <div class="stat"><div class="mono">Sesi khidmat bantu</div><div class="v"><span class="num" id="statSessionsCount"><span class="skel" style="width:36px;height:24px;display:inline-block"></span></span><span class="spark" id="spark" aria-hidden="true"></span></div><p id="statSessionsSub"></p></div>
+      <div class="stat"><div class="mono">Pegawai terlibat</div><div class="v"><span class="num" id="statOfficers"><span class="skel" style="width:36px;height:24px;display:inline-block"></span></span></div><p>JTK &amp; PPTM, semua zon</p></div>
+      <div class="stat"><div class="mono">Tiket</div><div class="v"><span class="num" id="statIsdTickets"><span class="skel" style="width:36px;height:24px;display:inline-block"></span></span><span class="isd-tag">ISD</span></div><p>Dirujuk ke meja bantuan</p></div>
+      <div class="stat"><div class="mono">Aduan direkod</div><div class="v"><span class="num" id="statComplaints"><span class="skel" style="width:36px;height:24px;display:inline-block"></span></span></div><p id="statComplaintsSub"></p></div>
+    </section>
+
+    <!-- SEKSYEN UTAMA: 01 LAWATAN TERKINI & 02 KATEGORI ADUAN -->
+    <div class="grid2">
+      <section class="sec" aria-labelledby="s1">
+        <div class="sec-h"><span class="idx">01</span><h2 id="s1">Lawatan terkini</h2><a href="/dashboard#records">Semua rekod</a></div>
+        <div id="recentVisitsList" aria-busy="true">
+          <div class="skel" style="height:64px;margin-bottom:8px"></div>
+          <div class="skel" style="height:64px;margin-bottom:8px"></div>
+          <div class="skel" style="height:64px"></div>
+        </div>
+      </section>
+
+      <section class="sec" aria-labelledby="s2">
+        <div class="sec-h"><span class="idx">02</span><h2 id="s2">Kategori aduan</h2><a href="/dashboard#issues" id="statComplaintsLink">Semua aduan</a></div>
+        <div id="categoriesList" aria-busy="true">
+          <div class="skel" style="height:32px;margin-bottom:8px"></div>
+          <div class="skel" style="height:32px;margin-bottom:8px"></div>
+          <div class="skel" style="height:32px;margin-bottom:8px"></div>
+          <div class="skel" style="height:32px;margin-bottom:8px"></div>
+          <div class="skel" style="height:32px"></div>
+        </div>
+        <p class="znote" id="statCategoriesNote"></p>
+      </section>
+    </div>
+
+    <!-- PINTASAN -->
+    <nav class="tiles" aria-label="Pintasan">
+      <a class="tile" href="/qrcode"><span class="hd"><span class="no">01</span><span class="tic"><svg class="i"><use href="#i-qr"/></svg></span></span><h3>Kod QR &amp; Short URL</h3><p>Jana pautan ppd.example.invalid/slug dan kod QR rasmi untuk mana-mana destinasi.</p><span class="go">Buka alat <svg viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a>
+      <a class="tile" href="/pwa"><span class="hd"><span class="no">02</span><span class="tic"><svg class="i"><use href="#i-install"/></svg></span></span><h3>Pasang aplikasi (PWA)</h3><p>Pasang PPD-ICT pada telefon atau desktop untuk sokongan luar talian.</p><span class="go">Pasang <svg viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a>
+      <a class="tile" href="/map?mod=radar" id="cardPetaSekolah"><span class="hd"><span class="no">03</span><span class="tic"><svg class="i"><use href="#i-radar"/></svg></span></span><h3>Radar Sekolah</h3><p>Peta kedudukan sekolah dan radar liputan zon PPD anda.</p><span class="go">Buka radar <svg viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a>
+    </nav>
+
+    <footer class="foot mono"><span>© 2026 Sektor Pengurusan Maklumat &amp; ICT, PPD Contoh</span><span>Sistem PTIS · Pejabat Pendidikan Daerah Contoh</span></footer>
+  </main>
+</div>
+
+<!-- PENGHIMPUN SIDEBAR MUDAH ALIH -->
+<div class="scrim" id="sideBackdrop" hidden></div>
+
+
+<script>
+// =========================================================================
+// DATA CONTRACT INTEGRATION (A1Home)
+// =========================================================================
+
+// =========================================================================
+// TARIKH TOPBAR DINAMIK (MYT)
+// =========================================================================
+function getFormattedMytDate() {
+  const now = new Date();
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Kuala_Lumpur',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).formatToParts(now);
+  const year = parts.find(p => p.type === 'year')?.value || '2026';
+  const month = parts.find(p => p.type === 'month')?.value || '09';
+  const day = parts.find(p => p.type === 'day')?.value || '24';
+  const dateObj = new Date(Date.UTC(Number(year), Number(month) - 1, Number(day), 12, 0, 0));
+  const rawWeekday = new Intl.DateTimeFormat('ms-MY', {
+    timeZone: 'Asia/Kuala_Lumpur',
+    weekday: 'long'
+  }).format(dateObj);
+  const weekday = rawWeekday ? (rawWeekday.charAt(0).toUpperCase() + rawWeekday.slice(1)) : 'Khamis';
+  return `${weekday} · ${day}.${month}.${year}`;
+}
+
+function updateTopDateLabel() {
+  const el = document.getElementById('topDateLabel');
+  if (el) el.textContent = getFormattedMytDate();
+}
+
+// =========================================================================
+// RENDER HALAMAN UTAMA A-1
+// =========================================================================
+async function renderHomeA1() {
+  updateTopDateLabel();
+  try {
+    if (!window.A1Home || typeof window.A1Home.build !== 'function' || !window.A1Cat) {
+      throw new Error('A1Home atau A1Cat belum dimuatkan sebelum renderHomeA1');
+    }
+
+    await window.PPDKData.ready;
+    const records = window.PPDK_RECORDS || [];
+    const data = window.A1Home.build(records);
+
+    const hero = document.querySelector('.hero');
+    if (hero) hero.removeAttribute('aria-busy');
+    const strip = document.querySelector('.strip');
+    if (strip) {
+      strip.style.display = '';
+      strip.removeAttribute('aria-busy');
+    }
+    const grid2 = document.querySelector('.grid2');
+    if (grid2) grid2.style.display = '';
+
+    // 1. Matriks 83 Petak
+    const m = document.getElementById('matrix');
+    if (m) {
+      m.innerHTML = '';
+      let k = 0;
+      data.zones.forEach(z => {
+        const row = document.createElement('div');
+        row.className = 'mrow';
+        let cells = '';
+        for (let i = 0; i < 12; i++) {
+          if (i < z.total) {
+            cells += `<i class="cell${i < z.visited ? ' v' : ''}" style="--c:var(--z${z.n});animation-delay:${(k++) * 12}ms"></i>`;
+          } else {
+            cells += '<i></i>';
+          }
+        }
+        row.innerHTML = `<span class="zb" style="--c:var(--z${z.n})">${z.label}</span><div class="cells" role="img" aria-label="${z.label}: ${z.visited} daripada ${z.total} sekolah dilawati">${cells}</div><span class="frac"><b>${z.visited}</b>/${z.total}</span>`;
+        m.appendChild(row);
+      });
+    }
+
+    // 2. Metrik Hero & Garis Ringkasan
+    const nEl = document.getElementById('statUniqueSchools');
+    if (nEl) {
+      nEl.dataset.count = data.coverage.visited;
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        let c = 0;
+        const target = Number(data.coverage.visited);
+        const s = setInterval(() => {
+          nEl.textContent = ++c;
+          if (c >= target) clearInterval(s);
+        }, 38);
+        nEl.textContent = '0';
+      } else {
+        nEl.textContent = data.coverage.visited;
+      }
+    }
+
+    const denomEl = document.getElementById('statUniqueDenom');
+    if (denomEl) denomEl.textContent = '/' + data.coverage.total;
+
+    const heroSummaryLine = document.getElementById('heroSummaryLine');
+    if (heroSummaryLine) {
+      heroSummaryLine.innerHTML = `sekolah telah dilawati bulan ini. <em id="heroRemaining">${data.coverage.remaining} lagi</em> menunggu giliran.`;
+    }
+
+    const meter = document.getElementById('heroMeter');
+    if (meter) meter.setAttribute('aria-label', `Liputan ${data.coverage.pct} peratus`);
+
+    const meterBar = document.getElementById('heroMeterBar');
+    if (meterBar) meterBar.style.width = data.coverage.pct + '%';
+
+    const meterPct = document.getElementById('heroMeterPct');
+    if (meterPct) meterPct.textContent = data.coverage.pct + '% liputan';
+
+    const updatedEl = document.getElementById('statUpdatedLabel');
+    if (updatedEl) updatedEl.textContent = 'Terakhir · ' + data.coverage.lastVisitLabel;
+
+    const dayLabel = document.getElementById('heroDayLabel');
+    if (dayLabel) dayLabel.textContent = 'Hari ' + data.stats.daily.length + ' / ' + new Date(data.period.year, data.period.month, 0).getDate();
+
+    const matrixTotalLabel = document.getElementById('matrixTotalLabel');
+    if (matrixTotalLabel) matrixTotalLabel.textContent = data.coverage.total + ' petak';
+
+    // 3. Jalur Metrik (Strip)
+    const sessEl = document.getElementById('statSessionsCount');
+    if (sessEl) sessEl.textContent = data.stats.sessions;
+
+    const sessSub = document.getElementById('statSessionsSub');
+    if (sessSub) sessSub.textContent = data.stats.avgPerDay + ' purata sehari · puncak ' + data.stats.peak;
+
+    const sparkEl = document.getElementById('spark');
+    if (sparkEl && Array.isArray(data.stats.daily)) {
+      sparkEl.innerHTML = data.stats.daily.map(d => `<i class="${d ? '' : 'z'}" style="height:${d ? d * 6 + 4 : 2}px"></i>`).join('');
+    }
+
+    const offEl = document.getElementById('statOfficers');
+    if (offEl) offEl.textContent = data.stats.officers;
+
+    const isdEl = document.getElementById('statIsdTickets');
+    if (isdEl) isdEl.textContent = data.stats.isdTickets;
+
+    const compEl = document.getElementById('statComplaints');
+    if (compEl) compEl.textContent = data.stats.complaints;
+
+    const compLink = document.getElementById('statComplaintsLink');
+    if (compLink) compLink.textContent = data.stats.complaints + ' aduan';
+
+    // 4. Seksyen 01: 3 Lawatan Terkini
+    const recentList = document.getElementById('recentVisitsList');
+    if (recentList && Array.isArray(data.recent)) {
+      recentList.removeAttribute('aria-busy');
+      recentList.innerHTML = data.recent.map(r => `
+        <article class="visit">
+          <div class="d">${r.day}<span>${r.mon}</span></div>
+          <div>
+            <h4>${r.school}</h4>
+            <p>${r.summary}</p>
+            <div class="meta mono"><span class="cat"><svg class="i"><use href="#${r.icon}"/></svg>${r.categoryLabel}</span></div>
+          </div>
+          <div class="zcol"><span class="zb" style="--c:var(--z${r.zoneN})">ZON ${r.zoneN}</span></div>
+        </article>
+      `).join('');
+    }
+
+    // 5. Seksyen 02: Kategori Aduan (5 baris)
+    const catList = document.getElementById('categoriesList');
+    if (catList && Array.isArray(data.categories)) {
+      catList.removeAttribute('aria-busy');
+      catList.innerHTML = data.categories.map((c, idx) => `
+        <div class="iss${idx === 0 ? ' top' : ''}">
+          <span class="ic"><svg class="i"><use href="#${c.icon}"/></svg></span>
+          <div><b>${c.label}</b><div class="meter"><span style="--w:${c.pct}%"></span></div></div>
+          <div class="v">${c.count}<small>${c.pct}%</small></div>
+        </div>
+      `).join('');
+    }
+
+    const catNote = document.getElementById('statCategoriesNote');
+    if (catNote) catNote.textContent = 'Aduan direkod September 2026 · satu aduan, satu kategori.';
+  } catch (err) {
+    console.error('Ralat pemuatan data Home:', err);
+    const hero = document.querySelector('.hero');
+    if (hero) {
+      hero.innerHTML = '<div class="err"><p>Data tidak dapat dimuatkan.</p><button class="btn btn-line btn-sm" type="button" onclick="location.reload()">Cuba semula</button></div>';
+    }
+    const strip = document.querySelector('.strip');
+    if (strip) strip.style.display = 'none';
+    const grid2 = document.querySelector('.grid2');
+    if (grid2) grid2.style.display = 'none';
+  }
+}
+
+
+
+// Pembantu Navigasi
+function navigateTo(route) {
+  window.location.href = route;
+}
+function navigateDesktop(e, route) {
+  if (e) e.preventDefault();
+  window.location.href = route;
+  return false;
+}
+
+// Inisialisasi awal
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderHomeA1);
+} else {
+  renderHomeA1();
+}
+</script>
+</body>
+</html>

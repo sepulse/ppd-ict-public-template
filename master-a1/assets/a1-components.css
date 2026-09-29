@@ -1,0 +1,531 @@
+/* PPD-ICT MASTER A-1 — KOMPONEN
+   Bergantung pada a1-tokens.css. Rujuk MASTER_DESIGN_A1.md untuk peraturan. */
+/* ---------- SHELL ---------- */
+.shell{display:grid;grid-template-columns:var(--side) 1fr;min-height:100vh}
+.side{position:sticky;top:0;height:100vh;border-right:1px solid var(--rule);padding:28px 18px 20px;display:flex;flex-direction:column;background:var(--paper)}
+.brand{display:flex;align-items:baseline;gap:2px;font-family:var(--display);font-stretch:112%;font-weight:800;font-size:26px;letter-spacing:-.02em;padding:0 10px}
+.brand i{font-style:normal;font-weight:400;color:var(--petrol)}
+.brand-sub{padding:4px 10px 0;color:var(--muted)}
+.nav{margin-top:34px;display:flex;flex-direction:column;gap:2px}
+.nav-label{padding:0 10px 10px;color:var(--muted)}
+.nav a{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:12px;padding:10px;font-size:14px;font-weight:500;color:var(--ink-2);border-left:2px solid transparent}
+.nav a svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7}
+.nav a:hover{background:var(--paper-2);color:var(--ink)}
+.nav a.on{background:var(--sel-bg);color:var(--sel-fg);border-left-color:var(--mint)}
+.nav a .k{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.nav a.on .k{color:var(--mint)}
+.side-foot{margin-top:auto;border-top:1px solid var(--rule);padding-top:16px}
+.side-foot a{display:flex;gap:10px;align-items:center;padding:10px;font-size:14px;font-weight:500}
+.sim{display:flex;align-items:center;gap:8px;padding:0 10px 8px;color:var(--muted)}
+.dot{width:7px;height:7px;background:var(--z3);display:inline-block}
+
+.main{min-width:0;padding:0 max(44px,calc((100% - 1560px)/2)) 40px}
+.top{display:flex;justify-content:space-between;align-items:center;height:72px;border-bottom:1px solid var(--ink)}
+.crumb{display:flex;gap:10px;color:var(--muted)} .crumb b{color:var(--ink);font-weight:600}
+.top-r{display:flex;align-items:center;gap:18px}
+.iconbtn{width:40px;height:40px;border:1px solid var(--rule-2);background:transparent;display:grid;place-items:center}
+.iconbtn svg{width:18px;height:18px;stroke:var(--ink);fill:none;stroke-width:1.7}
+.menu-btn{display:none}
+
+/* ---------- HERO ---------- */
+.hero{margin-top:28px;background:var(--petrol-deep);color:var(--on-dark);display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:
+  repeating-linear-gradient(90deg,var(--petrol-line) 0 1px,transparent 1px calc(100%/12));pointer-events:none;opacity:.5}
+.hero > *{position:relative}
+.hero-l{padding:40px 44px 40px;display:flex;flex-direction:column;border-right:1px solid var(--petrol-line)}
+.hero-eyebrow{display:flex;justify-content:space-between;color:var(--on-dark-2)}
+.hero-eyebrow b{color:var(--mint);font-weight:500}
+.big{margin-top:26px;display:flex;align-items:flex-end;gap:14px;line-height:.78}
+.big .n{font-family:var(--display);font-weight:800;font-stretch:78%;font-size:clamp(120px,15vw,212px);letter-spacing:-.045em;color:var(--on-dark)}
+.big .of{font-family:var(--display);font-weight:300;font-stretch:78%;font-size:clamp(44px,5vw,72px);color:var(--on-dark-2);padding-bottom:10px}
+.hero-line{margin-top:26px;font-size:22px;line-height:1.3;max-width:24ch;font-weight:500;letter-spacing:-.01em}
+.hero-line em{font-style:normal;color:var(--mint)}
+.meter{margin-top:24px;height:6px;background:rgba(255,255,255,.1);position:relative}
+.meter span{position:absolute;inset:0 auto 0 0;width:25.3%;background:var(--mint);transform-origin:left;animation:grow 1.1s cubic-bezier(.2,.8,.2,1) both .2s}
+.meter-l{display:flex;justify-content:space-between;margin-top:8px;color:var(--on-dark-2)}
+.cta{margin-top:auto;padding-top:34px;display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:14px;height:52px;padding:0 22px;font-weight:600;font-size:15px;border:1px solid transparent;transition:transform .15s ease, background .15s ease}
+.btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s ease}
+.btn:hover svg{transform:translateX(4px)}
+.btn-mint{background:var(--mint);color:var(--petrol-deep)}
+.btn-mint:hover{background:#A8EADF}
+.btn-ghost{border-color:rgba(255,255,255,.28);color:var(--on-dark)}
+.btn-ghost:hover{background:rgba(255,255,255,.06)}
+
+.hero-r{padding:40px 40px 34px;display:flex;flex-direction:column}
+.hero-r h3{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--display);font-stretch:100%;font-weight:600;font-size:18px}
+.hero-r h3 .mono{color:var(--on-dark-2);font-weight:400}
+.matrix{margin-top:22px;display:flex;flex-direction:column;gap:9px;flex:1;justify-content:space-between;max-height:380px}
+.mrow{display:grid;grid-template-columns:64px 1fr 54px;align-items:center;gap:14px}
+.cells{display:grid;grid-template-columns:repeat(12,minmax(0,26px));gap:4px}
+.cell{aspect-ratio:1;border:1px solid rgba(255,255,255,.18);opacity:0;animation:pop .35s ease-out forwards}
+.cell.v{border:0;background:var(--c)}
+.frac{font-family:var(--mono);font-size:13px;text-align:right;color:var(--on-dark-2)}
+.frac b{color:var(--on-dark);font-weight:600}
+.legend{margin-top:auto;padding-top:22px;display:flex;gap:18px;color:var(--on-dark-2)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.legend i{width:11px;height:11px;display:inline-block}
+
+/* Lencana zon — KUNCI: solid, tajam, putih tebal */
+.zb{display:inline-flex;align-items:center;justify-content:center;height:24px;padding:0 8px;font:700 11px/1 var(--sans);letter-spacing:.04em;color:#fff;background:var(--c);white-space:nowrap}
+
+/* ---------- STAT STRIP ---------- */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--ink)}
+.stat{padding:24px 24px 22px;border-right:1px solid var(--rule)}
+.stat:first-child{padding-left:0}
+.stat:last-child{border-right:0}
+.stat .mono{color:var(--muted)}
+.stat .v{display:flex;align-items:flex-end;justify-content:space-between;margin-top:10px}
+.stat .num{font-family:var(--display);font-weight:700;font-stretch:85%;font-size:48px;line-height:.9;letter-spacing:-.03em}
+.stat .num small{font-size:20px;font-weight:400;color:var(--muted);margin-left:4px;letter-spacing:0}
+.spark{display:flex;align-items:flex-end;gap:2px;height:34px}
+.spark i{width:5px;background:var(--petrol);display:block}
+.spark i.z{background:var(--rule)}
+.isd-tag{font:700 11px/1 var(--sans);letter-spacing:.04em;color:var(--on-isd);background:var(--isd);padding:6px 8px}
+.stat p{margin-top:8px;font-size:13px;color:var(--ink-2)}
+
+/* ---------- SECTIONS ---------- */
+.grid2{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:0;margin-top:48px}
+.sec{padding-right:40px}
+.sec + .sec{padding-right:0;padding-left:40px;border-left:1px solid var(--rule)}
+.sec-h{display:flex;align-items:baseline;gap:14px;padding-bottom:14px;border-bottom:1px solid var(--ink)}
+.sec-h .idx{font-family:var(--mono);font-size:12px;color:var(--petrol);font-weight:600}
+.sec-h h2{font-family:var(--display);font-stretch:92%;font-weight:700;font-size:26px;letter-spacing:-.02em}
+.sec-h a{margin-left:auto;font-size:13px;font-weight:600;border-bottom:1px solid var(--ink);padding-bottom:1px}
+.sec-h a:hover{color:var(--petrol);border-color:var(--petrol)}
+
+.visit{display:grid;grid-template-columns:72px 1fr auto;gap:18px;padding:20px 0 20px 0;border-bottom:1px solid var(--rule);position:relative;transition:padding .2s ease, background .2s ease}
+.visit:hover{background:var(--card);padding-left:14px}
+.visit:hover::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--petrol)}
+.visit .d{font-family:var(--display);font-weight:700;font-stretch:80%;font-size:40px;line-height:.85;letter-spacing:-.03em}
+.visit .d span{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--muted);font-weight:500;margin-top:8px}
+.visit h4{font-size:15px;font-weight:700;letter-spacing:.01em;text-transform:uppercase}
+.visit p{margin-top:6px;font-size:14px;color:var(--ink-2);max-width:56ch}
+.visit .meta{margin-top:10px;display:flex;gap:16px;color:var(--muted)}
+
+/* Kategori aduan — diimport dari Varian D (Buku Log), diselaraskan ke token A */
+.iss{display:grid;grid-template-columns:44px 1fr auto;gap:16px;align-items:center;padding:14px 0;border-bottom:1px dashed var(--rule-2)}
+.iss:last-of-type{border-bottom:1px solid var(--rule)}
+.iss .ic{width:44px;height:44px;border:1.5px solid var(--ink);display:grid;place-items:center;background:var(--card)}
+.iss .ic svg{width:21px;height:21px}
+.iss b{display:block;font-size:15px}
+.iss .meter{margin-top:8px;height:7px;background:var(--paper-2);border:1px solid var(--rule-2);position:relative}
+.iss .meter span{position:absolute;inset:-1px auto -1px -1px;background:var(--ink);width:var(--w);transform-origin:left;animation:grow .9s cubic-bezier(.2,.8,.2,1) both}
+.iss .v{text-align:right;font-family:var(--display);font-stretch:85%;font-weight:700;font-size:26px;line-height:1;letter-spacing:-.01em}
+.iss .v small{display:block;margin-top:4px;font:500 11px/1 var(--mono);color:var(--muted);letter-spacing:.05em}
+.iss.top .ic{background:var(--petrol-deep);border-color:var(--petrol-deep);color:var(--mint)}
+.iss.top .meter span{background:var(--petrol)}
+.znote{margin-top:14px;font-size:13px;color:var(--muted)}
+.cat{display:inline-flex;align-items:center;gap:6px}
+.cat svg.i{width:15px;height:15px;color:var(--ink-2)}
+
+/* ---------- PINTASAN ---------- */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);margin-top:48px;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}
+.tile{padding:26px 28px 26px;border-right:1px solid var(--rule);display:flex;flex-direction:column;min-height:210px;transition:background .2s ease,color .2s ease}
+.tile:last-child{border-right:0}
+.tile .no{font-family:var(--display);font-stretch:70%;font-weight:800;font-size:64px;line-height:.8;color:transparent;-webkit-text-stroke:1.2px var(--ink);letter-spacing:-.03em}
+.tile .hd{display:flex;justify-content:space-between;align-items:flex-start}
+.tile .tic{width:46px;height:46px;display:grid;place-items:center;background:var(--paper-2);border:1px solid var(--rule-2);transition:background .2s,border-color .2s,color .2s}
+.tile .tic svg{width:22px;height:22px}
+.tile:hover .tic{background:transparent;border-color:var(--mint);color:var(--mint)}
+.tile h3{margin-top:22px;font-size:17px;font-weight:700}
+.tile p{margin-top:6px;font-size:14px;color:var(--ink-2);max-width:34ch}
+.tile .go{margin-top:auto;padding-top:18px;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600}
+.tile .go svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;transition:transform .2s}
+.tile:hover{background:var(--ink);color:var(--paper)}
+.tile:hover p{color:var(--on-dark-2)}
+.tile:hover .no{-webkit-text-stroke-color:var(--mint)}
+.tile:hover .go svg{transform:translate(3px,-3px)}
+
+.foot{display:flex;justify-content:space-between;margin-top:40px;color:var(--muted)}
+
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes pop{from{opacity:0;transform:scale(.6)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.cell{opacity:1}}
+
+/* ---------- RESPONSIF ---------- */
+@media (max-width:1180px){
+  .hero{grid-template-columns:1fr}
+  .hero-l{border-right:0;border-bottom:1px solid var(--petrol-line)}
+  .matrix{flex:none}
+  .grid2{grid-template-columns:1fr}
+  .sec{padding-right:0}
+  .sec + .sec{padding-left:0;border-left:0;margin-top:44px}
+}
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .side{display:none}
+  .main{padding:0 16px 32px}
+  .menu-btn{display:grid}
+  .crumb .hide-s{display:none}
+  .top-r .mono{display:none}
+  .strip{grid-template-columns:1fr 1fr}
+  .stat{padding:18px 14px}
+  .stat:nth-child(odd){padding-left:0}
+  .stat:nth-child(2){border-right:0}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--rule)}
+  .tiles{grid-template-columns:1fr}
+  .tile{border-right:0;border-bottom:1px solid var(--rule);min-height:0}
+  .tile:last-child{border-bottom:0}
+  .foot{flex-direction:column;gap:6px}
+}
+@media (max-width:560px){
+  .hero{margin-top:16px}
+  .hero-l,.hero-r{padding:26px 20px}
+  .hero-eyebrow{flex-direction:column;gap:4px}
+  .hero-line{font-size:19px}
+  .btn{width:100%;justify-content:space-between}
+  .mrow{grid-template-columns:52px 1fr 44px;gap:10px}
+  .cells{gap:3px}
+  .zb{height:22px;padding:0 6px;font-size:10px}
+  .stat .num{font-size:38px}
+  .spark{display:none}
+  .visit{grid-template-columns:52px 1fr;gap:14px}
+  .visit .d{font-size:32px}
+  .visit .zcol{position:absolute;right:0;top:20px}
+  .visit h4{padding-right:64px}
+  .sec-h h2{font-size:22px}
+}
+/* ---------- BUTANG ATAS LATAR CERAH (tambahan master — untuk borang/admin/halaman lain) ---------- */
+.btn-ink{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.btn-ink:hover{background:var(--petrol);border-color:var(--petrol)}
+.btn-line{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn-line:hover{background:var(--card)}
+/* Merosakkan (padam/gantung) — HANYA dalam .dlg pengesahan. Putih atas --isd = 4.83:1. ADMIN_A1_DIRECTION §2 (24 Sep) */
+.btn-danger{background:var(--isd);color:var(--on-isd);border-color:var(--isd)}
+.btn-danger:hover{background:color-mix(in srgb,var(--isd) 82%,var(--ink));border-color:color-mix(in srgb,var(--isd) 82%,var(--ink))}
+.dlg-f .btn-danger{margin-right:auto}
+
+/* ==========================================================================
+   PRIMITIF DASHBOARD / HALAMAN DATA — ditambah 23 Sep 2026 (DASHBOARD_A1_DIRECTION.md §2, §5)
+   Radius 0, tiada bayang, tiada hex baharu. Semua nilai melalui token.
+   ========================================================================== */
+
+/* Utiliti */
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.btn-sm{height:40px;padding:0 14px;gap:8px;font-size:13px}
+.btn-sm svg{width:16px;height:16px}
+.btn-sm:hover svg{transform:none}
+.btn:disabled,.btn[aria-disabled="true"]{color:var(--muted);border-color:var(--rule);background:transparent;cursor:not-allowed}
+.btn:disabled svg{transform:none}
+.lnk{display:inline-flex;align-items:center;justify-content:flex-end;gap:.3em;min-height:44px;min-width:44px;padding:0;background:none;border:0;color:var(--ink);font-size:13px;font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.lnk:hover{color:var(--petrol)}
+.hero :focus-visible{outline-color:var(--mint)}
+
+/* Drawer telefon (≤900) — tingkah laku: assets/a1-shell.js */
+.scrim{display:none}
+.side-close{display:none}
+@media (max-width:900px){
+  .side{display:flex;position:fixed;inset:0 auto 0 0;width:min(300px,86vw);height:100%;z-index:50;border-right:1px solid var(--ink);overflow-y:auto;transform:translateX(-100%);visibility:hidden;transition:transform .2s ease,visibility 0s linear .2s}
+  .side.open{transform:none;visibility:visible;transition:transform .2s ease}
+  .side-close{display:grid;position:absolute;top:20px;right:14px}
+  .scrim:not([hidden]){display:block;position:fixed;inset:0;z-index:49;background:var(--scrim)}
+  body.lock{overflow:hidden}
+}
+
+/* Masthead paparan */
+.mast{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding:36px 0 28px}
+.mast .eyebrow{color:var(--muted)}
+.mast h1{margin-top:10px;font:700 clamp(34px,3.4vw,52px)/1 var(--display);font-stretch:92%;letter-spacing:-.025em}
+.mast .period{text-align:right}
+.mast .period .mono{display:block;color:var(--muted)}
+.mast .period b{display:block;margin-top:4px;font-size:15px;font-weight:600}
+.mast + .hero{margin-top:0}
+.mast + .strip{border-top:1px solid var(--ink)}
+
+/* Seksyen lebar penuh (bukan dalam .grid2) */
+.sec.full{padding:0;border-left:0;margin-top:48px}
+.sec-h a,.sec-h .btn{white-space:nowrap}
+
+/* Jalur penapis */
+.fbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:14px 0;border-bottom:1px solid var(--rule)}
+.fbar .count{color:var(--muted);padding:0 6px}
+.fbar .status{margin-left:auto;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 4px 0 14px;background:var(--paper-2);border:1px solid var(--rule-2);font-size:13px;font-weight:500}
+.chip button{width:32px;height:32px;display:grid;place-items:center;background:transparent;border:0;color:var(--ink-2)}
+.chip button:hover{background:var(--rule);color:var(--ink)}
+.chip button svg{width:14px;height:14px}
+.fadd{height:40px;padding:0 14px;background:transparent;border:1px dashed var(--rule-2);font-size:13px;font-weight:500;color:var(--ink-2)}
+.fadd:hover{border-color:var(--ink);color:var(--ink)}
+
+/* Dialog / modal */
+.dlg{width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 32px);margin:auto;padding:0;border:1px solid var(--ink);border-radius:0;background:var(--paper);color:var(--ink)}
+.dlg.wide{width:min(960px,calc(100vw - 32px))}
+.dlg::backdrop{background:var(--scrim)}
+.dlg-h{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px;padding:0 12px 0 24px;border-bottom:1px solid var(--rule)}
+.dlg-h h2{font:700 22px/1 var(--display);font-stretch:92%;letter-spacing:-.02em}
+.dlg-b{padding:24px;overflow:auto}
+.dlg-f{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--rule)}
+.dlg-sub{display:flex;align-items:baseline;gap:10px;margin:28px 0 12px;padding-bottom:10px;border-bottom:1px solid var(--ink)}
+.dlg-sub:first-child{margin-top:0}
+.dlg-sub .idx{color:var(--petrol);font-weight:600}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.fields .wide{grid-column:1/-1}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.photos img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid var(--rule)}
+
+/* Medan borang */
+.field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.field > .mono{color:var(--muted)}
+.field .ctl{position:relative;display:block}
+.field input,.field select,.field textarea{width:100%;height:48px;padding:0 14px;border:1px solid var(--rule-2);border-radius:0;background:var(--card);color:var(--ink);font:15px/1.4 var(--sans);-webkit-appearance:none;appearance:none}
+.field textarea{height:auto;min-height:120px;padding:12px 14px;resize:vertical}
+.field select{padding-right:42px}
+.field .ctl svg.i{position:absolute;right:14px;top:50%;width:16px;height:16px;transform:translateY(-50%) rotate(90deg);pointer-events:none;color:var(--ink-2)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--ink)}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted)}
+.field .hint{font-size:12px;color:var(--muted)}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--isd)}
+.field .msg{padding-left:8px;border-left:3px solid var(--isd);font-size:13px;color:var(--ink)}
+@media (max-width:900px){.field input,.field select,.field textarea{font-size:16px}} /* <16px → iOS zum automatik semasa fokus */
+
+/* Switcher segmen */
+.seg{display:inline-flex;border:1px solid var(--ink)}
+.seg button{height:40px;padding:0 16px;border:0;background:transparent;color:var(--ink);font-size:13px;font-weight:600}
+.seg button + button{border-left:1px solid var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.hero .seg{border-color:var(--on-dark-rule)}
+.hero .seg button{color:var(--on-dark)}
+.hero .seg button + button{border-left-color:var(--on-dark-rule)}
+.hero .seg button[aria-pressed="true"]{background:var(--mint);color:var(--petrol-deep)}
+
+/* Graf harian dalam hero (SVG; warna melalui kelas sahaja) */
+.dchart-wrap{margin-top:18px;overflow-x:auto}
+.dchart{display:block;width:100%;height:auto}
+.dchart .gl{stroke:var(--petrol-line);stroke-width:1}
+.dchart .ax{fill:var(--on-dark-2);font:500 10px var(--mono);letter-spacing:.06em}
+.dchart .b{fill:var(--mint)}
+.dchart .b0{fill:var(--on-dark-2);opacity:.5}
+.dchart .bz{fill:var(--c);stroke:var(--petrol-deep);stroke-width:1}
+.dchart .pk{fill:var(--on-dark);font:600 10px var(--mono)}
+.dchart .hl{stroke:var(--hatch);stroke-width:1}
+.dchart .futl{fill:var(--on-dark-2);font:500 10px var(--mono);letter-spacing:.08em}
+.dchart .hit{fill:transparent;cursor:pointer;outline:none}
+.dchart .hit:hover,.dchart .hit:focus-visible{fill:var(--hatch);stroke:var(--mint);stroke-width:1.5}
+.dchart-foot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px;color:var(--on-dark-2)}
+
+/* Taburan + ledger zon */
+.zdist{display:flex;gap:2px;height:10px;margin:18px 0 6px}
+.zdist i{display:block;flex:var(--f) 1 0;min-width:2px;background:var(--c)}
+.zledger{display:grid;grid-template-columns:minmax(0,1fr)}
+.zledger.two{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.zledger.two > div:first-child{padding-right:40px}
+.zledger.two > div + div{padding-left:40px;border-left:1px solid var(--rule)}
+.zl{display:grid;grid-template-columns:64px minmax(0,1fr) 44px 48px 96px;gap:14px;align-items:center;min-height:52px;border-bottom:1px solid var(--rule)}
+.zl .trk{height:6px;background:var(--paper-2);position:relative}
+.zl .trk span{position:absolute;inset:0 auto 0 0;width:var(--w);background:var(--c);transform-origin:left;animation:grow .9s cubic-bezier(.2,.8,.2,1) both}
+.zl .lv{text-align:right;font:700 20px/1 var(--display);font-stretch:85%;letter-spacing:-.01em}
+.zl .pc{text-align:right;font:500 12px/1 var(--mono);color:var(--muted)}
+.zl-frac{justify-self:end;min-height:44px;padding:0;background:none;border:0;font:400 13px/1 var(--mono);color:var(--ink-2);white-space:nowrap}
+.zl-frac b{color:var(--ink);font-weight:600}
+.zl-frac:hover{color:var(--ink);text-decoration:underline;text-underline-offset:4px}
+
+/* Matriks 83 petak — varian kertas (bukan permukaan gelap) */
+.matrix.on-paper{max-height:none}
+.matrix.on-paper .mrow{grid-template-columns:64px minmax(0,356px) 54px;justify-content:start} /* pecahan rapat dengan petak, bukan di hujung bekas */
+.matrix.on-paper .cell{border-color:var(--rule-2)}
+.matrix.on-paper .cell.v{border:0}
+.matrix.on-paper .frac{color:var(--ink-2)}
+.matrix.on-paper .frac b{color:var(--ink)}
+button.frac{min-height:44px;padding:0;background:none;border:0;cursor:pointer}
+button.frac:hover{text-decoration:underline;text-underline-offset:4px}
+.legend.paper{color:var(--muted)}
+.legend.paper .cell-v{background:var(--ink-2)}
+.legend.paper .cell-0{border:1px solid var(--rule-2)}
+
+/* Jadual data — guna <colgroup> untuk lebar lajur */
+.tbl-wrap{position:relative;overflow-x:auto;border-top:1px solid var(--ink)} /* relative: .sr dalam th tidak lari keluar skrol */
+.sec-h ~ .tbl-wrap{border-top:0} /* .sec-h sudah beri garis dakwat — elak garis berganda */
+.tbl{width:100%;border-collapse:collapse;table-layout:fixed}
+.tbl th{padding:12px;border-bottom:1px solid var(--ink);text-align:left;vertical-align:bottom;font:500 11px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tbl td{padding:14px 12px;border-bottom:1px solid var(--rule);vertical-align:middle;font-size:14px;line-height:1.45}
+.tbl th:first-child,.tbl td:first-child{padding-left:0}
+.tbl th:last-child,.tbl td:last-child{padding-right:0}
+.tbl .r{text-align:right}
+.tbl td.r{font:400 13px/1.45 var(--mono);font-variant-numeric:tabular-nums}
+.tbl .dt b{display:block;font:500 13px/1.3 var(--mono)}
+.tbl .dt span{display:block;margin-top:2px;font:400 11px/1.3 var(--mono);color:var(--muted)}
+.tbl .sch{font-weight:600;text-transform:uppercase;letter-spacing:.01em}
+.tbl .ag{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px;color:var(--ink-2)}
+.tbl .dash{color:var(--muted)}
+.tbl tbody tr:hover{background:var(--card)}
+.tbl tr[aria-selected="true"]{background:var(--paper-2)}
+.tbl tr[aria-selected="true"] td:first-child{border-left:3px solid var(--petrol);padding-left:9px}
+.tbl .stick{position:sticky;left:0;background:var(--paper)}
+.tbl td.emp{padding:32px 0}
+
+/* Pagination */
+.pg{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px;min-height:60px;padding:8px 0}
+.pg > .mono{color:var(--muted)}
+.pg nav{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.pg nav .mono{color:var(--ink-2);padding-right:6px}
+
+/* Keadaan */
+.empty{padding:32px 0;border-bottom:1px solid var(--rule)}
+.empty p{font-size:15px;color:var(--ink-2)}
+.empty .mono{display:block;margin-top:6px;color:var(--muted)}
+.skel{display:block;height:14px;background:var(--paper-2)}
+.err{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:18px 0 18px 14px;border-left:3px solid var(--isd)}
+.err p{font-size:15px;color:var(--ink)}
+
+/* Senarai pegawai + kedudukan */
+.person{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--rule)}
+.person b{display:block;font-size:15px;font-weight:600}
+.person > div:first-child > span{display:block;margin-top:2px;font-size:13px;color:var(--ink-2)}
+.bar{margin-top:8px;height:7px;background:var(--paper-2);border:1px solid var(--rule-2);position:relative}
+.bar span{position:absolute;inset:-1px auto -1px -1px;width:var(--w);background:var(--ink);transform-origin:left;animation:grow .9s cubic-bezier(.2,.8,.2,1) both}
+.rank{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--rule)}
+.rank .no{font:600 12px/1 var(--mono);color:var(--petrol)}
+.rank b{display:block;font-size:15px;font-weight:600}
+.rank .v{text-align:right;font:700 26px/1 var(--display);font-stretch:85%;letter-spacing:-.01em}
+.rank.top .bar span{background:var(--petrol)}
+.iss.plain{grid-template-columns:minmax(0,1fr) auto}
+
+/* Helaian laporan (pratonton) */
+.sheet{background:var(--card);border:1px solid var(--rule-2);padding:48px}
+
+@media (pointer:coarse){
+  .btn-sm,.chip,.fadd,.seg button,.iconbtn{min-height:44px}
+  .iconbtn{min-width:44px}
+}
+@media (max-width:1180px){
+  .hero{grid-template-columns:minmax(0,1fr)} /* 1fr membenarkan kandungan min-width (graf 520px) meluaskan trek */
+  .zledger.two{grid-template-columns:minmax(0,1fr)}
+  .zledger.two > div:first-child{padding-right:0}
+  .zledger.two > div + div{padding-left:0;border-left:0}
+}
+@media (max-width:900px){
+  .field input,.field select,.field textarea{font-size:16px}
+  .fbar .status{margin-left:0;flex-basis:100%}
+}
+@media (max-width:760px){
+  .mast{flex-direction:column;align-items:flex-start;gap:12px;padding:24px 0 20px}
+  .mast .period{text-align:left}
+}
+@media (max-width:560px){
+  .btn-sm{width:auto}
+  .dlg{width:100%;max-width:100%;margin:auto 0 0;max-height:92vh}
+  .dlg-f{flex-direction:column-reverse}
+  .dlg-f .btn-danger{margin-right:0} /* 26 Sep: margin auto desktop menghalang regangan lajur telefon */
+  .fields{grid-template-columns:1fr}
+  .zl{grid-template-columns:52px minmax(0,1fr) 36px 60px}
+  .zl .pc,.zl-frac .u{display:none}
+  .dchart{min-width:520px}
+  .sheet{padding:20px}
+}
+@media print{
+  .shell{display:block}
+  .side,.top,.fbar,.scrim,.menu-btn{display:none}
+  .main{padding:0}
+  .sheet{border:0;padding:0;background:transparent}
+  .tbl .ag{white-space:normal;overflow:visible}
+}
+
+/* ---------- KALENDAR BULAN .cal — 24 Sep 2026 (DASHBOARD_A1_DIRECTION pindaan #records Kalendar) ----------
+   Satu petak = satu lawatan (warna zon). Hari = <button> (aria-label + aria-pressed). Dipilih = --sel-bg/--sel-fg (dua mod).
+   25 Sep: width:100% — tanpanya min-height×aspect-ratio memaksa lebar 120px > trek (bertindih bila .cal <840px); text-align:left (butang lalai = tengah). */
+.cal-wrap{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:32px;padding-top:20px}
+.cal-h{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.cal-h b{font:700 22px/1 var(--display);font-stretch:92%;letter-spacing:-.02em}
+.cal-h .mono{margin-left:auto;color:var(--muted)}
+.cal-h .iconbtn{width:36px;height:36px}
+.cal-h .iconbtn:disabled{opacity:.35;cursor:not-allowed}
+.cal-dow,.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal-dow{margin-bottom:4px}
+.cal-dow span{padding-left:8px;color:var(--muted)}
+.cal-day{position:relative;width:100%;min-width:0;text-align:left;min-height:96px;aspect-ratio:1/.8;padding:8px;display:flex;flex-direction:column;justify-content:space-between;background:var(--card);border:1px solid var(--rule);cursor:pointer;transition:border-color .15s}
+.cal-day:hover{border-color:var(--ink)}
+.cal-day:focus-visible{outline:2px solid var(--petrol);outline-offset:1px}
+.cal-day.blank{visibility:hidden}
+.cal-day.we{background:transparent}
+.cal-day.fut{background:repeating-linear-gradient(135deg,transparent 0 6px,var(--paper-2) 6px 7px);cursor:default}
+.cal-day.fut:hover{border-color:var(--rule)}
+.cal-day.today{border:2px solid var(--ink);padding:7px}
+.cal-day.today::after{content:"HARI INI";position:absolute;top:8px;right:8px;font:600 9px/1 var(--mono);letter-spacing:.08em;color:var(--ink)}
+.cal-day[aria-pressed="true"]{background:var(--sel-bg);border-color:var(--sel-bg);color:var(--sel-fg)}
+.cal-day[aria-pressed="true"] .dn,.cal-day[aria-pressed="true"] .n{color:var(--sel-fg)}
+.cal-day[aria-pressed="true"] .v i{box-shadow:0 0 0 1px var(--sel-fg)}
+.cal-day .dn{font:600 13px/1 var(--mono);color:var(--ink-2)}
+.cal-day.we .dn,.cal-day.fut .dn,.cal-day.zero .dn{color:var(--muted)}
+.cal-day .n{position:absolute;right:8px;top:6px;text-align:right;font:700 20px/1 var(--display);font-stretch:85%;color:var(--ink)}
+.cal-day.today .n{top:20px}
+.cal-day .v{display:flex;flex-wrap:wrap;gap:3px}
+.cal-day .v i{width:14px;height:14px;background:var(--c);display:block}
+.cal-day .v b{font:600 11px/14px var(--mono);color:inherit;padding-left:2px}
+.cal-day.peak .n::after{content:"PUNCAK";display:block;margin-top:3px;font:600 9px/1 var(--mono);letter-spacing:.08em;color:var(--petrol);text-align:right}
+.cal-day[aria-pressed="true"].peak .n::after{color:var(--sel-fg)}
+.cal-key{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px 16px;color:var(--ink-2)}
+.cal-key span{display:inline-flex;align-items:center;gap:6px}
+.cal-key i{width:10px;height:10px;background:var(--c)}
+.cal-key .h{width:14px;height:10px;border:1px solid var(--rule);background:repeating-linear-gradient(135deg,transparent 0 3px,var(--paper-2) 3px 4px)}
+
+/* Panel hari */
+.cal-side{border-top:1px solid var(--ink);align-self:start;position:sticky;top:24px}
+.cal-side .hd{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0 12px;border-bottom:1px solid var(--rule)}
+.cal-side .hd b{font:700 32px/.9 var(--display);font-stretch:80%;letter-spacing:-.02em}
+.cal-side .hd b small{display:block;margin-top:6px;font:500 11px/1 var(--mono);letter-spacing:.08em;color:var(--muted)}
+.cal-side .hd .mono{color:var(--ink-2)}
+.cal-side .it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--rule)}
+.cal-side .it h4{font-size:14px;font-weight:700;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-side .it p{grid-column:1/-1;font-size:13px;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cal-side .it .meta{grid-column:1/-1;display:flex;gap:12px;align-items:center;color:var(--muted)}
+.cal-side .it .meta .lnk{margin-left:auto;min-height:32px}
+.cal-side .empty{padding:18px 0;color:var(--muted);font-size:14px}
+.cal-side .sum{padding:14px 0;color:var(--muted)}
+
+@media (max-width:1180px){.cal-wrap{grid-template-columns:1fr}.cal-side{position:static}}
+@media (max-width:760px){
+  .cal-dow,.cal{gap:2px}
+  .cal-dow span{padding-left:4px;font-size:10px}
+  .cal-day{min-height:0;aspect-ratio:1/1.05;padding:4px}
+  .cal-day.today{padding:3px}
+  .cal-day .dn{font-size:11px}
+  .cal-day .n{font-size:14px;right:4px;top:3px}
+  .cal-day.today::after,.cal-day.peak .n::after{display:none}
+  .cal-day .v{gap:2px}
+  .cal-day .v i{width:7px;height:7px}
+}
+
+/* ---------- MENU TEMA .theme-menu — 25 Sep 2026 (MOD_GELAP_A1 §3) ----------
+   Dicipta oleh assets/a1-shell.js pada halaman <html data-a1>. Sempadan dakwat, tiada bayang, radius 0.
+   Kedudukan (top/right) diset oleh shell melalui --tm-top/--tm-right. */
+.theme-menu{position:fixed;top:var(--tm-top,64px);right:var(--tm-right,16px);z-index:60;min-width:200px;
+  background:var(--card);border:1px solid var(--ink);padding:4px 0}
+.theme-menu .mono{display:block;padding:10px 14px 6px;color:var(--muted)}
+.theme-menu button{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:0 14px;border:0;
+  background:transparent;color:var(--ink);font-size:14px;text-align:left}
+.theme-menu button:hover{background:var(--paper-2)}
+.theme-menu button[aria-checked="true"]{background:var(--sel-bg);color:var(--sel-fg);font-weight:600}
+.theme-menu button::after{content:"";margin-left:auto;width:8px;height:8px;border:1px solid currentColor}
+.theme-menu button[aria-checked="true"]::after{background:currentColor}
+@media print{.theme-menu{display:none}}
+
+/* ---------- GERBANG LOG MASUK STAF (auth-gate.js) — 27 Sep 2026 (AUTHGATE_A1_DIRECTION.md) ----------
+   Kulit sahaja untuk halaman <html data-a1>. auth-gate.js (fail root, dikongsi produksi) TIDAK diubah: markup & gaya
+   suntikannya kekal; peraturan di bawah menang kerana spesifisiti `html[data-a1] #…` (tiada !important).
+   Sama komposisi dengan kad log masuk Admin (.a-login-card). */
+html[data-a1] #authGateOverlay{background:var(--paper);padding:24px;font-family:var(--sans);overflow-y:auto}
+html[data-a1] #authGateCard{max-width:420px;background:var(--card);border:1px solid var(--ink);border-radius:0;box-shadow:none;padding:40px 36px;color:var(--ink)}
+html[data-a1] #authGateCard::before{content:"PPD-ICT · Staf JTK/PPTM";display:block;margin-bottom:12px;font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+html[data-a1] #authGateCard h2{margin:0;font:700 28px/1.1 var(--display);font-stretch:92%;letter-spacing:-.02em;color:var(--ink)}
+html[data-a1] #authGateCard p.ag-sub{margin:8px 0 24px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+html[data-a1] .ag-field{margin-bottom:18px}
+html[data-a1] .ag-field label{margin-bottom:8px;font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+html[data-a1] .ag-field input{height:48px;padding:0 14px;border:1px solid var(--rule-2);border-radius:0;background:var(--card);color:var(--ink);font:16px/1.4 var(--sans)}
+html[data-a1] .ag-field input:focus{outline:2px solid var(--petrol);outline-offset:1px;border-color:var(--ink)}
+html[data-a1] #authGateError{margin-bottom:18px;padding:12px 0 12px 14px;border:0;border-left:3px solid var(--isd);border-radius:0;background:transparent;color:var(--ink);font-size:14px}
+html[data-a1] #authGateSubmit{height:52px;margin-top:8px;border-radius:0;background:var(--ink);color:var(--paper);font:600 15px/1 var(--sans);transition:background .15s}
+html[data-a1] #authGateSubmit:hover:not(:disabled){background:var(--ink-2)}
+html[data-a1] #authGateSubmit:disabled{opacity:.55}
+html[data-a1] .ag-hint{margin-top:24px;padding-top:16px;border-top:1px solid var(--rule);font-size:12px;color:var(--muted)}
+html[data-a1] .ag-logout-bar:not(.ag-hidden){position:static;display:flex;justify-content:flex-end;padding:0 24px 32px} /* sementara: sehingga halaman memapar "Log keluar" dalam .top (AuthGate.logout) */
+html[data-a1] .ag-logout-bar button{height:36px;padding:0 14px;border:1px solid var(--ink);border-radius:0;background:var(--card);color:var(--ink);font:600 13px/1 var(--sans)}
+html[data-a1] body.a-has-logout .ag-logout-bar{display:none}
+@media (max-width:560px){html[data-a1] #authGateOverlay{padding:0;align-items:stretch}html[data-a1] #authGateCard{max-width:none;min-height:100%;border:0;padding:32px 20px}}
+
+/* P7: optional staff login in the existing top bar. */
+html[data-a1] .ag-login-link{font:500 12px/1.3 var(--sans);text-decoration:underline;text-underline-offset:3px;white-space:nowrap;padding:8px 0;color:var(--ink)}
+html[data-a1] .ag-login-link[hidden]{display:none}
+html[data-a1] .ag-login-link:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+html[data-a1] .ag-close{font-size:12px}
+@media(max-width:760px){body[data-page="ptis"] .top .crumb .hide-s{display:none}}

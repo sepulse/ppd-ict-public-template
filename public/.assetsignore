@@ -1,0 +1,6 @@
+qa/
+**/*fixture*
+**/*stub*
+**/*mockup*
+**/lab-data.js
+**/real_records.js

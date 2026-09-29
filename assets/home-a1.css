@@ -1,0 +1,28 @@
+/* PPD-ICT MASTER A-1 — HOME EXTENSIONS & MODALS
+   Gaya khusus halaman home.html sahaja.
+   Semua warna mesti menggunakan CSS Custom Properties dari a1-tokens.css.
+   DILARANG menambah nilai hex (#) di dalam fail ini. */
+
+/* ---------- GAYA HERO ERROR STATE ---------- */
+.hero .err {
+  grid-column: 1 / -1;
+  background: var(--paper);
+  color: var(--ink);
+  padding: 24px;
+  margin: 24px;
+  border: 1px solid var(--rule);
+}
+.hero .skel {
+  background: var(--petrol-line);
+}
+
+
+/* Utiliti */
+.hidden {
+  display: none;
+}
+
+/* Topbar Tarikh Dinamik */
+#topDateLabel {
+  color: var(--muted);
+}

@@ -1,0 +1,26 @@
+{
+  "name": "ppd-ict-public-template",
+  "version": "1.0.0",
+  "description": "Template sumber terbuka sistem pengurusan ICT/PTIS untuk Pejabat Pendidikan Daerah.",
+  "main": "index.js",
+  "scripts": {
+    "configure": "node scripts/apply_config.mjs",
+    "icons:generate": "python scripts/generate_generic_icons.py",
+    "admin:bootstrap": "node scripts/create_admin.mjs",
+    "dev": "npm run configure && node dev_server.js",
+    "build": "npm run configure && node build_master_worker.js",
+    "test": "npm run configure && node tests/public_template_safety.test.js && node tests/config_generation.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/genai": "^2.17.1",
+    "docx": "^9.7.1",
+    "pdf-parse": "^2.4.5"
+  },
+  "devDependencies": {
+    "ws": "^8.21.3"
+  }
+}

@@ -1,0 +1,2672 @@
+<!DOCTYPE html>
+<!-- BUILD: __BUILD_VERSION__ -->
+<html lang="ms" data-a1>
+<head>
+  <script>console.log('[PPD-ICT] Build:', '__BUILD_VERSION__');</script>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>Sistem Laporan Lawatan Sekolah (PTIS) — PPD Contoh</title>
+  <meta name="description" content="Sistem pengurusan borang dan pelaporan lawatan serta khidmat bantu ICT sekolah Unit ICT Pejabat Pendidikan Daerah Contoh.">
+  <link rel="canonical" href="https://ptis.ppd.example.invalid">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ptis.ppd.example.invalid">
+  <meta property="og:title" content="Sistem Pelaporan Lawatan Sekolah (PTIS) — PPD Contoh">
+  <meta property="og:description" content="Borang laporan lawatan dan khidmat bantu teknikal ICT rasmi PPD Contoh dengan sokongan mod luar talian (Offline PWA).">
+  <meta property="og:image" content="https://ppd.example.invalid/icons/icon-512.png?v=10">
+  <meta property="og:site_name" content="PPD-ICT">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sistem Pelaporan Lawatan Sekolah (PTIS) — PPD Contoh">
+  <meta name="twitter:description" content="Borang laporan lawatan dan khidmat bantu teknikal ICT rasmi PPD Contoh dengan sokongan mod luar talian (Offline PWA).">
+  <meta name="twitter:image" content="https://ppd.example.invalid/icons/icon-512.png?v=10">
+
+  <link rel="manifest" href="/manifest.webmanifest?v=10">
+  <meta name="theme-color" content="#0A2B2F">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PPD-ICT">
+  <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=10">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=10">
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png?v=10">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png?v=10">
+  <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png?v=10">
+  <link rel="icon" type="image/svg+xml" href="/icons/icon.svg?v=10">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <!-- Enjin Tema A-1 & Tipografi -->
+  <script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
+  <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/a1/a1-tokens.css?v=__BUILD_VERSION__">
+  <link rel="stylesheet" href="/a1/a1-components.css?v=__BUILD_VERSION__">
+  <link rel="stylesheet" href="/a1/ptis-a1.css?v=__BUILD_VERSION__">
+  <script src="/a1/officer-positions.js?v=__BUILD_VERSION__"></script>
+  <script src="/a1/a1-icons.js?v=__BUILD_VERSION__"></script>
+  <script src="/a1/a1-shell.js?v=__BUILD_VERSION__"></script>
+
+  <script>
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then(reg => console.log('PWA ServiceWorker registered:', reg.scope))
+          .catch(err => console.warn('PWA ServiceWorker error:', err));
+      });
+    }
+
+    // PWA Offline Queue & Auto-Sync Engine
+    const OFFLINE_QUEUE_KEY = 'PTIS_OFFLINE_REPORTS_QUEUE_V1';
+
+    function getOfflineQueue() {
+      try {
+        const raw = localStorage.getItem(OFFLINE_QUEUE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch(e) {
+        return [];
+      }
+    }
+
+    function saveToOfflineQueue(reportData) {
+      try {
+        const q = getOfflineQueue();
+        const rep = JSON.parse(JSON.stringify(reportData));
+        if (!rep.id) rep.id = 'offline_' + Date.now();
+        rep._offlineTimestamp = new Date().toISOString();
+        const idx = q.findIndex(item => item.id === rep.id);
+        if (idx >= 0) q[idx] = rep;
+        else q.push(rep);
+        localStorage.setItem(OFFLINE_QUEUE_KEY, JSON.stringify(q));
+        updateOfflineBannerUi();
+        return rep;
+      } catch(e) {
+        console.warn('Gagal menyimpan ke offline queue:', e);
+        return null;
+      }
+    }
+
+    function removeFromOfflineQueue(reportId) {
+      try {
+        let q = getOfflineQueue();
+        q = q.filter(item => item.id !== reportId);
+        localStorage.setItem(OFFLINE_QUEUE_KEY, JSON.stringify(q));
+        updateOfflineBannerUi();
+      } catch(e) {}
+    }
+
+    let isSyncingOfflineQueue = false;
+    let offlineSyncAbort = null;
+    async function syncOfflineQueue() {
+      if (offlineSyncAbort) {
+        offlineSyncAbort.abort();
+        offlineSyncAbort = null;
+      }
+      const queue = getOfflineQueue();
+      if (!queue.length) {
+        updateOfflineBannerUi();
+        return;
+      }
+
+      const ac = new AbortController();
+      offlineSyncAbort = ac;
+      isSyncingOfflineQueue = true;
+      updateOfflineBannerUi();
+
+      let syncedCount = 0;
+      for (const reportItem of queue) {
+        if (ac.signal.aborted) break;
+        try {
+          const doFetch = (window.AuthGate ? window.AuthGate.fetchWithAuth : fetch);
+          const res = await doFetch('/api/ptis/saveReport', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ args: [reportItem] }),
+            signal: ac.signal
+          });
+          const data = await res.json();
+          if (data && data.success) {
+            removeFromOfflineQueue(reportItem.id);
+            syncedCount++;
+          }
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            console.warn('Gagal segerak laporan luar talian:', reportItem.id, err);
+          }
+        }
+      }
+
+      if (!ac.signal.aborted) {
+        isSyncingOfflineQueue = false;
+        updateOfflineBannerUi();
+      }
+
+      if (syncedCount > 0) {
+        if (typeof showToast === 'function') {
+          showToast(
+            'Auto-Segerak Selesai!',
+            'success',
+            syncedCount + ' laporan luar talian berjaya dihantar ke pangkalan data rasmi.'
+          );
+        }
+      }
+    }
+
+    function updateOfflineBannerUi() {
+      const banner = document.getElementById('offlineSyncBanner');
+      if (!banner) return;
+      const isOnline = navigator.onLine;
+      const queue = getOfflineQueue();
+
+      if (!isOnline || queue.length > 0) {
+        banner.hidden = false;
+        const iconEl = document.getElementById('offlineStatusIcon');
+        const textEl = document.getElementById('offlineStatusText');
+        const syncBtn = document.getElementById('btnManualSync');
+
+        if (!isOnline) {
+          if (iconEl) iconEl.textContent = '🟡';
+          if (textEl) textEl.textContent = 'Mod Luar Talian (Tiada Internet) — ' + (queue.length ? queue.length + ' laporan tersimpan di peranti' : 'Borang boleh diisi seperti biasa');
+          if (syncBtn) syncBtn.style.display = 'none';
+        } else {
+          if (iconEl) iconEl.textContent = '🔄';
+          if (textEl) textEl.textContent = queue.length + ' laporan luar talian menunggu untuk dihantar ke pangkalan data.';
+          if (syncBtn) {
+            syncBtn.style.display = 'inline-flex';
+            syncBtn.disabled = isSyncingOfflineQueue;
+            syncBtn.innerHTML = isSyncingOfflineQueue ? '<i data-lucide="loader-2" class="spin"></i> Menyegerakkan...' : '<i data-lucide="refresh-cw"></i> Segerak Sekarang';
+          }
+        }
+      } else {
+        banner.hidden = true;
+      }
+      if (typeof refreshIcons === 'function') refreshIcons();
+    }
+
+    window.addEventListener('online', () => {
+      updateOfflineBannerUi();
+      syncOfflineQueue();
+      if (typeof showToast === 'function') showToast('Sambungan internet dipulihkan.', 'success');
+    });
+    window.addEventListener('offline', () => {
+      updateOfflineBannerUi();
+      if (typeof showToast === 'function') showToast('Anda kini dalam Mod Luar Talian. Data disimpan selamat di peranti.', 'error');
+    });
+
+    // Cloudflare Edge DB Bridge for PTIS Form (Dynamic Proxy with Offline Interceptor)
+    window.google = window.google || {};
+    window.google.script = window.google.script || {};
+    function createPtisScriptRunHandler(successFn, failureFn) {
+      return new Proxy({}, {
+        get: function(target, prop) {
+          if (prop === 'withSuccessHandler') {
+            return function(fn) { return createPtisScriptRunHandler(fn, failureFn); };
+          }
+          if (prop === 'withFailureHandler') {
+            return function(fn) { return createPtisScriptRunHandler(successFn, fn); };
+          }
+          return function() {
+            const args = Array.prototype.slice.call(arguments);
+
+            // Interceptor Luar Talian untuk saveReport
+            if (prop === 'saveReport' && !navigator.onLine) {
+              const queuedReport = saveToOfflineQueue(args[0]);
+              if (!queuedReport) {
+                const storageError = new Error('Laporan tidak dapat disimpan di peranti. Ruang simpanan pelayar mungkin penuh. Kurangkan saiz/bilangan gambar atau pulihkan sambungan internet sebelum cuba lagi.');
+                if (failureFn) failureFn(storageError);
+                else if (successFn) successFn({ success: false, status: 'offline_save_failed', error: storageError.message });
+                return;
+              }
+              if (successFn) {
+                successFn({
+                  success: true,
+                  status: 'offline_saved',
+                  report: queuedReport,
+                  message: 'Laporan disimpan setempat (Mod Luar Talian). Akan dihantar automatik apabila internet pulih.'
+                });
+              }
+              return;
+            }
+
+            const apiBase = '';
+            const doFetch = (window.AuthGate ? window.AuthGate.fetchWithAuth : fetch);
+            doFetch(apiBase + '/api/ptis/' + String(prop), {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ args: args })
+            })
+            .then(function(r) {
+              return r.text().then(function(raw) {
+                let data = {};
+                try {
+                  data = raw ? JSON.parse(raw) : {};
+                } catch (parseErr) {
+                  const invalidResponseError = new Error('Respons pelayan tidak sah (HTTP ' + r.status + ').');
+                  invalidResponseError.isHttpError = true;
+                  invalidResponseError.status = r.status;
+                  throw invalidResponseError;
+                }
+                if (!r.ok) {
+                  const httpError = new Error((data && (data.error || data.message)) || ('HTTP ' + r.status));
+                  httpError.isHttpError = true;
+                  httpError.status = r.status;
+                  throw httpError;
+                }
+                return data;
+              });
+            })
+            .then(function(d) {
+              if (d && d.success && prop === 'saveReport') {
+                removeFromOfflineQueue(args[0]?.id);
+              }
+              if (successFn) successFn(d);
+            })
+            .catch(function(e) {
+              if (prop === 'saveReport' && !(e && e.isHttpError)) {
+                const queuedReport = saveToOfflineQueue(args[0]);
+                if (!queuedReport) {
+                  const storageError = new Error('Sambungan terputus dan laporan tidak dapat disimpan di peranti. Ruang simpanan pelayar mungkin penuh. Jangan tutup halaman ini; kurangkan saiz/bilangan gambar atau pulihkan internet sebelum cuba lagi.');
+                  if (failureFn) failureFn(storageError);
+                  else if (successFn) successFn({ success: false, status: 'offline_save_failed', error: storageError.message });
+                  return;
+                }
+                if (successFn) {
+                  successFn({
+                    success: true,
+                    status: 'offline_saved',
+                    report: queuedReport,
+                    message: 'Sambungan terputus. Laporan disimpan selamat di telefon/peranti anda.'
+                  });
+                  return;
+                }
+              }
+              if (failureFn) failureFn(e);
+            });
+          };
+        }
+      });
+    }
+    window.google.script.run = createPtisScriptRunHandler(null, null);
+  </script>
+  <script src="/auth-gate.js"></script>
+  <script>
+    // P7: AuthGate membaca suis pelayan; OFF membenarkan borang tanpa log masuk.
+    document.addEventListener('DOMContentLoaded', function () {
+      if (window.AuthGate) window.AuthGate.init(function () { /* borang sedia mengikut polisi PTIS */ });
+    });
+  </script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+
+</head>
+<body data-page="ptis">
+<svg width="0" height="0" class="no-print p-sprite" aria-hidden="true" hidden>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-cam" viewBox="0 0 24 24"><path d="M3 7h4l2-3h6l2 3h4v13H3z"/><circle cx="12" cy="13" r="4"/></symbol>
+  <symbol id="i-img" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="16" cy="9" r="1.6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/><path d="M19 17l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M8 3v6h8M8 21v-7h8v7"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><path d="M9 9h11v11H9z"/><path d="M5 15H4V4h11v1"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H3V9h18v9h-3"/><path d="M6 14h12v7H6z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+</svg>
+
+  <div id="toast" hidden></div>
+
+  <!-- PWA Native Install Invitation Banner (Android & iOS) -->
+  <div id="pwaInstallPrompt" class="p-pwa-prompt no-print" hidden>
+    <div class="p-pvbar-left">
+      <div class="p-pwa-icon">📲</div>
+      <div>
+        <div id="pwaPromptTitle" class="p-pwa-title">Pasang Aplikasi PPD-ICT</div>
+        <div id="pwaPromptDesc" class="p-pwa-desc">Boleh dibuka sepantas kilat &amp; berfungsi luar talian di telefon anda.</div>
+      </div>
+    </div>
+    <div class="p-pwa-actions">
+      <button id="btnInstallPwa" type="button" class="btn btn-ink btn-sm">
+        <i data-lucide="download" class="p-pop-icon"></i> <span>Pasang</span>
+      </button>
+      <button id="btnDismissInstall" type="button" class="btn btn-line btn-sm" aria-label="Tutup pemberitahuan">✕</button>
+    </div>
+  </div>
+
+  <!-- Modal Panduan Pemasangan PWA iOS -->
+  <div id="iosInstallModal" class="modal-overlay no-print" role="dialog" aria-modal="true" aria-labelledby="iosModalTitle" hidden>
+    <div class="p-ios-modal">
+      <div class="p-ios-hdr">
+        <div class="p-pvbar-left">
+          <div class="p-pwa-icon">📲</div>
+          <div>
+            <div id="iosModalTitle" class="p-ios-title">Pasang pada iPhone / iPad</div>
+            <div class="p-ios-sub">Aplikasi Web Progresif (PWA) PPD-ICT</div>
+          </div>
+        </div>
+        <button id="btnCloseIosModal" type="button" class="btn btn-line btn-sm" aria-label="Tutup panduan">✕</button>
+      </div>
+
+      <div class="p-ios-body">
+        <div class="p-ios-sub">
+          Pasang aplikasi <strong>PPD-ICT</strong> terus ke Skrin Utama (Home Screen) untuk akses pantas tanpa pelayar sesawang dan sokongan pengisian borang luar talian.
+        </div>
+
+        <div class="fields">
+          <div class="p-ios-step">
+            <div class="p-ios-step-num">1</div>
+            <div class="p-ios-step-txt">
+              Tekan butang <strong>Kongsi (Share)</strong>
+              <span class="p-ios-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              </span>
+              pada bar pelayar Safari (bawah untuk iPhone, atas untuk iPad).
+            </div>
+          </div>
+
+          <div class="p-ios-step">
+            <div class="p-ios-step-num">2</div>
+            <div class="p-ios-step-txt">
+              Skrol ke bawah pada menu dan pilih <strong>'Tambah ke Skrin Utama'</strong> (<em>Add to Home Screen</em>)
+              <span class="p-ios-badge">➕ Tambah</span>.
+            </div>
+          </div>
+
+          <div class="p-ios-step">
+            <div class="p-ios-step-num">3</div>
+            <div class="p-ios-step-txt">
+              Tekan butang <strong>'Tambah' (Add)</strong> di penjuru kanan atas skrin untuk mengesahkan.
+            </div>
+          </div>
+        </div>
+
+        <div class="p-ios-tip">
+          <span>💡</span>
+          <span><strong>Petua:</strong> Ikon aplikasi PPD-ICT akan dipasang terus pada Skrin Utama anda seperti aplikasi App Store biasa.</span>
+        </div>
+
+        <button id="btnUnderstandIosModal" type="button" class="p-ios-btn">
+          Faham, Saya Faham
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="side no-print">
+      <div class="brand">PPDK<i>.CH</i></div>
+      <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
+      <nav class="nav" aria-label="Utama">
+        <div class="nav-label mono">Ruang kerja</div>
+        <a href="/"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home<span class="k">01</span></a>
+        <a class="on" href="/ptis" aria-current="page"><svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>Borang PTIS<span class="k">02</span></a>
+        <a href="/dashboard"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>Dashboard<span class="k">03</span></a>
+        <a href="/radar"><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Analitik Zon<span class="k">04</span></a>
+        <a href="ahli.html"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg>Ahli JTK<span class="k">05</span></a>
+        <a href="isu.html"><svg viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/></svg>Isu &amp; Tujuan<span class="k">06</span></a>
+        <a href="rekod.html"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>Rekod Lawatan<span class="k">07</span></a>
+        <a href="/map"><svg viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Peta<span class="k">08</span></a>
+        <a href="laporan.html"><svg viewBox="0 0 24 24"><path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4M7 12l3-3 2 2 4-4"/></svg>Laporan Rasmi<span class="k">09</span></a>
+        <a href="qr.html"><svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z"/></svg>QR &amp; Short URL<span class="k">10</span></a>
+      </nav>
+      <div class="side-foot">
+        <div class="sim mono"><span class="dot"></span>Borang PTIS · Luar talian sedia</div>
+        <a href="/admin"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Login Admin</a>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="top no-print">
+        <button class="iconbtn menu-btn" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>
+        <div class="crumb mono"><span class="hide-s">PPD-ICT</span><span class="hide-s">/</span><b>Borang PTIS</b></div>
+        <div class="top-r">
+          <a class="ag-login-link" id="authGateLoginLink" href="#authGateOverlay">Log masuk staf</a>
+          <a class="ag-login-link" id="authGateLogoutLink" href="#" hidden>Log keluar</a>
+          <button class="iconbtn" id="darkModeBtn" type="button" aria-label="Tukar tema" title="Tukar mod paparan"><svg class="i"><use href="#i-moon"/></svg></button>
+          <span class="mono p-muted">Dalam talian</span>
+        </div>
+      </header>
+
+      <section class="mast no-print">
+        <div>
+          <div class="eyebrow mono" id="mEye">Borang PTIS · Lawatan sekolah</div>
+          <h1 id="mH1">Laporan lawatan</h1>
+        </div>
+        <div class="p-meta">
+          <span class="mono">Tarikh dokumen</span>
+          <b id="mDate">Belum ditetapkan</b>
+          <span class="ref" id="mRef">REF-DOKUMEN-BAHARU</span>
+        </div>
+      </section>
+
+      <div class="p-bar no-print">
+        <div class="p-tabs" role="tablist">
+          <button role="tab" id="tabBorang" aria-selected="true" class="active" type="button"><span class="mono">01</span>Borang</button>
+          <button role="tab" id="tabPratonton" aria-selected="false" type="button"><span class="mono">02</span>Pratonton</button>
+        </div>
+        <div class="seg" role="group" aria-label="Jenis dokumen">
+          <button type="button" id="btnModeLawatan" aria-pressed="true" class="active">Lawatan</button>
+          <button type="button" id="btnModeMesyuarat" aria-pressed="false">Mesyuarat</button>
+        </div>
+        <button class="lnk" id="btnNew" type="button">Dokumen baharu</button>
+      </div>
+
+      <div id="mainContent" tabindex="-1"></div>
+
+      <div class="footer-meta no-print">
+        <span>© 2026 Sektor Pengurusan Maklumat &amp; ICT, PPD Contoh</span>
+        <span>PANGKALAN DATA JTK • PEJABAT PENDIDIKAN DAERAH CONTOH</span>
+      </div>
+    </main>
+  </div>
+
+  <div class="p-dock no-print" id="actionDock">
+    <div id="offlineSyncBanner" class="p-sync" hidden>
+      <span class="dot" id="offlineStatusIcon">🟡</span>
+      <span id="offlineStatusText">Mod Luar Talian (Tiada Internet)</span>
+      <button id="btnManualSync" type="button" class="lnk">Segerak Sekarang</button>
+    </div>
+    <div class="in">
+      <div class="p-dstat" id="dStat">
+        <i class="ok"></i>
+        <b id="statusPill">Belum lengkap</b>
+        <span id="dockContext">Medan wajib perlu lengkap untuk pratonton rasmi.</span>
+      </div>
+      <button class="btn btn-ghost" id="btnDockPreview" type="button"><svg class="i"><use href="#i-eye"/></svg>Semak &amp; pratonton</button>
+      <button class="btn btn-mint" id="btnDockSave" type="button"><svg class="i"><use href="#i-save"/></svg><span>Simpan laporan</span></button>
+    </div>
+  </div>
+
+  <div id="historyModal" class="modal-overlay no-print" role="dialog" aria-modal="true" aria-labelledby="historyTitle" hidden></div>
+
+<script>
+/* ============================================================
+ * STATE & SETUP
+ * ============================================================ */
+let report = normalizeInitialReport();
+let reports = [];
+let activeTab = 'borang';
+let showAdvanceHeader = false;
+let isPenglibatanOpen = false;
+let lastFocusedElement = null;
+let formErrors = [];
+let pegawaiSearchQuery = '';
+let schoolsLoading = false;
+let pegawaiLoading = false;
+let schoolsLoadError = '';
+let pegawaiLoadError = '';
+let activeAiRequestId = 0;
+let isAiLoading = false;
+let gambarUploading = [false, false, false, false];
+let gambarProgress = [0, 0, 0, 0];
+let gambarProgressTimers = [null, null, null, null];
+
+// Data master template. Sumber sebenar dijana daripada config/ + data/ melalui npm run configure.
+const TEMPLATE_CONFIG = window.PPD_SYSTEM_CONFIG || {};
+const CANONICAL_SCHOOLS = TEMPLATE_CONFIG.schoolsByZone || {};
+const CANONICAL_OFFICERS = TEMPLATE_CONFIG.officersByZone || {};
+let schoolsData = Object.assign({}, CANONICAL_SCHOOLS);
+let pegawaiData = Object.assign({}, CANONICAL_OFFICERS);
+
+
+// State ZON yang sedang dipilih oleh pengguna di borang
+let selectedZonSekolah = '';
+let selectedZonPegawai = '';
+let lawatanModeSnapshot = null;
+
+function normalizeInitialReport() {
+  return createBlankReport();
+}
+
+function getLocalDateValue(date = new Date()) {
+  const offsetMs = date.getTimezoneOffset() * 60 * 1000;
+  return new Date(date.getTime() - offsetMs).toISOString().slice(0, 10);
+}
+
+function createBlankReport() {
+  const today = getLocalDateValue();
+  const now = new Date().toISOString();
+  return {
+    id: 'report-' + Date.now(),
+    createdAt: now, updatedAt: now, status: 'Draf', title: '',
+    mod: 'lawatan', jenisMesyuarat: 'MESYUARAT', lokasiLain: '', statusKes: 'Selesai',
+    akauntabiliti: '', tugasUtama: '', khidmatBantu: '', noIsd: '', subTajuk1: '', subTajuk2: '',
+    slogan: '', hashtags: '', zonSekolah: '', zonPegawai: '', namaSekolah: '', tempatLain: false, kodSekolah: '', daerah: '',
+    tarikh: today, masaMula: '', masaTamat: '', kategoriLawatan: 'Penyelenggaraan ICT / Teknikal',
+    namaPegawai: '', jawatanPegawai: '', sektorJabatan: '', bilGuruTerlibat: 0, bilMuridTerlibat: 0,
+    penglibatan: '', objektif: '', rumusanAi: '', impakAi: '', tindakSusulAi: '', aktivitiRingkas: '',
+    aiEngine: '', aiWarning: '', aiFallbackUsed: false, aiPaddedCount: 0, perluSemakan: '',
+    ulasanLengkapAi: '', isuKekuatan: '', cadanganPenambahbaikan: '', gambarList: ['', '', '', ''], gambarFileIds: ['', '', '', ''],
+    tandatanganDataUrl: '', tarikhPengesahan: today,
+  };
+}
+
+function refreshIcons() {
+  if (window.lucide) {
+    lucide.createIcons();
+    document.documentElement.classList.add('lucide-ready');
+  }
+}
+
+function normalizeReport(input) {
+  const base = createBlankReport();
+  const normalized = Object.assign(base, input || {});
+
+  normalized.zonSekolah = normalized.zonSekolah || '';
+  normalized.zonPegawai = normalized.zonPegawai || normalized.zonSekolah || '';
+  normalized.mod = String(normalized.mod || normalized.mode || 'lawatan').toLowerCase() === 'mesyuarat' ? 'mesyuarat' : 'lawatan';
+  normalized.jenisMesyuarat = String(normalized.jenisMesyuarat || normalized.jenis_mesyuarat || 'MESYUARAT').toUpperCase();
+  normalized.lokasiLain = normalized.lokasiLain || normalized.lokasi_lain || (normalized.mod === 'mesyuarat' ? normalized.namaSekolah : '') || '';
+  if (normalized.mod === 'mesyuarat' && normalized.lokasiLain) {
+    normalized.namaSekolah = normalized.lokasiLain;
+    normalized.tempatLain = true;
+    normalized.noIsd = '';
+    normalized.statusKes = '';
+  }
+  if (normalized.mod === 'mesyuarat' && normalized.jenisMesyuarat === 'MEB') {
+    normalized.khidmatBantu = getMebAutoTitle();
+    normalized.title = getMebAutoTitle();
+  }
+  normalized.perluSemakan = normalized.perluSemakan || normalized.perlu_semakan || '';
+  if (normalized.perluSemakan === 'AI_FALLBACK' && !normalized.aiWarning) {
+    normalized.aiEngine = normalized.aiEngine || 'smart-edge-fallback';
+    normalized.aiFallbackUsed = true;
+    normalized.aiWarning = 'Laporan ini mengandungi draf sandaran AI yang perlu disemak semula sebelum diterbitkan.';
+  } else if (normalized.perluSemakan === 'AI_UNREVIEWED' && !normalized.aiWarning) {
+    normalized.aiFallbackUsed = false;
+    normalized.aiWarning = 'Laporan ini mengandungi draf AI yang belum menerima pengesahan reviewer. Semakan manual diperlukan sebelum diterbitkan.';
+  }
+  normalized.penglibatan = Array.isArray(normalized.penglibatan)
+    ? normalized.penglibatan.filter(Boolean).join(', ')
+    : String(normalized.penglibatan || '');
+
+  const gambarSrc = (Array.isArray(normalized.gambarList) ? normalized.gambarList : []).slice(0, 10);
+  const gambarSlotCount = Math.min(10, Math.max(4, gambarSrc.length));
+  normalized.gambarList = Array.from({ length: gambarSlotCount }, (_, i) => gambarSrc[i] || '');
+  const gambarFileIdSrc = Array.isArray(normalized.gambarFileIds) ? normalized.gambarFileIds : [];
+  normalized.gambarFileIds = Array.from({ length: gambarSlotCount }, (_, i) => gambarFileIdSrc[i] || '');
+
+  return normalized;
+}
+
+function isMesyuaratMode() {
+  return String(report.mod || 'lawatan').toLowerCase() === 'mesyuarat';
+}
+
+function getMebAutoTitle() {
+  return 'MEB SEKTOR ICT PPD CONTOH';
+}
+
+function clearMebAutoTitleIfPresent() {
+  const mebTitle = getMebAutoTitle();
+  if (report.khidmatBantu === mebTitle) report.khidmatBantu = '';
+  if (report.title === mebTitle) report.title = '';
+}
+
+function syncUiStateFromReport() {
+  selectedZonSekolah = report.zonSekolah || '';
+  selectedZonPegawai = report.zonPegawai || selectedZonSekolah || '';
+  gambarUploading = [false, false, false, false];
+  gambarProgress = [0, 0, 0, 0];
+  gambarProgressTimers.forEach((t) => { if (t) clearInterval(t); });
+  gambarProgressTimers = [null, null, null, null];
+}
+
+function getPenglibatanList() {
+  return String(report.penglibatan || '')
+    .split(',')
+    .map((nama) => nama.trim())
+    .filter(Boolean);
+}
+
+function setPenglibatanList(list) {
+  report.penglibatan = Array.from(new Set((list || []).map((nama) => String(nama).trim()).filter(Boolean))).join(', ');
+}
+
+function cloneData(value) {
+  if (typeof structuredClone === 'function') return structuredClone(value);
+  return JSON.parse(JSON.stringify(value));
+}
+
+/* ============================================================
+ * CONFIRM MODAL — amaran generik sebelum tindakan penting
+ * ============================================================ */
+function showConfirmModal(opts) {
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay no-print';
+  overlay.innerHTML =
+    '<div class="modal-box" tabindex="-1">' +
+      '<div class="modal-head"><h3><i data-lucide="alert-triangle"></i> ' + esc(opts.title || 'Sahkan Tindakan') + '</h3></div>' +
+      '<div class="modal-box-body">' +
+        '<p class="modal-box-p">' + esc(opts.message || '') + '</p>' +
+        '<div class="modal-box-actions">' +
+          '<button class="btn btn-secondary" id="btnConfirmModalCancel" type="button">' + esc(opts.cancelLabel || 'Batal') + '</button>' +
+          '<button class="btn btn-success" id="btnConfirmModalProceed" type="button">' + esc(opts.confirmLabel || 'Sahkan') + '</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+  refreshIcons();
+
+  const close = () => overlay.remove();
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', function escHandler(e) {
+    if (e.key === 'Escape') { close(); document.removeEventListener('keydown', escHandler); }
+  });
+  overlay.querySelector('#btnConfirmModalCancel').addEventListener('click', close);
+  overlay.querySelector('#btnConfirmModalProceed').addEventListener('click', () => {
+    close();
+    if (typeof opts.onConfirm === 'function') opts.onConfirm();
+  });
+  requestAnimationFrame(() => overlay.querySelector('#btnConfirmModalProceed')?.focus());
+}
+
+/* ============================================================
+ * BUKTI LAWATAN / GAMBAR (upload ke Drive melalui code.gs)
+ * ============================================================ */
+function resizeImageForUpload(file, maxDim, quality) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Gagal membaca fail.'));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Gagal memuatkan imej.'));
+      img.onload = () => {
+        let width = img.width, height = img.height;
+        if (width > maxDim || height > maxDim) {
+          const scale = maxDim / Math.max(width, height);
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve({ base64: dataUrl.split(',')[1], mimeType: 'image/jpeg' });
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+
+async function uploadGambarAt(file, idx) {
+  while (report.gambarList.length <= idx) {
+    report.gambarList.push('');
+    report.gambarFileIds.push('');
+  }
+  while (gambarUploading.length <= idx) {
+    gambarUploading.push(false);
+    gambarProgress.push(0);
+    gambarProgressTimers.push(null);
+  }
+  let localUrl = '';
+  try {
+    localUrl = URL.createObjectURL(file);
+    report.gambarList[idx] = localUrl;
+  } catch (e) {}
+  gambarUploading[idx] = true;
+  renderMain();
+
+  let base64, mimeType, dataUri;
+  try {
+    const resized = await resizeImageForUpload(file, 1280, 0.78);
+    base64 = resized.base64;
+    mimeType = resized.mimeType;
+    dataUri = 'data:' + mimeType + ';base64,' + base64;
+    report.gambarList[idx] = dataUri;
+  } catch (err) {
+    if (localUrl) {
+      try { URL.revokeObjectURL(localUrl); } catch (_) {}
+    }
+    report.gambarList.splice(idx, 1);
+    report.gambarFileIds.splice(idx, 1);
+    while (report.gambarList.length < 4) {
+      report.gambarList.push('');
+      report.gambarFileIds.push('');
+    }
+    gambarUploading.splice(idx, 1);
+    while (gambarUploading.length < 4) {
+      gambarUploading.push(false);
+    }
+    if (Array.isArray(gambarProgress)) {
+      gambarProgress.splice(idx, 1);
+      while (gambarProgress.length < 4) gambarProgress.push(0);
+    }
+    if (Array.isArray(gambarProgressTimers)) {
+      const oldTimer = gambarProgressTimers.splice(idx, 1)[0];
+      if (oldTimer) clearInterval(oldTimer);
+      while (gambarProgressTimers.length < 4) gambarProgressTimers.push(null);
+    }
+    showToast((err && err.message) || 'Gagal memproses imej.', 'error');
+    renderMain();
+    return { success: false, error: err };
+  }
+
+  try {
+    const res = await new Promise((resolve) => {
+      if (typeof google !== 'undefined' && google.script?.run) {
+        google.script.run
+          .withSuccessHandler((r) => resolve({ ok: true, data: r }))
+          .withFailureHandler((e) => resolve({ ok: false, error: e }))
+          .uploadGambar(base64, mimeType, file.name);
+      } else {
+        resolve({ ok: true, data: { success: true, url: dataUri } });
+      }
+    });
+    gambarUploading[idx] = false;
+    if (res.ok && res.data && res.data.success && res.data.url) {
+      report.gambarList[idx] = res.data.url;
+      report.gambarFileIds[idx] = res.data.fileId || '';
+      showToast('Gambar berjaya dimuat naik.', 'success');
+    } else {
+      report.gambarList[idx] = dataUri;
+      showToast('Gambar sedia dilampirkan.', 'success');
+    }
+    renderMain();
+    return { success: true };
+  } catch (err) {
+    gambarUploading[idx] = false;
+    report.gambarList[idx] = dataUri;
+    showToast('Gambar sedia dilampirkan.', 'success');
+    renderMain();
+    return { success: true };
+  }
+}
+
+async function handleGambarFiles(files) {
+  const fs = [...files].filter(f => f.type ? f.type.startsWith('image') : true);
+  const currentCount = countAttachedGambar();
+  const room = 10 - currentCount;
+  if (fs.length > room) {
+    const dropped = fs.length - room;
+    showToast('Maksimum 10 — ' + dropped + ' gambar tidak ditambah', 'error');
+  }
+  const take = fs.slice(0, Math.max(0, room));
+  for (let i = 0; i < take.length; i++) {
+    const targetIdx = countAttachedGambar();
+    await uploadGambarAt(take[i], targetIdx);
+  }
+}
+
+function handleGambarSelect(event, idx) {
+  const file = event.target.files && event.target.files[0];
+  event.target.value = '';
+  if (!file) return;
+  if (!file.type.startsWith('image')) { showToast('Sila pilih fail imej sahaja.', 'error'); return; }
+  uploadGambarAt(file, idx);
+}
+
+function handleGambarRemoveSlot(idx) {
+  handleGambarRemove(idx);
+}
+
+function handleGambarRemove(idx) {
+  const fileId = report.gambarFileIds && report.gambarFileIds[idx];
+  report.gambarList.splice(idx, 1);
+  report.gambarFileIds.splice(idx, 1);
+  while (report.gambarList.length < 4) {
+    report.gambarList.push('');
+    report.gambarFileIds.push('');
+  }
+  renderMain();
+  if (fileId && typeof google !== 'undefined' && google.script?.run) {
+    google.script.run.withFailureHandler(() => {}).deleteGambar(fileId);
+  }
+}
+
+function setAiLoading(isLoading) {
+  isAiLoading = isLoading;
+  const btn = document.getElementById('btnGenerateAi');
+  const outputIds = ['f_rumusanAi', 'f_impakAi', 'f_tindakSusulAi'];
+
+  if (btn) {
+    btn.disabled = isLoading;
+    btn.innerHTML = isLoading
+      ? '<i data-lucide="loader" class="spin"></i> Menjana draf · ±50 saat'
+      : 'Jana Draf AI';
+  }
+
+  const status = document.getElementById('aiGenerationStatus');
+  if (status) {
+    if (isLoading) {
+      status.hidden = false;
+      status.classList.add('ai-status-loading');
+      status.innerHTML = '<strong><i data-lucide="loader" class="spin"></i> Sedang menjana draf AI</strong>' +
+        '<span>Anggaran masa sekitar 50 saat. Penjana utama, hedge dan semakan reviewer akan berjalan mengikut keperluan.</span>' +
+        '<small>Sila kekalkan halaman ini terbuka sehingga proses selesai.</small>';
+    } else {
+      status.classList.remove('ai-status-loading');
+      status.hidden = true;
+      status.innerHTML = '';
+    }
+  }
+
+  outputIds.forEach((id) => {
+    const element = document.getElementById(id);
+    if (!element) return;
+    element.classList.toggle('ai-loading', isLoading);
+    element.readOnly = isLoading;
+    element.setAttribute('aria-busy', String(isLoading));
+  });
+
+  updateStatusLine();
+  refreshIcons();
+}
+
+function updateHeaderHeight() {
+  const header = document.querySelector('header.app-header');
+  if (!header) return;
+  document.documentElement.style.setProperty('--header-height', header.offsetHeight + 'px');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('btnNew')?.addEventListener('click', handleNewReport);
+  document.getElementById('tabBorang')?.addEventListener('click', () => switchTab('borang'));
+  document.getElementById('tabPratonton')?.addEventListener('click', goToPreview);
+  document.getElementById('btnDockPreview')?.addEventListener('click', goToPreview);
+  document.getElementById('btnDockNew')?.addEventListener('click', handleNewReport);
+  document.getElementById('btnDockSave')?.addEventListener('click', handleSaveReport);
+
+  // PWA Install Prompt & Offline Auto-Sync Handlers
+  let deferredInstallPrompt = null;
+
+  document.getElementById('btnManualSync')?.addEventListener('click', () => {
+    syncOfflineQueue();
+  });
+
+  updateOfflineBannerUi();
+  syncOfflineQueue();
+
+  window.addEventListener('resize', updateHeaderHeight, { passive: true });
+  requestAnimationFrame(updateHeaderHeight);
+
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    if (!window.matchMedia('(max-width: 640px)').matches) return;
+    const header = document.querySelector('header.app-header');
+    if (!header) return;
+    if (window.scrollY > 140 && window.scrollY > lastScrollY + 8) header.classList.add('hide');
+    else if (window.scrollY < lastScrollY - 8) header.classList.remove('hide');
+    lastScrollY = window.scrollY;
+  }, { passive: true });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      if (isPenglibatanOpen) { isPenglibatanOpen = false; renderMain(); return; }
+      const modal = document.getElementById('historyModal');
+      if (modal && !modal.hidden) closeHistoryModal();
+      const iosMod = document.getElementById('iosInstallModal');
+      if (iosMod && !iosMod.hidden) closeIosInstallModal();
+    }
+  });
+
+  if (window.google && window.google.script && window.google.script.run) {
+    google.script.run
+      .withSuccessHandler((data) => {
+        if (data && typeof data === 'object' && !data.error && (data['ZON 1'] || Array.isArray(data))) {
+          schoolsLoading = false;
+          schoolsLoadError = '';
+          schoolsData = Array.isArray(data) ? { "SEMUA": data } : Object.assign({}, CANONICAL_SCHOOLS, data);
+          if (activeTab === 'borang') renderMain();
+        }
+      })
+      .withFailureHandler((err) => {
+        console.warn('Gagal memuatkan senarai sekolah dinamik, guna data piawai:', err);
+      })
+      .getSchoolList();
+
+    google.script.run
+      .withSuccessHandler((data) => {
+        if (data && typeof data === 'object' && !data.error && (data['ZON 1'] || Array.isArray(data))) {
+          pegawaiLoading = false;
+          pegawaiLoadError = '';
+          pegawaiData = Array.isArray(data) ? { "SEMUA": data } : Object.assign({}, CANONICAL_OFFICERS, data);
+          if (activeTab === 'borang') renderMain();
+        }
+      })
+      .withFailureHandler((err) => {
+        console.warn('Gagal memuatkan senarai pegawai dinamik, guna data piawai:', err);
+      })
+      .getPegawaiList();
+  }
+
+  refreshReportsFromSheet();
+  renderMain();
+  refreshIcons();
+});
+
+function refreshReportsFromSheet() {
+  reports = [];
+  if (!document.getElementById('historyModal').hidden) renderHistoryModal();
+}
+
+function errMsg(err) { return (err && err.message) ? err.message : String(err); }
+
+
+let toastTimer;
+function showToast(message, type, subtext) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  const safeType = type === 'error' ? 'error' : 'success';
+
+  let title = message;
+  let desc = subtext || '';
+  if (!subtext) {
+    if (safeType === 'success' && String(message).toLowerCase().includes('disimpan')) {
+      title = 'Laporan Berjaya Disimpan!';
+      desc = String(message);
+    }
+  }
+
+  const iconHtml = safeType === 'error'
+    ? '<i data-lucide="alert-triangle"></i>'
+    : '<i data-lucide="check"></i>';
+
+  el.innerHTML =
+    '<div class="toast-icon">' + iconHtml + '</div>' +
+    '<div class="toast-content">' +
+      '<div class="toast-title">' + esc(title) + '</div>' +
+      (desc ? '<div class="toast-desc">' + esc(desc) + '</div>' : '') +
+    '</div>' +
+    '<button type="button" class="toast-close" aria-label="Tutup"><i data-lucide="x"></i></button>';
+
+  el.hidden = false;
+  el.className = safeType;
+  el.setAttribute('role', safeType === 'error' ? 'alert' : 'status');
+  el.setAttribute('aria-live', safeType === 'error' ? 'assertive' : 'polite');
+
+  const closeBtn = el.querySelector('.toast-close');
+  if (closeBtn) closeBtn.addEventListener('click', () => { el.hidden = true; el.className = ''; });
+
+  refreshIcons();
+  clearTimeout(toastTimer);
+  const duration = (safeType === 'success' && String(title).toLowerCase().includes('disimpan')) ? 7000 : 4500;
+  toastTimer = setTimeout(() => { el.hidden = true; el.className = ''; }, duration);
+}
+
+function hasMeaningfulReportData() {
+  return Boolean(report.namaSekolah || report.objektif || report.rumusanAi || report.impakAi || report.tindakSusulAi || getPenglibatanList().length);
+}
+
+function validateForPreview() {
+  const errors = [];
+  if (!isMesyuaratMode() && !report.zonSekolah) errors.push({ id: 'f_zonSekolah', message: 'Sila pilih zon pemusatan.' });
+  if (!report.namaSekolah) errors.push({ id: isMesyuaratMode() ? 'f_tempatMesyuarat' : (report.tempatLain ? 'f_tempatLain' : 'f_namaSekolah'), message: isMesyuaratMode() ? 'Sila masukkan tempat mesyuarat/taklimat.' : 'Sila pilih atau masukkan tempat lawatan.' });
+  if (!report.tarikh) errors.push({ id: 'f_tarikh', message: isMesyuaratMode() ? 'Sila masukkan tarikh mesyuarat/taklimat.' : 'Sila masukkan tarikh lawatan.' });
+  if (!String(report.objektif || '').trim()) errors.push({ id: 'f_objektif', message: isMesyuaratMode() ? 'Sila masukkan objektif mesyuarat/taklimat.' : 'Sila masukkan objektif lawatan.' });
+  const start = parseMalayTo24h(report.masaMula);
+  const end = parseMalayTo24h(report.masaTamat);
+  if (start && end && end <= start) errors.push({ id: 'f_masaTamat', message: 'Masa tamat mestilah selepas masa mula.' });
+  if (isMesyuaratMode()) {
+    const objectiveCount = splitListItems(report.objektif).length;
+    [['f_impakAi', 'Impak', report.impakAi], ['f_tindakSusulAi', 'Tindak susul', report.tindakSusulAi]].forEach(([id, label, value]) => {
+      const count = splitListItems(value).length;
+      if (objectiveCount && count && count !== objectiveCount) {
+        errors.push({ id, message: label + ' mesti ' + objectiveCount + ' poin (sama bilangan objektif), kini ' + count + '.' });
+      }
+    });
+  }
+  return errors;
+}
+
+function clearValidationState() {
+  document.querySelectorAll('.invalid-field').forEach((el) => {
+    el.classList.remove('invalid-field');
+    el.removeAttribute('aria-invalid');
+    el.removeAttribute('aria-describedby');
+  });
+  document.querySelectorAll('.field-error').forEach((el) => el.remove());
+}
+
+function showValidationErrors(errors) {
+  formErrors = errors;
+  clearValidationState();
+  errors.forEach((error) => {
+    const el = document.getElementById(error.id);
+    if (!el) return;
+    el.classList.add('invalid-field');
+    el.setAttribute('aria-invalid', 'true');
+    const msg = document.createElement('div');
+    msg.className = 'field-error';
+    msg.textContent = error.message;
+    msg.id = error.id + '_error';
+    el.setAttribute('aria-describedby', msg.id);
+    const target = el.closest('.ctl') || el;
+    target.insertAdjacentElement('afterend', msg);
+  });
+  const first = errors[0] && document.getElementById(errors[0].id);
+  if (first) { first.focus(); first.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  showToast(errors[0]?.message || 'Sila lengkapkan medan wajib.', 'error');
+}
+
+function clearFieldError(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('invalid-field');
+  el.removeAttribute('aria-invalid');
+  el.removeAttribute('aria-describedby');
+  document.getElementById(id + '_error')?.remove();
+  formErrors = formErrors.filter((error) => error.id !== id);
+  const alert = document.querySelector('.form-alert');
+  if (alert && formErrors.length === 0) alert.remove();
+}
+
+function goToPreview() {
+  const errors = validateForPreview();
+  if (errors.length) {
+    if (activeTab !== 'borang') switchTab('borang');
+    requestAnimationFrame(() => showValidationErrors(errors));
+    return;
+  }
+  formErrors = [];
+  switchTab('pratonton');
+  requestAnimationFrame(() => document.getElementById('mainContent')?.focus());
+}
+
+function handleNewReport() {
+  if (hasMeaningfulReportData() && !window.confirm('Maklumat yang telah diisi akan dipadam. Mulakan laporan baharu?')) return;
+  activeAiRequestId++; // Abaikan sebarang respons AI daripada laporan sebelumnya.
+  report = createBlankReport();
+  lawatanModeSnapshot = null;
+  syncUiStateFromReport();
+  formErrors = [];
+  pegawaiSearchQuery = '';
+  switchTab('borang');
+  showToast('Borang laporan baharu disediakan.', 'success');
+}
+
+function countAttachedGambar() {
+  return (Array.isArray(report.gambarList) ? report.gambarList : []).filter(Boolean).length;
+}
+
+function handleSaveReport() {
+  if (!report.namaSekolah || !report.tarikh) {
+    showToast(isMesyuaratMode() ? 'Sila lengkapkan sekurang-kurangnya tempat dan tarikh mesyuarat/taklimat sebelum simpan.' : 'Sila lengkapkan sekurang-kurangnya tempat dan tarikh lawatan sebelum simpan.', 'error');
+    return;
+  }
+  const gambarCount = countAttachedGambar();
+  if (gambarCount < 4) {
+    showToast('Sila lampirkan sekurang-kurangnya 4 keping gambar sebagai eviden (maksimum 10). Baki: ' + (4 - gambarCount) + ' lagi.', 'error');
+    document.getElementById('gambarSection')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const meetingMode = isMesyuaratMode();
+  showConfirmModal({
+    title: 'Sahkan Sebelum Simpan',
+    message: meetingMode
+      ? 'Pastikan semua maklumat (objektif, rumusan, impak, tindak susul dan gambar bukti) dalam hebahan ini telah disemak dan betul. Hebahan ini TIDAK disimpan sebagai rekod/dashboard JTK — ia dihantar terus sebagai draf ke Facebook Studio untuk semakan admin sebelum disiarkan.'
+      : 'Pastikan semua maklumat (objektif, rumusan, impak, tindak susul dan gambar bukti) dalam laporan ini telah disemak dan betul. Laporan ini akan turut DIMASUKKAN TERUS ke dalam pangkalan data rasmi JTK PPD Contoh (Dashboard AppSheet sedia ada), dan satu salinan PDF laporan akan dijana serta dipautkan pada rekod tersebut. Tindakan ini tidak boleh diundur secara automatik.',
+    confirmLabel: 'Ya, Simpan Laporan',
+    cancelLabel: 'Semak Semula',
+    onConfirm: performSaveReport
+  });
+}
+
+function performSaveReport() {
+  const meetingMode = isMesyuaratMode();
+  report.reportType = meetingMode ? 'meeting_meb' : 'school_visit';
+  report.report_type = report.reportType;
+  if (meetingMode) {
+    const jenis = String(report.jenisMesyuarat || 'MESYUARAT').toUpperCase();
+    report.meetingSubtype = jenis === 'MESYUARAT' ? 'mesyuarat' : (jenis === 'TAKLIMAT' ? 'taklimat' : 'meb');
+    report.meeting_subtype = report.meetingSubtype;
+  }
+  const btn = document.getElementById('btnDockSave');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i data-lucide="loader-2" class="spin"></i> Menyimpan…';
+    refreshIcons();
+  }
+  showToast('Sedang menyimpan laporan...', 'success', 'Sila tunggu sebentar sementara rekod dihantar ke pangkalan data rasmi.');
+  google.script.run
+    .withSuccessHandler((res) => {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="check"></i> Disimpan ✓';
+        refreshIcons();
+        setTimeout(() => {
+          btn.innerHTML = '<i data-lucide="save"></i> <span>Simpan Laporan</span>';
+          refreshIcons();
+        }, 4000);
+      }
+      if (res && res.report) {
+        report = normalizeReport(res.report);
+        lawatanModeSnapshot = null;
+      }
+      updateStatusLine();
+
+      if (res && res.status === 'offline_saved') {
+        const statusPill = document.getElementById('statusPill');
+        if (statusPill) {
+          statusPill.textContent = 'DISIMPAN DI PERANTI (LUAR TALIAN) 📱';
+          statusPill.style.color = 'var(--warn)';
+        }
+        showToast(
+          'Laporan Disimpan di Peranti (Mod Luar Talian)',
+          'success',
+          'Laporan disimpan secara selamat dalam telefon/peranti anda dan akan dihantar ke pangkalan data rasmi secara automatik sebaik sahaja talian pulih.'
+        );
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      const sekolahInfo = report.namaSekolah
+        ? report.namaSekolah + (report.tarikh ? ' (' + formatTarikhBercetak(report.tarikh) + ')' : '')
+        : (isMesyuaratMode() ? 'Ringkasan mesyuarat/taklimat' : 'Laporan lawatan');
+
+      showToast(
+        isMesyuaratMode() ? 'Hebahan Berjaya Dihantar!' : 'Laporan Berjaya Disimpan!',
+        'success',
+        (res && res.message) || (isMesyuaratMode()
+          ? 'Hebahan ' + sekolahInfo + ' telah dihantar ke Facebook Studio sebagai draf untuk semakan admin.'
+          : 'Rekod ' + sekolahInfo + ' telah berjaya dihantar ke pangkalan data rasmi.')
+      );
+
+      const statusPill = document.getElementById('statusPill');
+      if (statusPill) {
+        statusPill.textContent = 'BERJAYA DIHANTAR ✓';
+        statusPill.style.color = 'var(--good)';
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Trigger penjanaan fail PDF rasmi di latar belakang secara senyap tanpa menyekat pengguna
+      if (res && res.report && res.legacyRowIndex > 0) {
+        google.script.run
+          .withSuccessHandler((pdfRes) => {
+            console.log('Background PDF siap:', pdfRes);
+          })
+          .withFailureHandler((pdfErr) => {
+            console.warn('Background PDF ralat:', pdfErr);
+          })
+          .generatePdfForReportBackground(res.report.id, res.legacyRowIndex);
+      }
+    })
+    .withFailureHandler((err) => {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="save"></i> <span>Simpan Laporan</span>';
+        refreshIcons();
+      }
+      showToast('Gagal Menyimpan Laporan', 'error', errMsg(err));
+    })
+    .saveReport(cloneData(report));
+}
+
+function handlePrint() {
+  goToPreview();
+}
+function switchTab(tab) {
+  activeTab = tab;
+  const formTab = document.getElementById('tabBorang');
+  const previewTab = document.getElementById('tabPratonton');
+  formTab.classList.toggle('active', tab === 'borang');
+  previewTab.classList.toggle('active', tab === 'pratonton');
+  formTab.setAttribute('aria-selected', String(tab === 'borang'));
+  previewTab.setAttribute('aria-selected', String(tab === 'pratonton'));
+  renderMain();
+}
+function getCurrentStatus() {
+  if (isAiLoading) return 'AI Sedang Menjana';
+  return validateForPreview().length ? 'Belum Lengkap' : 'Sedia Dipratonton';
+}
+function updateReadiness() {
+  const meetingMode = isMesyuaratMode();
+  const titleVal = (report.khidmatBantu || report.title || '').trim();
+  const zoneVal = (report.zonSekolah || '').trim();
+  const schoolVal = (report.namaSekolah || report.lokasiLain || '').trim();
+  const officerVal = getPenglibatanList().length > 0 ? '1' : '';
+  const dateVal = (report.tarikh || '').trim();
+
+  const f1 = [
+    titleVal,
+    (meetingMode ? (report.jenisMesyuarat || zoneVal) : zoneVal),
+    schoolVal,
+    officerVal,
+    dateVal
+  ].filter(Boolean).length;
+
+  const f2 = [
+    String(report.objektif || '').trim(),
+    String(report.rumusanAi || '').trim(),
+    String(report.impakAi || '').trim(),
+    String(report.tindakSusulAi || '').trim()
+  ].filter(Boolean).length;
+
+  const attached = countAttachedGambar();
+  const ph = Math.min(4, attached);
+
+  const r1El = document.getElementById('r1');
+  if (r1El) r1El.innerHTML = f1 + '<small>/5</small>';
+  const r2El = document.getElementById('r2');
+  if (r2El) r2El.innerHTML = f2 + '<small>/4</small>';
+  const r3El = document.getElementById('r3');
+  if (r3El) r3El.innerHTML = ph + '<small>/4</small>';
+
+  const readyEl = document.getElementById('ready');
+  if (readyEl) {
+    const btns = readyEl.querySelectorAll('button');
+    if (btns.length >= 3) {
+      btns[0].classList.toggle('done', f1 === 5);
+      btns[1].classList.toggle('done', f2 === 4);
+      btns[2].classList.toggle('done', ph === 4);
+    }
+  }
+
+  const tgtVEl = document.getElementById('tgtV');
+  if (tgtVEl) {
+    tgtVEl.innerHTML = schoolVal ? esc(schoolVal) : '<span class="none">Belum dipilih</span>';
+  }
+  const tgtZEl = document.getElementById('tgtZ');
+  if (tgtZEl) {
+    const z = report.zonSekolah;
+    if (z) {
+      const zColor = z === 'ZON PPD' ? 'var(--ink)' : 'var(--z' + z.slice(-1) + ')';
+      tgtZEl.innerHTML = '<span class="zb" style="--c:' + zColor + '">' + esc(z === 'ZON PPD' ? 'PPD' : z) + '</span>';
+    } else {
+      tgtZEl.innerHTML = '';
+    }
+  }
+
+  const errors = validateForPreview();
+  const isDone = errors.length === 0 && attached >= 4 && !isAiLoading;
+  const dStatEl = document.getElementById('dStat');
+  if (dStatEl) dStatEl.classList.toggle('done', isDone);
+  const statusPillEl = document.getElementById('statusPill');
+  if (statusPillEl) {
+    statusPillEl.textContent = isDone ? 'Lengkap' : 'Belum lengkap';
+  }
+  const dockContextEl = document.getElementById('dockContext');
+  if (dockContextEl) {
+    if (isDone) {
+      dockContextEl.textContent = 'Sedia untuk pratonton & simpan';
+    } else {
+      const missF = (5 - f1) + (4 - f2);
+      const missP = Math.max(0, 4 - attached);
+      const parts = [];
+      if (missF > 0) parts.push(missF + ' medan');
+      if (missP > 0) parts.push(missP + ' gambar lagi');
+      dockContextEl.textContent = parts.length ? parts.join(' · ') : 'Medan wajib perlu lengkap untuk pratonton rasmi.';
+    }
+  }
+}
+
+function updateStatusLine() {
+  const schoolText = report.namaSekolah
+    ? report.namaSekolah + (report.zonSekolah ? ' • ' + (report.zonSekolah === 'ZON PPD' ? 'PPD' : report.zonSekolah) : '')
+    : (isMesyuaratMode() ? 'Tempat Belum Dinamakan' : 'Sekolah Belum Dinamakan');
+  const statusSchoolEl = document.getElementById('statusSchool');
+  if (statusSchoolEl) statusSchoolEl.textContent = schoolText;
+  const docStampSchoolEl = document.getElementById('docStampSchool');
+  if (docStampSchoolEl) {
+    docStampSchoolEl.textContent = report.namaSekolah || (isMesyuaratMode() ? 'Tempat belum dinamakan' : 'Sekolah belum dipilih');
+  }
+
+  const mEye = document.getElementById('mEye');
+  if (mEye) mEye.textContent = isMesyuaratMode() ? 'Borang PTIS · Mesyuarat & taklimat' : 'Borang PTIS · Lawatan sekolah';
+  const mH1 = document.getElementById('mH1');
+  if (mH1) mH1.textContent = isMesyuaratMode() ? 'Ringkasan mesyuarat' : 'Laporan lawatan';
+  const mDate = document.getElementById('mDate');
+  if (mDate) mDate.textContent = report.tarikh ? formatTarikhBercetak(report.tarikh) : 'Belum ditetapkan';
+  const mRef = document.getElementById('mRef');
+  if (mRef) mRef.textContent = report.id ? report.id.replace('report-', 'REF-') : 'REF-DOKUMEN-BAHARU';
+
+  const btnModeLawatan = document.getElementById('btnModeLawatan');
+  const btnModeMesyuarat = document.getElementById('btnModeMesyuarat');
+  if (btnModeLawatan) {
+    btnModeLawatan.classList.toggle('active', !isMesyuaratMode());
+    btnModeLawatan.setAttribute('aria-pressed', String(!isMesyuaratMode()));
+  }
+  if (btnModeMesyuarat) {
+    btnModeMesyuarat.classList.toggle('active', isMesyuaratMode());
+    btnModeMesyuarat.setAttribute('aria-pressed', String(isMesyuaratMode()));
+  }
+
+  const tabBorang = document.getElementById('tabBorang');
+  const tabPratonton = document.getElementById('tabPratonton');
+  if (tabBorang) {
+    tabBorang.classList.toggle('active', activeTab === 'borang');
+    tabBorang.setAttribute('aria-selected', String(activeTab === 'borang'));
+  }
+  if (tabPratonton) {
+    tabPratonton.classList.toggle('active', activeTab === 'pratonton');
+    tabPratonton.setAttribute('aria-selected', String(activeTab === 'pratonton'));
+  }
+
+  const btnDockPreview = document.getElementById('btnDockPreview');
+  if (btnDockPreview) {
+    btnDockPreview.hidden = (activeTab === 'pratonton');
+  }
+
+  updateReadiness();
+}
+
+function renderMain() {
+  updateStatusLine();
+  const main = document.getElementById('mainContent');
+  if (activeTab === 'borang') { main.innerHTML = buildFormHtml(); bindFormEvents(); }
+  else { main.innerHTML = buildPreviewHtml(); bindPreviewEvents(); }
+  refreshIcons();
+  requestAnimationFrame(updateHeaderHeight);
+}
+
+function parseMalayTo24h(malayTime) {
+  if (!malayTime) return ''; if (/^\d{2}:\d{2}$/.test(malayTime)) return malayTime;
+  const lower = malayTime.toLowerCase().trim(); const match = lower.match(/^(\d{1,2})[.:](\d{2})/);
+  if (!match) return ''; let h = parseInt(match[1], 10); const m = match[2];
+  if (lower.indexOf('tengah malam') > -1) {
+    if (h === 12) h = 0;
+  } else if (lower.indexOf('petang') > -1 || lower.indexOf('malam') > -1 || lower.indexOf('tengah hari') > -1) {
+    if (h < 12) h += 12;
+  } else if (lower.indexOf('pagi') > -1 && h === 12) {
+    h = 0;
+  }
+  return (h < 10 ? '0' + h : '' + h) + ':' + m;
+}
+
+function formatTime24toMalay(time24) {
+  if (!time24) return '';
+  const parts = time24.split(':');
+  if (parts.length !== 2) return time24;
+  const h = parseInt(parts[0], 10);
+  const m = parts[1];
+  if (isNaN(h)) return time24;
+  if (h === 0) return '12.' + m + ' tengah malam';
+  if (h < 12) return h + '.' + m + ' pagi';
+  if (h === 12) return '12.' + m + ' tengah hari';
+  if (h < 19) return (h - 12) + '.' + m + ' petang';
+  return (h - 12) + '.' + m + ' malam';
+}
+
+function esc(str) { return String(str == null ? '' : str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+
+/* ============================================================
+ * FORM (BORANG) VIEW
+ * ============================================================ */
+function buildFormHtml() {
+  const penglibatanList = getPenglibatanList();
+  const count = penglibatanList.length;
+  const meetingMode = isMesyuaratMode();
+  const mebMode = meetingMode && report.jenisMesyuarat === 'MEB';
+
+  const zonOrder = ["ZON PPD", "ZON 1", "ZON 2", "ZON 3", "ZON 4", "ZON 5", "ZON 6", "ZON 7", "ZON 8", "SEMUA"];
+
+  const zonSekolahOptions = zonOrder
+    .filter(z => schoolsData[z])
+    .map(z => `<option value="${esc(z)}" ${selectedZonSekolah === z ? 'selected' : ''}>${esc(z === 'ZON PPD' ? 'PPD' : (z === 'SEMUA' ? 'Semua' : z))}</option>`)
+    .join('');
+
+  const zonDefaultOption = schoolsLoading
+    ? '<option value="">Memuatkan senarai zon...</option>'
+    : schoolsLoadError
+      ? '<option value="">Gagal memuatkan senarai zon</option>'
+      : '<option value="">Pilih zon</option>';
+
+  let schoolOptions = '';
+  if (selectedZonSekolah && schoolsData[selectedZonSekolah]) {
+    schoolOptions = schoolsData[selectedZonSekolah]
+      .map(s => `<option value="${esc(s)}" ${!report.tempatLain && report.namaSekolah === s ? 'selected' : ''}>${esc(s)}</option>`)
+      .join('');
+  }
+
+  const tempatLainOption = `<option value="__TEMPAT_LAIN__" ${report.tempatLain ? 'selected' : ''}>Tempat lain (taip sendiri)</option>`;
+
+  const schoolsStateHtml = schoolsLoadError
+    ? '<div class="msg error"><i data-lucide="alert-circle"></i> Senarai sekolah gagal dimuatkan.</div>'
+    : '';
+
+  const pegawaiStateHtml = pegawaiLoadError
+    ? '<div class="msg error"><i data-lucide="alert-circle"></i> Senarai pegawai gagal dimuatkan.</div>'
+    : '';
+
+  const titleVal = (report.khidmatBantu || report.title || '').trim();
+  const zoneVal = (report.zonSekolah || '').trim();
+  const schoolVal = (report.namaSekolah || report.lokasiLain || '').trim();
+  const officerVal = count > 0 ? '1' : '';
+  const dateVal = (report.tarikh || '').trim();
+
+  const f1Count = [
+    titleVal,
+    (meetingMode ? (report.jenisMesyuarat || zoneVal) : zoneVal),
+    schoolVal,
+    officerVal,
+    dateVal
+  ].filter(Boolean).length;
+
+  const f2Count = [
+    String(report.objektif || '').trim(),
+    String(report.rumusanAi || '').trim(),
+    String(report.impakAi || '').trim(),
+    String(report.tindakSusulAi || '').trim()
+  ].filter(Boolean).length;
+
+  const attachedCount = countAttachedGambar();
+  const phCount = Math.min(4, attachedCount);
+
+  const zBadgeColor = report.zonSekolah
+    ? (report.zonSekolah === 'ZON PPD' ? 'var(--ink)' : 'var(--z' + report.zonSekolah.slice(-1) + ')')
+    : '';
+
+  const errorAlert = formErrors.length
+    ? `<div class="msg error" role="alert">Sila lengkapkan ${formErrors.length} medan yang ditandakan sebelum meneruskan.</div>`
+    : '';
+
+  return errorAlert + `
+    <div class="p-form" id="form">
+      <div class="p-ready" id="ready">
+        <button type="button" data-go="#s1" class="${f1Count === 5 ? 'done' : ''}">
+          <span class="mono"><i class="ok"></i>01 Maklumat</span>
+          <div class="v" id="r1">${f1Count}<small>/5</small></div>
+          <p>medan wajib</p>
+        </button>
+        <button type="button" data-go="#s2" class="${f2Count === 4 ? 'done' : ''}">
+          <span class="mono"><i class="ok"></i>02 Kandungan</span>
+          <div class="v" id="r2">${f2Count}<small>/4</small></div>
+          <p>objektif, rumusan, impak, tindak susul</p>
+        </button>
+        <button type="button" data-go="#gambarSection" class="${phCount === 4 ? 'done' : ''}">
+          <span class="mono"><i class="ok"></i>03 Bukti</span>
+          <div class="v" id="r3">${phCount}<small>/4</small></div>
+          <p>gambar minimum</p>
+        </button>
+        <div class="tgt">
+          <span class="mono" id="tgtL">${meetingMode ? 'Lokasi / agensi' : 'Sekolah sasaran'}</span>
+          <div class="v" id="tgtV">${schoolVal ? esc(schoolVal) : '<span class="none">Belum dipilih</span>'}</div>
+          <span id="tgtZ">${report.zonSekolah ? `<span class="zb" style="--c:${zBadgeColor}">${report.zonSekolah === 'ZON PPD' ? 'PPD' : esc(report.zonSekolah)}</span>` : ''}</span>
+        </div>
+      </div>
+
+      <section class="p-sec" id="s1">
+        <div class="p-rail">
+          <div class="n">01</div>
+          <h2 id="s1h">${meetingMode ? 'Maklumat mesyuarat' : 'Maklumat lawatan'}</h2>
+          <p>Lokasi, pegawai terlibat, tarikh dan masa.</p>
+        </div>
+        <div class="p-body">
+          <div class="p-adv">
+            <span class="hint">Medan bertanda <b class="req">*</b> wajib.</span>
+            <button class="lnk" id="btnToggleAdvance" type="button" aria-expanded="${String(showAdvanceHeader)}">
+              ${showAdvanceHeader ? 'Tutup tetapan header' : 'Buka tetapan header pilihan'}
+            </button>
+          </div>
+          <div class="p-advpanel ${showAdvanceHeader ? 'on' : ''}" id="adv">
+            <div class="p-row3">
+              <label class="field"><span class="mono">Akauntabiliti</span><input type="text" id="f_akauntabiliti" value="${esc(report.akauntabiliti || 'PENGURUSAN')}"></label>
+              <label class="field"><span class="mono">Tugas utama</span><input type="text" id="f_tugasUtama" value="${esc(report.tugasUtama || 'Menyelaras Proses Urusan ICT')}"></label>
+              <label class="field"><span class="mono">Slogan</span><input type="text" id="f_slogan" value="${esc(report.slogan || '"PPD KITA, TANGGUNGJAWAB KITA"')}"></label>
+            </div>
+            <label class="field"><span class="mono">Hashtags</span><input type="text" id="f_hashtags" value="${esc(report.hashtags || '#ptis #ppdict #bitarasentiasa')}"></label>
+          </div>
+          <div class="fields">
+            <label class="field" id="fMeet" ${meetingMode ? '' : 'hidden'}>
+              <span class="mono">Jenis mesyuarat / taklimat</span>
+              <span class="ctl">
+                <select id="f_jenisMesyuarat">
+                  ${['MESYUARAT','TAKLIMAT','MEB'].map(v => `<option value="${v}" ${report.jenisMesyuarat === v ? 'selected' : ''}>${v}</option>`).join('')}
+                </select>
+                <svg class="i"><use href="#i-chev"/></svg>
+              </span>
+            </label>
+            <label class="field" id="fIsd" ${meetingMode ? 'hidden' : ''}>
+              <span class="mono">No. ISD</span>
+              <input type="text" id="f_noIsd" value="${esc(report.noIsd)}" placeholder="Contoh: 537615 atau 537615, 537616">
+              <span class="hint">Tidak wajib — isi sekiranya ada rujukan ISD.</span>
+            </label>
+            <label class="field">
+              <span class="mono">Tajuk / tujuan laporan <b class="req">*</b></span>
+              <input type="text" id="f_khidmatBantu" value="${esc(mebMode ? getMebAutoTitle() : (report.khidmatBantu || report.title))}" placeholder="${meetingMode ? 'Contoh: Taklimat Pengurusan Sektor ICT' : 'Contoh: KHIDMAT BANTU (TEKNIKAL)'}" ${mebMode ? 'readonly' : ''}>
+            </label>
+            <label class="field">
+              <span class="mono">${meetingMode ? 'Zon / pemusatan pegawai' : 'Zon pemusatan'} ${meetingMode ? '' : '<b class="req">*</b>'}</span>
+              <span class="ctl">
+                <select id="f_zonSekolah" ${meetingMode ? '' : 'required'} ${schoolsLoading ? 'disabled' : ''}>
+                  ${zonDefaultOption}${zonSekolahOptions}
+                </select>
+                <svg class="i"><use href="#i-chev"/></svg>
+              </span>
+              ${schoolsStateHtml}
+            </label>
+            ${meetingMode ? `
+              <label class="field" id="fSch">
+                <span class="mono">Tempat <b class="req">*</b></span>
+                <input type="text" id="f_tempatMesyuarat" required value="${esc(report.lokasiLain || report.namaSekolah)}" placeholder="Contoh: Bilik Mesyuarat Utama, PPD Contoh">
+              </label>
+            ` : `
+              <label class="field" id="fSch">
+                <span class="mono">Tempat / nama sekolah <b class="req">*</b></span>
+                <span class="ctl">
+                  <select id="f_namaSekolah" required ${!selectedZonSekolah || schoolsLoading ? 'disabled' : ''}>
+                    <option value="">Pilih sekolah / tempat</option>
+                    ${schoolOptions}
+                    ${tempatLainOption}
+                  </select>
+                  <svg class="i"><use href="#i-chev"/></svg>
+                </span>
+                ${report.tempatLain ? `<input type="text" id="f_tempatLain" class="p-mt-10" required value="${esc(report.namaSekolah)}" placeholder="Contoh: PPD Contoh atau Jabatan Pendidikan Negeri Sarawak">` : ''}
+              </label>
+            `}
+            <div class="field wide penglibatan-wrap">
+              <span class="mono">Pegawai terlibat <b class="req">*</b></span>
+              <div class="p-pick">
+                <button type="button" class="p-trig" id="penglibatanTrigger" aria-expanded="${String(isPenglibatanOpen)}" aria-haspopup="listbox" aria-controls="penglibatanDropdown" ${!selectedZonSekolah || pegawaiLoading || pegawaiLoadError ? 'disabled' : ''}>
+                  <span class="${count ? '' : 'ph'}">${count ? `${count} pegawai dipilih` : (selectedZonSekolah ? 'Klik untuk memilih pegawai' : 'Pilih zon pemusatan dahulu')}</span>
+                  <svg class="i"><use href="#i-down"/></svg>
+                </button>
+                ${isPenglibatanOpen ? buildPenglibatanDropdown(zonOrder) : ''}
+              </div>
+              ${buildSelectedPegawaiChips(penglibatanList)}
+              ${pegawaiStateHtml}
+            </div>
+          </div>
+          <div class="p-row3">
+            <label class="field"><span class="mono">${meetingMode ? 'Tarikh mesyuarat' : 'Tarikh lawatan'} <b class="req">*</b></span><input type="date" id="f_tarikh" required value="${esc(report.tarikh)}"></label>
+            <label class="field"><span class="mono">Masa mula</span><input type="time" id="f_masaMula" value="${esc(parseMalayTo24h(report.masaMula))}"></label>
+            <label class="field"><span class="mono">Masa tamat</span><input type="time" id="f_masaTamat" value="${esc(parseMalayTo24h(report.masaTamat))}"></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="p-sec" id="s2">
+        <div class="p-rail">
+          <div class="n">02</div>
+          <h2>Kandungan laporan</h2>
+          <p>Objektif ditulis anda. AI membantu memformalkan — bukan menambah fakta.</p>
+        </div>
+        <div class="p-body">
+          <label class="field">
+            <span class="mono">Objektif <b class="req">*</b></span>
+            <textarea id="f_objektif" rows="${meetingMode ? 7 : 4}" required placeholder="${meetingMode ? 'Satu objektif bagi setiap baris. Bilangan baris akan dikekalkan 1:1 untuk Impak dan Tindak Susul.' : 'Catat objektif sebenar lawatan secara ringkas…'}">${esc(report.objektif)}</textarea>
+            <span class="hint">Guna fakta sebenar. AI hanya membantu memformalkan penulisan.</span>
+          </label>
+          <div class="p-ai ${isAiLoading ? 'busy' : ''}" id="ai">
+            <div class="in">
+              <div>
+                <span class="mono">Draf dibantu AI</span>
+                <h3>Formatkan kandungan laporan</h3>
+                <p>Objektif akan diformalkan. Rumusan, impak &amp; tindak susul yang telah diisi akan diolah semula; medan kosong dijana berdasarkan objektif. Anggaran masa sekitar 50 saat.</p>
+              </div>
+              <button class="btn btn-ink" id="btnGenerateAi" type="button">Jana draf AI<svg class="i"><use href="#i-spark"/></svg></button>
+            </div>
+            <div class="st" id="aiGenerationStatus" aria-live="polite">
+              <span id="aiT">${isAiLoading ? '18 s · anggaran 50 s' : '0 s · anggaran 50 s'}</span>
+              <div class="p-ind"></div>
+            </div>
+          </div>
+          <p class="p-disc">Kandungan AI ialah cadangan. Semak fakta, nama, tempat dan tindakan susulan sebelum menerbitkan laporan.</p>
+          <div class="p-trio">
+            <div class="r ${report.rumusanAi ? 'gen' : ''}" id="rR">
+              <div class="lb"><b>Rumusan</b><span class="mono">Wajib</span><span class="mono ai">Draf AI · boleh sunting</span></div>
+              <label class="field"><span class="sr">Rumusan</span><textarea id="f_rumusanAi" rows="4" placeholder="Rumusan keseluruhan lawatan…">${esc(report.rumusanAi)}</textarea></label>
+            </div>
+            <div class="r ${report.impakAi ? 'gen' : ''}" id="rI">
+              <div class="lb"><b>Impak</b><span class="mono">Wajib · senarai bernombor</span><span class="mono ai">Draf AI · boleh sunting</span></div>
+              <label class="field"><span class="sr">Impak</span><textarea id="f_impakAi" rows="5" placeholder="1. Meningkatkan…">${esc(report.impakAi)}</textarea></label>
+            </div>
+            <div class="r ${report.tindakSusulAi ? 'gen' : ''}" id="rT">
+              <div class="lb"><b>Tindak susul</b><span class="mono">Wajib · senarai bernombor</span><span class="mono ai">Draf AI · boleh sunting</span></div>
+              <label class="field"><span class="sr">Tindak susul</span><textarea id="f_tindakSusulAi" rows="6" placeholder="1. Menjalankan pemantauan…">${esc(report.tindakSusulAi)}</textarea></label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="p-sec form-section" id="gambarSection">
+        <div class="p-rail">
+          <div class="n">03</div>
+          <h2>${meetingMode ? 'Bukti mesyuarat' : 'Bukti lawatan'}</h2>
+          <p>Eviden wajib: minimum 4, maksimum 10 gambar.</p>
+        </div>
+        <div class="p-body">
+          <div class="p-meter">
+            <div class="row">
+              <b id="phN">${attachedCount}<small>gambar dilampirkan</small></b>
+              <span class="mono ${attachedCount >= 4 ? 'ok' : ''}" id="phC">${attachedCount >= 4 ? (attachedCount < 10 ? 'cukup · boleh tambah ' + (10 - attachedCount) + ' lagi' : 'maksimum dicapai') : 'perlu ' + (4 - attachedCount) + ' lagi · maks 10'}</span>
+            </div>
+            <div class="p-seg" id="seg" aria-hidden="true">
+              ${Array.from({length: 10}, (_, i) => `<i class="${i < attachedCount ? 'on' : ''}"></i>`).join('')}
+            </div>
+          </div>
+          <div class="p-ph" id="ph">
+            ${report.gambarList.slice(0, attachedCount).map((url, i) => `
+              <figure class="p-th">
+                <img src="${esc(url)}" alt="Gambar ${i + 1}">
+                <span class="cap">${i + 1}</span>
+                ${gambarUploading[i] ? `
+                  <div class="up">MEMUAT NAIK…<div class="p-ind"></div></div>
+                ` : `
+                  <button class="rm" data-rm="${i}" type="button" aria-label="Buang gambar ${i + 1}"><svg class="i"><use href="#i-x"/></svg></button>
+                `}
+              </figure>
+            `).join('')}
+            ${attachedCount < 10 ? `
+              <div class="p-add ${attachedCount === 0 ? 'empty' : ''}" id="drop">
+                <svg class="i"><use href="#i-img"/></svg>
+                <b>${attachedCount === 0 ? (meetingMode ? 'Tambah gambar mesyuarat' : 'Tambah gambar lawatan') : 'Tambah'}</b>
+                <span class="mono">${attachedCount === 0 ? '<span class="dd">Seret ke sini atau pilih · </span>minimum 4, maksimum 10' : ''}</span>
+                <button class="btn btn-line btn-sm pick" data-pick="file" type="button"><svg class="i"><use href="#i-plus"/></svg>Pilih gambar</button>
+                <span class="two">
+                  <button class="btn btn-ink btn-sm" data-pick="cam" type="button"><svg class="i"><use href="#i-cam"/></svg><span>Kamera</span></button>
+                  <button class="btn btn-line btn-sm" data-pick="file" type="button"><svg class="i"><use href="#i-img"/></svg><span>Galeri</span></button>
+                </span>
+              </div>
+            ` : ''}
+          </div>
+          <p class="p-hint">Boleh pilih beberapa gambar sekaligus. Setiap gambar dimuat naik serta-merta, ikut urutan ditambah.</p>
+          <input type="file" id="file" accept="image/*" multiple hidden>
+          <input type="file" id="cam" accept="image/*" capture="environment" hidden>
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+function buildGambarSlotHtml(i) {
+  const url = (report.gambarList || [])[i] || '';
+  const label = 'Gambar ' + (i + 1);
+  if (gambarUploading[i]) {
+    const pct = gambarProgress[i] || 0;
+    return '<div class="gambar-slot gambar-slot-loading">' +
+      (url ? '<img src="' + esc(url) + '" alt="' + esc(label) + '" class="gambar-slot-img">' : '') +
+      '<div class="gambar-slot-loading-overlay">' +
+        '<i data-lucide="loader-2" class="spin gambar-slot-spinner"></i>' +
+        '<div class="gambar-progress-track"><div class="gambar-progress-bar" data-gambar-progress-bar="' + i + '" style="--w:' + pct + '%;"></div></div>' +
+        '<span class="gambar-progress-pct" data-gambar-progress-pct="' + i + '">' + pct + '%</span>' +
+      '</div>' +
+    '</div>';
+  }
+  if (url) {
+    return '<figure class="p-th"><img src="' + esc(url) + '" alt="' + esc(label) + '"><span class="cap">' + (i + 1) + '</span><button class="rm" data-rm="' + i + '" type="button" aria-label="Buang ' + esc(label) + '"><svg class="i"><use href="#i-x"/></svg></button></figure>';
+  }
+  return '';
+}
+
+function field(type, key, labelText, placeholder) {
+  return '<div class="field"><label class="field-label" for="f_' + key + '">' + labelText + '</label><input type="' + type + '" id="f_' + key + '" value="' + esc(report[key]) + '" placeholder="' + esc(placeholder) + '"></div>';
+}
+
+function buildSelectedPegawaiChips(list) {
+  if (!list || !list.length) return '';
+  return '<div class="p-sel selected-chips" aria-label="Pegawai dipilih">' +
+    list.map((nama, i) => {
+      const pos = (window.PPDK_OFFICER_POSITIONS && window.PPDK_OFFICER_POSITIONS.get && window.PPDK_OFFICER_POSITIONS.get(nama)) || 'Pegawai terlibat';
+      return '<div class="selected-chip">' +
+        '<span class="ix">' + String(i + 1).padStart(2, '0') + '</span>' +
+        '<div>' +
+          '<b>' + esc(nama) + '</b>' +
+          '<small>' + esc(pos) + '</small>' +
+        '</div>' +
+        '<button class="x" type="button" data-remove-pegawai="' + esc(nama) + '" aria-label="Buang ' + esc(nama) + '" title="Buang ' + esc(nama) + '">' +
+          '<svg class="i"><use href="#i-x"/></svg>' +
+        '</button>' +
+      '</div>';
+    }).join('') +
+  '</div>';
+}
+
+function buildPenglibatanDropdown(zonOrder) {
+  const selectedList = getPenglibatanList();
+  const selectedSet = new Set(selectedList.map(n => n.toLowerCase()));
+  const currentZon = selectedZonSekolah || selectedZonPegawai || 'ZON 1';
+  const zs = [currentZon, ...zonOrder.filter(z => z !== currentZon && pegawaiData[z])];
+
+  let listHtml = '';
+  if (pegawaiLoading) {
+    listHtml = '<div class="p-empty-box"><i data-lucide="loader" class="spin"></i> Memuatkan senarai pegawai...</div>';
+  } else if (pegawaiLoadError) {
+    listHtml = '<div class="p-error-box"><i data-lucide="alert-circle"></i> Senarai pegawai gagal dimuatkan.</div>';
+  } else {
+    listHtml = zs.map(z => {
+      const officers = pegawaiData[z] || [];
+      if (!officers.length) return '';
+      const zoneLabel = z + (z === selectedZonSekolah ? ' · ZON SEKOLAH' : '');
+      const items = officers.map(nama => {
+        const checked = selectedSet.has(nama.toLowerCase());
+        const position = (window.PPDK_OFFICER_POSITIONS && window.PPDK_OFFICER_POSITIONS.get && window.PPDK_OFFICER_POSITIONS.get(nama)) || '—';
+        return '<label class="pegawai-item ' + (checked ? 'checked' : '') + '" data-nama="' + esc(nama) + '">' +
+          '<input type="checkbox" value="' + esc(nama) + '" ' + (checked ? 'checked' : '') + ' aria-label="Pilih ' + esc(nama) + '">' +
+          '<span class="bx"></span>' +
+          '<span class="nm">' + esc(nama) + '<small>' + esc(position) + '</small></span>' +
+        '</label>';
+      }).join('');
+      return '<div class="p-zh">' + esc(zoneLabel) + '</div>' + items;
+    }).join('');
+  }
+
+  return '' +
+    '<div class="p-pop on" id="penglibatanDropdown" role="region" aria-label="Pilihan pegawai">' +
+      '<div class="ph">' +
+        '<b>Pilih pegawai</b>' +
+        '<span class="mono" id="pCnt">' + selectedList.length + ' dipilih</span>' +
+        '<button class="btn btn-line btn-sm" id="btnTutupPenglibatan" type="button">Tutup</button>' +
+      '</div>' +
+      '<div class="ls" id="pLs">' +
+        listHtml +
+      '</div>' +
+      '<div class="pf">' +
+        '<input type="text" id="f_customPegawai" placeholder="Nama lain (tiada dalam senarai)">' +
+        '<button class="btn btn-line btn-sm" id="btnAddCustomPegawai" type="button">Tambah</button>' +
+      '</div>' +
+    '</div>';
+}
+
+function bindText(id, key) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.value = report[key] || '';
+    el.addEventListener('input', (e) => {
+      report[key] = e.target.value;
+      clearFieldError(id);
+      updateStatusLine();
+    });
+  }
+}
+
+function updateSelectedPegawaiUi() {
+  const list = getPenglibatanList();
+  const wrap = document.querySelector('.penglibatan-wrap');
+  if (!wrap) return;
+
+  const oldChips = wrap.querySelector('.selected-chips');
+  const chipsHtml = buildSelectedPegawaiChips(list);
+  if (oldChips) oldChips.remove();
+
+  const pickEl = wrap.querySelector('.p-pick');
+  if (pickEl && chipsHtml) pickEl.insertAdjacentHTML('afterend', chipsHtml);
+
+  const trigger = document.getElementById('penglibatanTrigger');
+  if (trigger) {
+    const txtSpan = trigger.querySelector('span');
+    if (txtSpan) {
+      txtSpan.textContent = list.length ? (list.length + ' pegawai dipilih') : (selectedZonSekolah ? 'Klik untuk memilih pegawai' : 'Pilih zon pemusatan dahulu');
+      txtSpan.className = list.length ? '' : 'ph';
+    }
+  }
+
+  const pCnt = document.getElementById('pCnt');
+  if (pCnt) pCnt.textContent = list.length + ' dipilih';
+
+  wrap.querySelectorAll('[data-remove-pegawai]').forEach((btn) => {
+    btn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const nama = btn.getAttribute('data-remove-pegawai');
+      setPenglibatanList(getPenglibatanList().filter((item) => item !== nama));
+      const checkboxItem = [...wrap.querySelectorAll('.pegawai-item')].find((item) => item.getAttribute('data-nama') === nama);
+      checkboxItem?.classList.remove('checked');
+      const checkbox = checkboxItem?.querySelector('input[type="checkbox"]');
+      if (checkbox) checkbox.checked = false;
+      updateSelectedPegawaiUi();
+      updateStatusLine();
+    });
+  });
+}
+
+function bindPegawaiItems(dropdown) {
+  dropdown.querySelectorAll('.pegawai-item').forEach((item) => {
+    item.addEventListener('click', (event) => {
+      if (event.target.tagName.toLowerCase() === 'input') return;
+      event.preventDefault();
+      const checkbox = item.querySelector('input[type="checkbox"]');
+      if (!checkbox) return;
+      checkbox.checked = !checkbox.checked;
+      const nama = item.getAttribute('data-nama');
+      const current = getPenglibatanList();
+      if (checkbox.checked) {
+        if (!current.includes(nama)) setPenglibatanList([...current, nama]);
+      } else {
+        setPenglibatanList(current.filter((n) => n !== nama));
+      }
+      item.classList.toggle('checked', checkbox.checked);
+      updateSelectedPegawaiUi();
+      updateStatusLine();
+    });
+    const checkbox = item.querySelector('input[type="checkbox"]');
+    if (checkbox) {
+      checkbox.addEventListener('change', () => {
+        const nama = item.getAttribute('data-nama');
+        const current = getPenglibatanList();
+        if (checkbox.checked) {
+          if (!current.includes(nama)) setPenglibatanList([...current, nama]);
+        } else {
+          setPenglibatanList(current.filter((n) => n !== nama));
+        }
+        item.classList.toggle('checked', checkbox.checked);
+        updateSelectedPegawaiUi();
+        updateStatusLine();
+      });
+    }
+  });
+}
+
+function cleanIsdInput(val) {
+  if (!val) return '';
+  return String(val)
+    .replace(/[a-zA-Z#:]/g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/[^0-9,\s\/-]/g, '')
+    .trim();
+}
+
+function bindFormEvents() {
+  const lawatanModeBtn = document.getElementById('btnModeLawatan');
+  const mesyuaratModeBtn = document.getElementById('btnModeMesyuarat');
+  if (lawatanModeBtn) lawatanModeBtn.onclick = () => {
+    if (!isMesyuaratMode()) return;
+    if (report.jenisMesyuarat === 'MEB') clearMebAutoTitleIfPresent();
+    const previousLawatan = lawatanModeSnapshot;
+    report.mod = 'lawatan';
+    report.jenisMesyuarat = '';
+    report.namaSekolah = previousLawatan ? previousLawatan.namaSekolah : '';
+    report.lokasiLain = previousLawatan ? previousLawatan.lokasiLain : '';
+    report.tempatLain = previousLawatan ? previousLawatan.tempatLain : false;
+    report.noIsd = previousLawatan ? previousLawatan.noIsd : '';
+    report.statusKes = previousLawatan ? previousLawatan.statusKes : 'Selesai';
+    selectedZonSekolah = previousLawatan ? previousLawatan.selectedZonSekolah : (report.zonSekolah || '');
+    lawatanModeSnapshot = null;
+    renderMain();
+  };
+  if (mesyuaratModeBtn) mesyuaratModeBtn.onclick = () => {
+    if (isMesyuaratMode()) return;
+    lawatanModeSnapshot = {
+      namaSekolah: report.namaSekolah,
+      lokasiLain: report.lokasiLain,
+      tempatLain: report.tempatLain,
+      noIsd: report.noIsd,
+      statusKes: report.statusKes,
+      selectedZonSekolah: selectedZonSekolah
+    };
+    report.mod = 'mesyuarat';
+    report.jenisMesyuarat = 'MESYUARAT';
+    report.lokasiLain = report.tempatLain ? report.namaSekolah : '';
+    report.namaSekolah = report.lokasiLain;
+    report.tempatLain = true;
+    report.noIsd = '';
+    report.statusKes = '';
+    renderMain();
+  };
+
+  bindText('f_akauntabiliti', 'akauntabiliti'); bindText('f_tugasUtama', 'tugasUtama');
+  bindText('f_slogan', 'slogan'); bindText('f_hashtags', 'hashtags');
+
+  const isdEl = document.getElementById('f_noIsd');
+  if (isdEl) {
+    isdEl.addEventListener('input', (e) => {
+      report.noIsd = cleanIsdInput(e.target.value);
+    });
+    isdEl.addEventListener('blur', (e) => {
+      e.target.value = cleanIsdInput(e.target.value);
+      report.noIsd = e.target.value;
+    });
+  }
+
+  bindText('f_khidmatBantu', 'khidmatBantu'); bindText('f_objektif', 'objektif');
+  bindText('f_rumusanAi', 'rumusanAi'); bindText('f_impakAi', 'impakAi'); bindText('f_tindakSusulAi', 'tindakSusulAi');
+
+  const jenisMesyuaratEl = document.getElementById('f_jenisMesyuarat');
+  if (jenisMesyuaratEl) {
+    jenisMesyuaratEl.addEventListener('change', (e) => {
+      const nextJenisMesyuarat = String(e.target.value || 'MESYUARAT').toUpperCase();
+      if (report.jenisMesyuarat === 'MEB' && nextJenisMesyuarat !== 'MEB') {
+        clearMebAutoTitleIfPresent();
+      }
+      report.jenisMesyuarat = nextJenisMesyuarat;
+      if (report.jenisMesyuarat === 'MEB') {
+        report.khidmatBantu = getMebAutoTitle();
+        report.title = getMebAutoTitle();
+      }
+      renderMain();
+    });
+  }
+
+  const tempatMesyuaratInput = document.getElementById('f_tempatMesyuarat');
+  if (tempatMesyuaratInput) {
+    tempatMesyuaratInput.addEventListener('input', (e) => {
+      report.lokasiLain = e.target.value;
+      report.namaSekolah = e.target.value;
+      report.tempatLain = true;
+      clearFieldError('f_tempatMesyuarat');
+      updateStatusLine();
+    });
+  }
+
+  const zonSekolahSel = document.getElementById('f_zonSekolah');
+  if (zonSekolahSel) {
+    zonSekolahSel.value = selectedZonSekolah;
+    zonSekolahSel.addEventListener('change', (e) => {
+      const zonBaharu = e.target.value;
+      const sekolahSediaAda = report.namaSekolah;
+
+      selectedZonSekolah = zonBaharu;
+      selectedZonPegawai = zonBaharu;
+      report.zonSekolah = zonBaharu;
+      clearFieldError('f_zonSekolah');
+      report.zonPegawai = zonBaharu;
+
+      const sekolahDalamZonBaharu = schoolsData[zonBaharu] || [];
+      if (!report.tempatLain) {
+        report.namaSekolah = sekolahDalamZonBaharu.includes(sekolahSediaAda)
+          ? sekolahSediaAda
+          : '';
+      }
+
+      isPenglibatanOpen = false;
+      pegawaiSearchQuery = '';
+
+      renderMain();
+    });
+  }
+
+  const schoolSel = document.getElementById('f_namaSekolah');
+  if (schoolSel) {
+    schoolSel.value = report.tempatLain ? '__TEMPAT_LAIN__' : report.namaSekolah;
+    schoolSel.addEventListener('change', (e) => {
+      if (e.target.value === '__TEMPAT_LAIN__') {
+        report.tempatLain = true;
+        report.namaSekolah = '';
+      } else {
+        report.tempatLain = false;
+        report.namaSekolah = e.target.value;
+      }
+      clearFieldError('f_namaSekolah');
+      clearFieldError('f_tempatLain');
+      updateStatusLine();
+      renderMain();
+      if (report.tempatLain) requestAnimationFrame(() => document.getElementById('f_tempatLain')?.focus());
+    });
+  }
+
+  const tempatLainInput = document.getElementById('f_tempatLain');
+  if (tempatLainInput) {
+    tempatLainInput.addEventListener('input', (e) => {
+      report.namaSekolah = e.target.value;
+      clearFieldError('f_tempatLain');
+      updateStatusLine();
+    });
+  }
+
+  const tarikhEl = document.getElementById('f_tarikh');
+  if (tarikhEl) {
+    tarikhEl.value = report.tarikh || '';
+    tarikhEl.addEventListener('change', (e) => {
+      report.tarikh = e.target.value;
+      clearFieldError('f_tarikh');
+      updateStatusLine();
+    });
+  }
+
+  const masaMulaEl = document.getElementById('f_masaMula');
+  if (masaMulaEl) {
+    masaMulaEl.value = parseMalayTo24h(report.masaMula) || '';
+    masaMulaEl.addEventListener('change', (e) => {
+      report.masaMula = e.target.value ? formatTime24toMalay(e.target.value) : '';
+      clearFieldError('f_masaMula');
+      clearFieldError('f_masaTamat');
+      updateStatusLine();
+    });
+  }
+
+  const masaTamatEl = document.getElementById('f_masaTamat');
+  if (masaTamatEl) {
+    masaTamatEl.value = parseMalayTo24h(report.masaTamat) || '';
+    masaTamatEl.addEventListener('change', (e) => {
+      report.masaTamat = e.target.value ? formatTime24toMalay(e.target.value) : '';
+      clearFieldError('f_masaTamat');
+      updateStatusLine();
+    });
+  }
+
+  const advBtn = document.getElementById('btnToggleAdvance');
+  if (advBtn) advBtn.addEventListener('click', () => { showAdvanceHeader = !showAdvanceHeader; renderMain(); });
+
+  const trigger = document.getElementById('penglibatanTrigger');
+  if (trigger) trigger.addEventListener('click', () => { isPenglibatanOpen = !isPenglibatanOpen; renderMain(); });
+
+  const dropdown = document.getElementById('penglibatanDropdown');
+  if (dropdown) {
+    const btnTutup = document.getElementById('btnTutupPenglibatan');
+    if (btnTutup) btnTutup.addEventListener('click', (e) => {
+      e.stopPropagation();
+      isPenglibatanOpen = false;
+      renderMain();
+    });
+
+    const btnAddCustom = document.getElementById('btnAddCustomPegawai');
+    if (btnAddCustom) btnAddCustom.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const customInput = document.getElementById('f_customPegawai');
+      const val = customInput ? customInput.value.trim() : '';
+      if (val) {
+        const cur = getPenglibatanList();
+        if (!cur.includes(val)) setPenglibatanList([...cur, val]);
+        if (customInput) customInput.value = '';
+        updateSelectedPegawaiUi();
+        updateStatusLine();
+      }
+    });
+
+    bindPegawaiItems(dropdown);
+  }
+
+  const readyEl = document.getElementById('ready');
+  if (readyEl) {
+    readyEl.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-go]');
+      if (b) {
+        const target = document.querySelector(b.dataset.go);
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+
+  const phEl = document.getElementById('ph');
+  if (phEl) {
+    phEl.addEventListener('click', (e) => {
+      const pickBtn = e.target.closest('[data-pick]');
+      if (pickBtn) {
+        const inputId = pickBtn.getAttribute('data-pick');
+        document.getElementById(inputId)?.click();
+        return;
+      }
+      const rmBtn = e.target.closest('[data-rm]');
+      if (rmBtn) {
+        const idx = Number(rmBtn.getAttribute('data-rm'));
+        handleGambarRemove(idx);
+        return;
+      }
+      if (e.target.closest('#drop.empty') && window.innerWidth > 900) {
+        document.getElementById('file')?.click();
+      }
+    });
+
+    phEl.addEventListener('dragover', (e) => {
+      const drop = e.target.closest('#drop');
+      if (drop) { e.preventDefault(); drop.classList.add('drag'); }
+    });
+    phEl.addEventListener('dragleave', (e) => {
+      e.target.closest('#drop')?.classList.remove('drag');
+    });
+    phEl.addEventListener('drop', (e) => {
+      if (e.target.closest('#drop')) {
+        e.preventDefault();
+        e.target.closest('#drop')?.classList.remove('drag');
+        if (e.dataTransfer && e.dataTransfer.files) {
+          handleGambarFiles(e.dataTransfer.files);
+        }
+      }
+    });
+  }
+
+  const fileInput = document.getElementById('file');
+  if (fileInput) {
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files) handleGambarFiles(e.target.files);
+      e.target.value = '';
+    });
+  }
+  const camInput = document.getElementById('cam');
+  if (camInput) {
+    camInput.addEventListener('change', (e) => {
+      if (e.target.files) handleGambarFiles(e.target.files);
+      e.target.value = '';
+    });
+  }
+
+  const btnAi = document.getElementById('btnGenerateAi');
+  if (btnAi) btnAi.addEventListener('click', handleGenerateRumusanImpak);
+}
+
+function handleAddCustomPegawai() {
+  const input = document.getElementById('f_customPegawai');
+  if (!input) return;
+  const val = input.value.trim();
+  if (!val) { showToast('Sila masukkan nama pegawai.', 'error'); return; }
+  const current = getPenglibatanList();
+  if (current.map(n => n.toLowerCase()).includes(val.toLowerCase())) {
+    showToast('Pegawai ini telah dipilih.', 'error');
+    return;
+  }
+  setPenglibatanList([...current, val]);
+  input.value = '';
+  updateSelectedPegawaiUi();
+  updateStatusLine();
+  showToast('Pegawai ditambah.', 'success');
+}
+
+function handleGenerateRumusanImpak() {
+  const objektifEl = document.getElementById('f_objektif');
+  const rumusanEl = document.getElementById('f_rumusanAi');
+  const impakEl = document.getElementById('f_impakAi');
+  const tindakEl = document.getElementById('f_tindakSusulAi');
+
+  const rawObjektif = objektifEl ? objektifEl.value : report.objektif;
+  const sourceObjektif = String(rawObjektif || '').trim();
+
+  if (!sourceObjektif) {
+    if (objektifEl) {
+      objektifEl.classList.add('invalid-field');
+      objektifEl.focus();
+    }
+    showToast('Sila isi medan objektif terlebih dahulu sebelum menjana rumusan AI.', 'error');
+    return;
+  }
+
+  if (isAiLoading) return;
+
+  report.objektif = sourceObjektif;
+  report.rumusanAi = rumusanEl ? rumusanEl.value : report.rumusanAi;
+  report.impakAi = impakEl ? impakEl.value : report.impakAi;
+  report.tindakSusulAi = tindakEl ? tindakEl.value : report.tindakSusulAi;
+
+  const sourceData = cloneData(report);
+  const requestId = ++activeAiRequestId;
+  const sourceReportId = report.id;
+
+  setAiLoading(true);
+
+  const aiRunner = google.script.run
+    .withSuccessHandler((data) => {
+      if (requestId !== activeAiRequestId || report.id !== sourceReportId) return;
+
+      setAiLoading(false);
+
+      if (data && data.success) {
+        report.objektif = data.formattedObjektif || report.objektif;
+        report.rumusanAi = data.rumusan || '';
+        report.impakAi = data.impak || '';
+        report.tindakSusulAi = data.tindakSusul || '';
+        const paddedCount = Number(data.impakPaddedCount || 0) + Number(data.tindakPaddedCount || 0);
+        const fallbackUsed = Boolean(data.fallbackUsed || data.engineUsed === 'smart-edge-fallback' || paddedCount > 0);
+        const verificationStatus = data.verificationStatus || (fallbackUsed ? 'AI_FALLBACK' : 'AI_UNREVIEWED');
+        const needsReview = Boolean(data.needsReview || verificationStatus !== 'AI_VERIFIED');
+        report.aiEngine = data.engineUsed || (fallbackUsed ? 'smart-edge-fallback' : 'edge-gemini');
+        report.aiFallbackUsed = fallbackUsed;
+        report.aiPaddedCount = paddedCount;
+        report.aiWarning = needsReview
+          ? (data.warning || (fallbackUsed
+            ? 'Sebahagian kandungan dijana menggunakan draf sandaran. Sila semak semua fakta sebelum diterbitkan.'
+            : 'Draf AI belum menerima pengesahan reviewer. Semakan manual diperlukan sebelum diterbitkan.'))
+          : '';
+        report.perluSemakan = needsReview ? verificationStatus : '';
+        if (data.legacySummary) {
+          report.legacySummary = data.legacySummary;
+        }
+
+        if (objektifEl) objektifEl.value = report.objektif;
+        if (rumusanEl) rumusanEl.value = report.rumusanAi;
+        if (impakEl) impakEl.value = report.impakAi;
+        if (tindakEl) tindakEl.value = report.tindakSusulAi;
+        clearFieldError('f_objektif');
+        updateStatusLine();
+        const aiStatus = document.getElementById('aiGenerationStatus');
+        if (aiStatus) {
+          if (report.aiWarning) {
+            aiStatus.hidden = false;
+            aiStatus.innerHTML = '<strong>Semakan AI diperlukan</strong><span>' + esc(report.aiWarning) + '</span>' +
+              (report.aiEngine ? '<small>Enjin: ' + esc(report.aiEngine) + '</small>' : '');
+          } else {
+            aiStatus.hidden = true;
+            aiStatus.innerHTML = '';
+          }
+        }
+        if (rumusanEl) {
+          rumusanEl.focus();
+          rumusanEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (fallbackUsed) {
+          showToast('AI utama tidak lengkap — draf sandaran digunakan.', 'error', report.aiWarning);
+        } else if (verificationStatus !== 'AI_VERIFIED') {
+          showToast('Draf AI dijana tetapi belum disahkan reviewer.', 'error', report.aiWarning);
+        } else {
+          showToast('Ayat formal, rumusan, impak dan tindak susul berjaya dijana serta disahkan AI.', 'success');
+        }
+      } else {
+        showToast((data && data.error) || 'Ralat penjanaan AI.', 'error');
+      }
+    })
+    .withFailureHandler((err) => {
+      if (requestId !== activeAiRequestId || report.id !== sourceReportId) return;
+
+      setAiLoading(false);
+      showToast('Gagal menghubungi AI: ' + errMsg(err), 'error');
+    });
+
+  const aiMethod = sourceData.mod === 'mesyuarat' ? 'generateRumusanImpakMesyuarat' : 'generateRumusanImpak';
+  aiRunner[aiMethod](
+      sourceData.namaSekolah,
+      sourceData.objektif,
+      sourceData.aktivitiRingkas,
+      sourceData.mod === 'mesyuarat' ? (sourceData.jenisMesyuarat || 'MESYUARAT') : sourceData.kategoriLawatan,
+      sourceData.rumusanAi,
+      sourceData.impakAi,
+      sourceData.tindakSusulAi
+    );
+}
+
+/* ============================================================
+ * PREVIEW (PRATONTON) VIEW
+ * ============================================================ */
+function formatTarikhBercetak(tarikhStr) {
+  if (!tarikhStr) return '-'; if (tarikhStr.indexOf('/') > -1 || tarikhStr.indexOf('(') > -1) return tarikhStr;
+  const parts = tarikhStr.split('-');
+  if (parts.length === 3) {
+    const d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    if (!isNaN(d.getTime())) {
+      const dd = String(d.getDate()).padStart(2, '0'); const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const yyyy = d.getFullYear(); const namaHari = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'][d.getDay()];
+      return dd + '/' + mm + '/' + yyyy + ' (' + namaHari + ')';
+    }
+  }
+  return tarikhStr;
+}
+
+function formatNumberedList(text) {
+  if (!text) return '';
+  return splitListItems(text).map((item, i) => (i + 1) + '. ' + item).join('\n');
+}
+
+function splitListItems(text) {
+  return String(text || '')
+    .replace(/\r\n/g, '\n')
+    .split('\n')
+    .map((line) => line.trim().replace(/^\d+[.)]\s*/, ''))
+    .filter(Boolean);
+}
+
+function buildPreviewHtml() {
+  const tarikhFormatted = formatTarikhBercetak(report.tarikh);
+  const meetingMode = isMesyuaratMode();
+  const locationLabel = meetingMode ? 'Tempat' : 'Sekolah';
+  const penglibatanList = getPenglibatanList();
+  const penglibatanHtml = penglibatanList.length > 0
+    ? penglibatanList.map((n, i) => '<p>' + (i + 1) + '. ' + esc(n) + '</p>').join('')
+    : '<p>-</p>';
+
+
+  return '' +
+  '<div class="p-pvbar preview-toolbar no-print">' +
+    '<button class="lnk" id="btnBackEdit" type="button"><svg class="i"><use href="#i-back"/></svg>Kembali ke borang</button>' +
+    '<span class="mono">Format rasmi ISD / PTIS PPD Contoh</span>' +
+    '<button class="btn btn-line btn-sm" id="btnCopyWhatsApp" type="button"><svg class="i"><use href="#i-chat"/></svg>Salin WhatsApp</button>' +
+    '<button class="btn btn-line btn-sm" id="btnPrintNow" type="button"><svg class="i"><use href="#i-print"/></svg>Cetak PDF</button>' +
+    '<button class="btn btn-ink btn-sm" id="btnCopyText" type="button"><svg class="i"><use href="#i-copy"/></svg>Salin teks (FB)</button>' +
+  '</div>' +
+  '<div class="p-pvwrap">' +
+    '<article class="sheet p-doc print-container">' +
+      '<div class="p-b800"><p>[AKAUNTABILITI : ' + esc(report.akauntabiliti || 'PENGURUSAN') + ']</p><p>[Tugas utama : ' + esc(report.tugasUtama || 'Menyelaras Proses Urusan ICT') + ']</p></div>' +
+      '<div class="p-b800 p-pt-8">' +
+        (!meetingMode && report.noIsd ? '<p>No. ISD: ' + esc(report.noIsd) + '</p>' : '') +
+        (report.khidmatBantu ? '<p class="p-upper">' + esc(report.khidmatBantu) + '</p>' : '') +
+        (report.title ? '<p class="p-upper">' + esc(report.title) + '</p>' : '') +
+      '</div>' +
+      '<div class="pv-block"><h3>Perincian</h3><p><b>Tarikh</b> : ' + esc(tarikhFormatted) + '</p><p><b>Masa</b> : ' + esc(report.masaMula || '-') + (report.masaTamat ? ' - ' + esc(report.masaTamat) : '') + '</p><p><b>' + locationLabel + '</b> : ' + esc(report.namaSekolah || '-') + '</p></div>' +
+      '<div class="pv-block"><h3>Penglibatan:</h3>' + penglibatanHtml + '</div>' +
+      '<div class="pv-block"><h3>Objektif:</h3><div class="pv-pre">' + esc(report.objektif || 'Tiada objektif dinyatakan.') + '</div></div>' +
+      '<div class="pv-block"><h3>Rumusan:</h3><div class="pv-pre">' + esc(report.rumusanAi || 'Tiada rumusan.') + '</div></div>' +
+      '<div class="pv-block"><h3>Impak:</h3><div class="pv-pre">' + esc(formatNumberedList(report.impakAi) || 'Tiada impak.') + '</div></div>' +
+      '<div class="pv-block"><h3>Tindak Susul:</h3><div class="pv-pre">' + esc(formatNumberedList(report.tindakSusulAi) || 'Tiada tindak susul.') + '</div></div>' +
+      '<div class="pv-block p-b800"><p>' + esc(report.slogan || '"PPD KITA, TANGGUNGJAWAB KITA"') + '</p><div class="p-pv-meta">' + esc(report.hashtags || '#ptis\n#ppdict\n#bitarasentiasa') + '</div></div>' +
+    '</article>' +
+    '<aside class="p-note no-print">' +
+      '<h3>Sebelum terbit</h3>' +
+      '<ul>' +
+        '<li>Nama sekolah dan zon betul</li>' +
+        '<li>Semua pegawai terlibat disenaraikan</li>' +
+        '<li>Rumusan AI telah disemak fakta</li>' +
+        '<li>Impak &amp; tindak susul bernombor</li>' +
+        '<li>Minimum 4 gambar dilampirkan</li>' +
+      '</ul>' +
+    '</aside>' +
+  '</div>';
+}
+
+function bindPreviewEvents() {
+  const back = document.getElementById('btnBackEdit');
+  if (back) back.addEventListener('click', () => switchTab('borang'));
+  const printBtn = document.getElementById('btnPrintNow');
+  if (printBtn) printBtn.addEventListener('click', () => window.print());
+  const copyBtn = document.getElementById('btnCopyText');
+  if (copyBtn) copyBtn.addEventListener('click', handleCopyText);
+  const copyWaBtn = document.getElementById('btnCopyWhatsApp');
+  if (copyWaBtn) copyWaBtn.addEventListener('click', handleCopyWhatsApp);
+}
+
+function formatWhatsAppDispatch(r) {
+  const meetingMode = String(r.mod || 'lawatan').toLowerCase() === 'mesyuarat';
+  const penglibatanList = getPenglibatanList();
+  const penglibatanText = penglibatanList.length > 0
+    ? penglibatanList.map((n, i) => (i + 1) + '. ' + n).join('\n')
+    : '-';
+  const headerLines = [];
+  const khidmatBantu = r.khidmatBantu || '';
+  const title = r.title || '';
+  if (khidmatBantu) headerLines.push('*' + khidmatBantu.toUpperCase() + '*');
+  if (title && title !== 'Khidmat Bantu ICT' && title.toUpperCase() !== khidmatBantu.toUpperCase() && !title.toLowerCase().startsWith('pelaksanaan khidmat bantu') && !title.toLowerCase().startsWith('melaksanakan khidmat bantu') && !title.toLowerCase().startsWith('lawatan teknikal')) {
+    headerLines.push('*' + title.toUpperCase() + '*');
+  } else if (!khidmatBantu && title) {
+    headerLines.push('*' + title.toUpperCase() + '*');
+  }
+
+
+  const lines = [];
+  lines.push('*[AKAUNTABILITI : ' + (r.akauntabiliti || 'PENGURUSAN').toUpperCase() + ']*');
+  lines.push('*[Tugas utama : ' + (r.tugasUtama || 'Menyelaras Proses Urusan ICT') + ']*');
+  lines.push('');
+
+  if (!meetingMode && r.noIsd) {
+    lines.push('*No. ISD:* ' + r.noIsd);
+    lines.push('');
+  }
+
+  if (headerLines.length > 0) {
+    lines.push(headerLines.join('\n'));
+    lines.push('');
+  }
+
+  lines.push('*PERINCIAN*');
+  lines.push('*Tarikh :* ' + formatTarikhBercetak(r.tarikh));
+  lines.push('*Masa :* ' + (r.masaMula || '-') + (r.masaTamat ? ' - ' + r.masaTamat : ''));
+  lines.push('*' + (meetingMode ? 'Tempat' : 'Sekolah') + ' :* ' + (r.lokasiLain || r.namaSekolah || '-'));
+  lines.push('');
+
+  lines.push('*PENGLIBATAN:*');
+  lines.push(penglibatanText);
+  lines.push('');
+
+  lines.push('*OBJEKTIF:*');
+  const waObjective = r.objektif || 'Tiada objektif.';
+  const waObjectiveLines = String(waObjective).split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  lines.push(meetingMode && waObjectiveLines.length > 1 ? formatNumberedList(waObjective) : cleanParagraphText(waObjective));
+  lines.push('');
+
+  lines.push('*RUMUSAN:*');
+  lines.push(cleanParagraphText(r.rumusanAi || 'Tiada rumusan.'));
+  lines.push('');
+
+  lines.push('*IMPAK:*');
+  lines.push(formatNumberedList(r.impakAi) || 'Tiada impak.');
+  lines.push('');
+
+  lines.push('*TINDAK SUSUL:*');
+  lines.push(formatNumberedList(r.tindakSusulAi) || 'Tiada tindak susul.');
+  lines.push('');
+
+  lines.push('*' + (r.slogan || '"PPD KITA, TANGGUNGJAWAB KITA"') + '*');
+  lines.push(r.hashtags || '#ptis\n#ppdict\n#bitarasentiasa');
+
+  return lines.join('\n');
+}
+
+function handleCopyWhatsApp() {
+  const waText = formatWhatsAppDispatch(report);
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(waText).then(() => {
+      markWhatsAppCopySuccess();
+      showToast('Format WhatsApp Berjaya Disalin!', 'success', 'Sedia untuk ditampal (paste) ke dalam Group WhatsApp PPD / Sekolah.');
+    }).catch(() => fallbackPlainCopy(waText));
+  } else {
+    fallbackPlainCopy(waText);
+  }
+}
+
+function markWhatsAppCopySuccess() {
+  const btn = document.getElementById('btnCopyWhatsApp');
+  if (!btn) return;
+  const original = btn.innerHTML;
+  btn.innerHTML = '<i data-lucide="check"></i> Disalin ke WhatsApp ✓';
+  refreshIcons();
+  setTimeout(() => {
+    if (!document.body.contains(btn)) return;
+    btn.innerHTML = original;
+    refreshIcons();
+  }, 2500);
+}
+
+function markCopySuccess() {
+  const btn = document.getElementById('btnCopyText');
+  if (!btn) return;
+  const original = btn.innerHTML;
+  btn.classList.add('copy-success');
+  btn.innerHTML = '<i data-lucide="check"></i> Teks Disalin';
+  refreshIcons();
+  setTimeout(() => {
+    if (!document.body.contains(btn)) return;
+    btn.classList.remove('copy-success');
+    btn.innerHTML = original;
+    refreshIcons();
+  }, 2000);
+}
+
+const UNICODE_BOLD_MAP = {
+  'A': '𝗔', 'B': '𝗕', 'C': '𝗖', 'D': '𝗗', 'E': '𝗘', 'F': '𝗙', 'G': '𝗚', 'H': '𝗛', 'I': '𝗜',
+  'J': '𝗝', 'K': '𝗞', 'L': '𝗟', 'M': '𝗠', 'N': '𝗡', 'O': '𝗢', 'P': '𝗣', 'Q': '𝗤', 'R': '𝗥',
+  'S': '𝗦', 'T': '𝗧', 'U': '𝗨', 'V': '𝗩', 'W': '𝗪', 'X': '𝗫', 'Y': '𝗬', 'Z': '𝗭',
+  'a': '𝗮', 'b': '𝗯', 'c': '𝗰', 'd': '𝗱', 'e': '𝗲', 'f': '𝗳', 'g': '𝗴', 'h': '𝗵', 'i': '𝗶',
+  'j': '𝗷', 'k': '𝗸', 'l': '𝗹', 'm': '𝗺', 'n': '𝗻', 'o': '𝗼', 'p': '𝗽', 'q': '𝗾', 'r': '𝗿',
+  's': '𝘀', 't': '𝘁', 'u': '𝘂', 'v': '𝘃', 'w': '𝘄', 'x': '𝘅', 'y': '𝘆', 'z': '𝘇',
+  '0': '𝟬', '1': '𝟭', '2': '𝟮', '3': '𝟯', '4': '𝟰', '5': '𝟱', '6': '𝟲', '7': '𝟳', '8': '𝟴', '9': '𝟵'
+};
+
+function toFacebookBold(str) {
+  if (str == null) return '';
+  return String(str).normalize('NFKC').replace(/[A-Za-z0-9]/g, (ch) => UNICODE_BOLD_MAP[ch] || ch);
+}
+
+function cleanParagraphText(str) {
+  if (!str) return '';
+  return String(str)
+    .split(/[\r\n]+/)
+    .map(s => s.trim())
+    .filter(Boolean)
+    .join(' ');
+}
+
+function handleCopyText() {
+  const meetingMode = isMesyuaratMode();
+  const penglibatanList = getPenglibatanList();
+  const penglibatanText = penglibatanList.length > 0
+    ? penglibatanList.map((n, i) => (i + 1) + '. ' + n).join('\n')
+    : '-';
+  const headerLines = [];
+  const khidmatBantu = report.khidmatBantu || '';
+  const title = report.title || '';
+  if (khidmatBantu) headerLines.push(toFacebookBold(khidmatBantu.toUpperCase()));
+  if (title && title !== 'Khidmat Bantu ICT' && title.toUpperCase() !== khidmatBantu.toUpperCase() && !title.toLowerCase().startsWith('pelaksanaan khidmat bantu') && !title.toLowerCase().startsWith('melaksanakan khidmat bantu') && !title.toLowerCase().startsWith('lawatan teknikal')) {
+    headerLines.push(toFacebookBold(title.toUpperCase()));
+  } else if (!khidmatBantu && title) {
+    headerLines.push(toFacebookBold(title.toUpperCase()));
+  }
+
+
+  const lines = [];
+  lines.push(toFacebookBold('[AKAUNTABILITI : ' + (report.akauntabiliti || 'PENGURUSAN').toUpperCase() + ']'));
+  lines.push(toFacebookBold('[Tugas utama : ' + (report.tugasUtama || 'Menyelaras Proses Urusan ICT') + ']'));
+  lines.push('');
+
+  if (!meetingMode && report.noIsd) {
+    lines.push(toFacebookBold('No. ISD:') + ' ' + report.noIsd);
+    lines.push('');
+  }
+
+  if (headerLines.length > 0) {
+    lines.push(headerLines.join('\n'));
+    lines.push('');
+  }
+
+  lines.push(toFacebookBold('PERINCIAN'));
+  lines.push(toFacebookBold('Tarikh :') + ' ' + formatTarikhBercetak(report.tarikh));
+  lines.push(toFacebookBold('Masa :') + ' ' + (report.masaMula || '-') + (report.masaTamat ? ' - ' + report.masaTamat : ''));
+  lines.push(toFacebookBold((meetingMode ? 'Tempat :' : 'Sekolah :')) + ' ' + (report.lokasiLain || report.namaSekolah || '-'));
+  lines.push('');
+
+  lines.push(toFacebookBold('PENGLIBATAN:'));
+  lines.push(penglibatanText);
+  lines.push('');
+
+  lines.push(toFacebookBold('OBJEKTIF:'));
+  const fbObjective = report.objektif || 'Tiada objektif.';
+  const fbObjectiveLines = String(fbObjective).split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+  lines.push(meetingMode && fbObjectiveLines.length > 1 ? formatNumberedList(fbObjective) : cleanParagraphText(fbObjective));
+  lines.push('');
+
+  lines.push(toFacebookBold('RUMUSAN:'));
+  lines.push(cleanParagraphText(report.rumusanAi || 'Tiada rumusan.'));
+  lines.push('');
+
+  lines.push(toFacebookBold('IMPAK:'));
+  lines.push(formatNumberedList(report.impakAi) || 'Tiada impak.');
+  lines.push('');
+
+  lines.push(toFacebookBold('TINDAK SUSUL:'));
+  lines.push(formatNumberedList(report.tindakSusulAi) || 'Tiada tindak susul.');
+  lines.push('');
+
+  lines.push(toFacebookBold(report.slogan || '"PPD KITA, TANGGUNGJAWAB KITA"'));
+  lines.push('');
+  lines.push(report.hashtags || '#ptis\n#ppdict\n#bitarasentiasa');
+
+  const plainText = lines.join('\n');
+
+  copyPlainTextToClipboard(plainText);
+}
+
+function copyPlainTextToClipboard(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      markCopySuccess();
+      showToast('Teks laporan berjaya disalin.', 'success');
+    }).catch(() => fallbackPlainCopy(text));
+  } else {
+    fallbackPlainCopy(text);
+  }
+}
+
+function fallbackPlainCopy(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.style.position = 'fixed';
+  textarea.style.left = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+
+  try {
+    document.execCommand('copy');
+    markCopySuccess();
+    showToast('Teks laporan berjaya disalin.', 'success');
+  } catch (e) {
+    showToast('Gagal menyalin teks.', 'error');
+  }
+
+  document.body.removeChild(textarea);
+}
+
+/* ============================================================
+ * HISTORY MODAL
+ * ============================================================ */
+function trapModalFocus(event) {
+  if (event.key !== 'Tab') return;
+  const modal = document.getElementById('historyModal');
+  const focusable = [...modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')].filter((el) => !el.disabled);
+  if (!focusable.length) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+  else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+}
+
+function openHistoryModal() {
+  lastFocusedElement = document.activeElement;
+  const modal = document.getElementById('historyModal');
+  modal.hidden = false;
+  renderHistoryModal();
+  refreshReportsFromSheet();
+  requestAnimationFrame(() => document.getElementById('btnCloseHistory')?.focus());
+}
+function closeHistoryModal() {
+  document.getElementById('historyModal').hidden = true;
+  if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') lastFocusedElement.focus();
+}
+function renderHistoryModal() {
+  const el = document.getElementById('historyModal');
+  const rows = reports.length > 0 ? reports.map((r) => (
+    '<div class="report-row' + (r.id === report.id ? ' selected' : '') + '"><div><div class="r-title">' + esc(r.namaSekolah || 'Sekolah Tanpa Nama') + '</div><div class="r-sub">📅 ' + esc(r.tarikh || '-') + '</div></div><div class="report-row-actions"><button class="btn btn-blue" type="button" data-open="' + esc(r.id) + '"><i data-lucide="edit"></i> Buka</button></div></div>'
+  )).join('') : '<div class="p-empty-box"><p>Tiada laporan tersimpan lagi.</p></div>';
+
+  el.innerHTML = '<div class="modal-box" tabindex="-1"><div class="modal-head"><h3 id="historyTitle"><i data-lucide="folder"></i> Sejarah</h3><button class="close-x" id="btnCloseHistory" type="button" aria-label="Tutup sejarah"><i data-lucide="x"></i></button></div><div class="modal-list">' + rows + '</div></div>';
+
+  document.getElementById('btnCloseHistory').addEventListener('click', closeHistoryModal);
+  el.onclick = (event) => { if (event.target === el) closeHistoryModal(); };
+  el.onkeydown = trapModalFocus;
+  el.querySelectorAll('[data-open]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-open'); const found = reports.find((r) => r.id === id);
+      if (found) {
+        report = normalizeReport(cloneData(found));
+        lawatanModeSnapshot = null;
+        syncUiStateFromReport();
+        closeHistoryModal();
+        switchTab('borang');
+        showToast('Laporan dimuatkan.', 'success');
+      }
+    });
+  });
+  refreshIcons();
+}
+
+// Smart Navigation Handler: domains come from config/organization.json.
+function resolveAppUrl(route) {
+  const host = window.location.hostname;
+  const domains = (window.PPD_SYSTEM_CONFIG && window.PPD_SYSTEM_CONFIG.organization && window.PPD_SYSTEM_CONFIG.organization.domains) || {};
+  const configuredHosts = [domains.root, domains.dashboard, domains.admin, domains.ptis].filter(Boolean);
+  if (configuredHosts.includes(host)) {
+    if (route === '/' || route === '/home') return 'https://' + (domains.root || host) + '/';
+    if (route === '/dashboard') return 'https://' + (domains.dashboard || domains.root || host) + '/';
+    if (route === '/ptis') return 'https://' + (domains.ptis || domains.root || host) + '/';
+  }
+  return route;
+}
+function navigateTo(route) {
+  window.location.href = resolveAppUrl(route);
+}
+function navigateDesktop(e, route) {
+  if (e && (e.ctrlKey || e.metaKey || e.shiftKey)) return true;
+  if (e && e.preventDefault) e.preventDefault();
+  navigateTo(route);
+  return false;
+}
+
+// Tactical Button Visual Feedback
+function initTactileFeedback() {
+  const interactiveSelector = '.desktop-nav-link, .darkmode-btn, .btn, .dock-item, .chip, button, a.btn, .history-item';
+  document.addEventListener('pointerdown', (e) => {
+    const el = e.target.closest(interactiveSelector);
+    if (!el) return;
+    el.classList.add('is-tactile-pressed');
+  }, { passive: true });
+  const release = () => {
+    document.querySelectorAll('.is-tactile-pressed').forEach(el => el.classList.remove('is-tactile-pressed'));
+  };
+  document.addEventListener('pointerup', release, { passive: true });
+  document.addEventListener('pointercancel', release, { passive: true });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTactileFeedback);
+} else {
+  initTactileFeedback();
+}
+</script>
+
+  <div id="buildBadge" class="p-build-badge">v__BUILD_VERSION__</div>
+</body>
+</html>

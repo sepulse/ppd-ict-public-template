@@ -1,0 +1,11 @@
+[
+  { "id": "ZON 1", "name": "ZON 1", "area": "KAWASAN 1", "color": "#2563EB" },
+  { "id": "ZON 2", "name": "ZON 2", "area": "KAWASAN 2", "color": "#16A34A" },
+  { "id": "ZON 3", "name": "ZON 3", "area": "KAWASAN 3", "color": "#F59E0B" },
+  { "id": "ZON 4", "name": "ZON 4", "area": "KAWASAN 4", "color": "#8B5CF6" },
+  { "id": "ZON 5", "name": "ZON 5", "area": "KAWASAN 5", "color": "#EC4899" },
+  { "id": "ZON 6", "name": "ZON 6", "area": "KAWASAN 6", "color": "#06B6D4" },
+  { "id": "ZON 7", "name": "ZON 7", "area": "KAWASAN 7", "color": "#D97706" },
+  { "id": "ZON 8", "name": "ZON 8", "area": "KAWASAN 8", "color": "#475569" },
+  { "id": "ZON PPD", "name": "PPD", "area": "PEJABAT PPD", "color": "#64748B" }
+]

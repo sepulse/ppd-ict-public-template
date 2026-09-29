@@ -1,0 +1,23 @@
+name = "ppd-ict-system"
+main = "cloudflare_worker_ppd.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+
+# Tambah routes production selepas domain anda tersedia.
+# routes = ["ppd.example.gov.my/*"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ppd-ict-db"
+database_id = "YOUR_D1_DATABASE_ID"
+
+[[rules]]
+type = "Text"
+globs = ["**/*.html"]
+fallthrough = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = ["/*", "!/a1/*"]

@@ -1,0 +1,1583 @@
+/* ==========================================================================
+   PPD-ICT · Master A-1 — Gaya khusus Dashboard (assets/dashboard-a1.css)
+   Pemilik: Gemini (Ronde 2a §1.10).
+   Gaya khusus halaman yang mematuhi token dan komponen Master A-1.
+   ========================================================================== */
+
+/* Pengurusan paparan tab */
+.tab-view {
+  display: none;
+}
+.tab-view.active {
+  display: block;
+}
+
+/* Jalur penapis */
+.fbar {
+  margin-top: 0;
+}
+.fbar .chip button {
+  cursor: pointer;
+}
+
+/* Bekas graf harian & tatal responsif */
+.dchart-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.dchart-wrap svg {
+  min-width: 520px;
+}
+@media (min-width: 640px) {
+  .dchart-wrap svg {
+    min-width: 100%;
+  }
+}
+
+/* Butiran angka harian mengikut zon */
+.dly {
+  margin-top: 24px;
+  border: 1px solid var(--rule);
+  background: var(--card);
+}
+.dly summary {
+  padding: 16px 20px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--ink);
+  cursor: pointer;
+  user-select: none;
+}
+.dly summary:hover {
+  background: var(--paper-2);
+}
+.dly[open] summary {
+  border-bottom: 1px solid var(--rule);
+}
+.dly .tbl-wrap {
+  border-top: 0;
+}
+
+/* Lejar zon dua lajur */
+@media (max-width: 1179px) {
+  .zledger.two {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .zledger.two > div + div {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .zledger.two > div:first-child {
+    padding-right: 0;
+  }
+}
+
+/* Fokus boleh diakses */
+.chip button:focus-visible,
+.zl-frac:focus-visible,
+.fadd:focus-visible {
+  outline: 2px solid var(--petrol);
+  outline-offset: 2px;
+}
+
+/* Hero chart wrap master styling (S5) */
+.hero-r .dchart-wrap {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* Legenda mod zon dalam hero graf (S3) */
+#overviewChartLegend {
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding-top: 12px;
+  margin-top: 0;
+}
+
+/* Pautan nama sekolah dalam operasi terkini (k4) */
+.visit h4 a,
+.visit h4 button {
+  text-decoration: none;
+}
+.visit h4 a:hover,
+.visit h4 button:hover,
+.visit h4 a:focus-visible,
+.visit h4 button:focus-visible {
+  text-decoration: underline;
+}
+
+/* Log lawatan responsif: <=760px senarai telefon, >760px jadual */
+@media (max-width: 760px) {
+  #recordsTableWrap {
+    display: none;
+  }
+  #recordsMobileList {
+    display: block;
+  }
+}
+@media (min-width: 761px) {
+  #recordsMobileList {
+    display: none;
+  }
+  #recordsTableWrap {
+    display: block;
+  }
+}
+
+/* Modal Ahli JTK terlibat */
+.modal-members-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+}
+.modal-member-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink);
+}
+.modal-member-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--petrol);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+/* Topbar Tarikh Dinamik */
+#topDateLabel {
+  color: var(--muted);
+}
+
+@media (max-width: 560px) {
+  #btnSyncD1 {
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    flex: 0 0 44px;
+    justify-content: center;
+  }
+  #btnSyncD1 > span {
+    display: none;
+  }
+}
+
+/* Lencana Zon Tertinggi dalam .strip (b7) */
+.stat .v .zb {
+  font-size: 14px;
+  height: 32px;
+  padding: 0 12px;
+}
+
+/* Subpaparan Sekolah Zon (b6 & b8) */
+.zone-subview-panel {
+  border-top: 1px solid var(--ink);
+  padding-top: 28px;
+  margin-top: 24px;
+}
+.zone-subview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.zone-subview-title {
+  font: 700 18px/1.2 var(--display);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.zone-subview-sub {
+  font-size: 12px;
+  color: var(--muted);
+  display: block;
+  margin-top: 4px;
+}
+.zone-subview-list {
+  display: flex;
+  flex-direction: column;
+}
+.zone-subview-panel .empty {
+  padding: 0 0 28px;
+  border-bottom: 1px solid var(--rule);
+}
+.zone-subview-panel .empty .zone-subview-header {
+  margin-bottom: 12px;
+}
+.zone-subview-panel .empty p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* Pautan sekolah dalam senarai subpaparan: garis bawah hanya hover/focus-visible (b6) */
+.person b a,
+.person b button {
+  text-decoration: none;
+}
+.person b a:hover,
+.person b button:hover,
+.person b a:focus-visible,
+.person b button:focus-visible {
+  text-decoration: underline;
+}
+
+/* Butang ISD lanjut dalam jadual rekod (b8) */
+.isd-more-btn {
+  font-size: 11px;
+  margin-left: 4px;
+}
+
+/* Butiran isu dalam jadual zon (b8) */
+.tbl details summary {
+  cursor: pointer;
+  font-weight: 500;
+}
+.tbl details p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--ink);
+}
+
+/* Utiliti susun atur bahagian & carian tanpa style sebaris (b8) */
+.records-search-field {
+  max-width: 560px;
+}
+.records-total-summary {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.sec-sub {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ==========================================================================
+   GAYA KHUSUS RONDE 2c (FASA A: #members, #issues, #geospatial, #report)
+   ========================================================================== */
+
+/* #members & #issues: responsif satu representasi (<=760px senarai kad, >760px jadual) */
+@media (max-width: 760px) {
+  #membersTableWrap,
+  #issuesTableWrap {
+    display: none;
+  }
+  #membersMobileList,
+  #issuesRelatedLog {
+    display: block;
+  }
+}
+@media (min-width: 761px) {
+  #membersMobileList,
+  #issuesRelatedLog {
+    display: none;
+  }
+  #membersTableWrap,
+  #issuesTableWrap {
+    display: block;
+  }
+}
+
+/* Butang dalam baris .rank b */
+.rank b a,
+.rank b button {
+  text-decoration: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.rank b a:hover,
+.rank b button:hover,
+.rank b a:focus-visible,
+.rank b button:focus-visible {
+  text-decoration: underline;
+}
+
+/* Angka aduan #issuesTotalNumber */
+.issue-total-wrap {
+  margin: 16px 0 20px;
+}
+.issue-total-wrap .num {
+  font: 700 48px/1 var(--display);
+  font-stretch: 90%;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  display: block;
+}
+
+/* Peta geospatial */
+.geo-map-frame {
+  width: 100%;
+  height: min(72vh, 760px);
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  overflow: hidden;
+  background: var(--card);
+}
+
+/* Laporan: .sheet pratonton */
+.sheet {
+  background: var(--card);
+  border: 1px solid var(--rule-2);
+  padding: 48px;
+}
+@media (max-width: 560px) {
+  .sheet {
+    padding: 20px;
+  }
+}
+
+/* Dossier dalam .sheet — satu bingkai sahaja (C2) */
+.sheet .report-dossier,
+#executiveReportContent.report-dossier {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  padding: 0;
+}
+
+/* Baris butang tindakan laporan (C1) */
+.act-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.act-row[hidden] {
+  display: none;
+}
+
+/* Unit dalam .stat .num (C3) */
+.stat .num small {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  margin-left: 4px;
+}
+
+
+/* Cetakan laporan (Ctrl+P / Page.printToPDF) */
+@media print {
+  body {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .dash-shell > header,
+  .dash-shell > aside,
+  .fbar,
+  .drawer,
+  .pg,
+  #appShellHeader,
+  #filterDialog,
+  .nav-tabs,
+  .side,
+  .mast {
+    display: none;
+  }
+  .tab-view:not(.active) {
+    display: none;
+  }
+  #view-report .sec-h:has(+ .fields),
+  #view-report .fields,
+  #view-report #monthlyReportActions,
+  #view-report #detailReportActions,
+  #view-report .sec:last-child {
+    display: none;
+  }
+  .sheet {
+    border: 0;
+    padding: 0;
+    background: transparent;
+  }
+  .tbl-wrap {
+    overflow: visible;
+    border-top: 0;
+  }
+  .tbl {
+    table-layout: auto;
+    width: 100%;
+  }
+  .tbl th,
+  .tbl td,
+  .tbl .ag,
+  .tbl .sch,
+  .tbl .dt {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
+
+/* ==========================================================================
+   FASA B: SURVIVING RULES & MASTER A-1 UTILITIES (BERTOKEN PENUH)
+   ========================================================================== */
+
+/* ISD Label */
+.isd-label {
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 26px;
+  padding: 0 8px;
+  border-radius: 0;
+  background: var(--isd);
+  color: var(--on-isd);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+.isd-label-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Mod Pembentangan 16:9 (Presentation Mode) */
+.presentation-backdrop {
+  position: fixed;
+  inset: 0;
+  background: var(--scrim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+}
+.presentation-backdrop[hidden] {
+  display: none;
+}
+.presentation {
+  width: min(1120px, 94vw, calc((90vh - 64px) * 16 / 9));
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.slide-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: clamp(20px, 2.5vw, 36px) clamp(24px, 3.5vw, 44px);
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.slide-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.slide-content .kicker {
+  color: var(--petrol);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.slide-content h2 {
+  margin: 6px 0 10px;
+  font: 700 clamp(24px, 2.5vw, 36px)/1.2 var(--display);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.slide-desc {
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+.slide-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: auto;
+  margin-bottom: 6px;
+}
+.slide-kpi-card {
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px 20px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+}
+.slide-kpi-card span {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.slide-kpi-card strong {
+  margin-top: 6px;
+  font: 700 clamp(24px, 2vw, 36px)/1 var(--display);
+  color: var(--ink);
+}
+.slide-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  margin-top: auto;
+  margin-bottom: 6px;
+}
+.slide-card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  font-size: 13px;
+}
+.slide-card-row span {
+  color: var(--ink);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.slide-card-row strong {
+  color: var(--petrol);
+  font-family: var(--mono);
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.slide-trend-shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 220px;
+  width: 100%;
+}
+.slide-trend-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.slide-trend-meta strong {
+  font-family: var(--mono);
+  color: var(--ink);
+  font-size: 15px;
+}
+.slide-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+  margin-top: 12px;
+}
+.presentation-close {
+  position: absolute;
+  z-index: 10;
+  right: 16px;
+  top: 16px;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 16px;
+  cursor: pointer;
+}
+.presentation-close:hover {
+  background: var(--paper-2);
+}
+.slide-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  gap: 16px;
+}
+.slide-nav > button {
+  min-width: 130px;
+  height: 38px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.slide-nav > button:hover:not(:disabled) {
+  background: var(--paper-2);
+  border-color: var(--ink);
+}
+.slide-nav > button:disabled {
+  opacity: .35;
+  cursor: not-allowed;
+}
+.slide-dots {
+  display: flex;
+  gap: 8px;
+}
+.slide-dots button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 1px solid var(--rule);
+  background: var(--paper-2);
+  cursor: pointer;
+}
+.slide-dots button.active {
+  background: var(--petrol);
+  border-color: var(--petrol);
+}
+@media (max-width: 760px) {
+  .presentation-backdrop {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100dvh;
+    padding: 0;
+    margin: 0;
+    background: var(--paper);
+    align-items: stretch;
+    justify-content: stretch;
+    z-index: 1000;
+  }
+  .presentation {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    border: none;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 1001;
+  }
+  .presentation-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    z-index: 20;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .slide-stage {
+    aspect-ratio: auto;
+    flex: 1 1 0%;
+    min-height: 0;
+    max-height: none;
+    padding: 16px 16px 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    min-width: 0;
+    background: var(--paper);
+    border: none;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-sizing: border-box;
+  }
+  .slide-stage * {
+    text-overflow: clip;
+  }
+  .slide-content {
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 16px;
+    padding-top: 36px;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .slide-content > div:first-child {
+    padding-right: 48px;
+  }
+  .slide-content h2 {
+    margin: 4px 0 8px;
+    font-size: clamp(20px, 5.5vw, 24px);
+    line-height: 1.25;
+  }
+  .slide-desc {
+    margin: 0 0 4px;
+  }
+  .slide-kpis,
+  .slide-grid-2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    min-width: 0;
+    max-width: 100%;
+  }
+  .slide-kpis {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    width: 100%;
+  }
+  .slide-kpi-card {
+    min-height: 72px;
+    padding: 10px 12px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+  }
+  .slide-kpi-card span {
+    font-size: 10px;
+  }
+  .slide-kpi-card strong {
+    font-size: 20px;
+  }
+  .slide-grid-2 {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+  .slide-card-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .slide-card-row span {
+    min-width: 0;
+    flex: 1 1 auto;
+    white-space: normal;
+    text-overflow: clip;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.35;
+    word-break: break-word;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .slide-card-row strong {
+    flex-shrink: 0;
+    text-align: right;
+    white-space: nowrap;
+    line-height: 1.35;
+    margin-left: auto;
+  }
+  .slide-footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+    margin-top: 20px;
+    flex-shrink: 0;
+  }
+  .slide-nav {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--rule);
+    background: var(--paper);
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-width: 0;
+  }
+  .slide-nav > button {
+    width: auto;
+    min-width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .slide-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+  .slide-dots button {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    margin: 0 -8px;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slide-dots button.active {
+    background: transparent;
+    border: 0;
+  }
+  .slide-dots button::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+    display: block;
+  }
+  .slide-dots button.active::after {
+    background: var(--petrol);
+    border-color: var(--petrol);
+  }
+  @media (max-width: 360px) {
+    .slide-nav > button {
+      padding: 0 10px;
+    }
+    .slide-nav-lbl {
+      display: none;
+    }
+  }
+  .slide-trend-shell {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 220px;
+    width: 100%;
+  }
+  .slide-trend-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .slide-trend-meta strong {
+    font-family: var(--mono);
+    color: var(--ink);
+    font-size: 14px;
+  }
+}
+
+/* Modal Rekod & Dialog */
+.dlg-kicker {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0 0 4px 0;
+}
+.modal-meta-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 16px;
+}
+.modal-member-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: var(--card);
+  border: 1px solid var(--rule);
+  font-size: 13px;
+}
+.modal-member-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--petrol);
+  flex-shrink: 0;
+}
+.modal-member-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.modal-members-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+  margin-top: 12px;
+}
+.dlg-sub h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+}
+.dlg-sub-count {
+  margin-left: auto;
+  color: var(--muted);
+}
+#modalBackdrop .dlg-b {
+  padding: 24px 28px 32px;
+}
+#modalBackdrop .dlg-sub {
+  margin: 44px 0 12px;
+}
+#modalBackdrop section:first-of-type .dlg-sub {
+  margin-top: 0;
+}
+#modalBackdrop .dlg-sub h3 {
+  font-size: 15px;
+}
+#modalBackdrop .modal-members-list {
+  margin-top: 16px;
+}
+.dlg-field {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 68ch);
+  column-gap: 32px;
+  row-gap: 6px;
+  margin: 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--rule);
+}
+.dlg-sub + .dlg-field {
+  border-top: 0;
+  padding-top: 12px;
+}
+.dlg-field-label {
+  font: 700 12px/1.45 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+  padding-top: 4px;
+}
+.dlg-field-val {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink);
+  max-width: 68ch;
+}
+@media (max-width: 720px) {
+  #modalBackdrop .dlg-b {
+    padding: 20px 16px 28px;
+  }
+  .dlg-field {
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+    padding: 18px 0;
+  }
+  .dlg-field-val {
+    max-width: none;
+  }
+}
+.modal-tarikh {
+  font-size: 13px;
+  color: var(--muted);
+}
+.modal-tarikh b {
+  color: var(--ink);
+}
+.modal-isd-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.meta-muted {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Dossier #report */
+.report-dossier-head {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.report-dossier-head h3 {
+  font: 700 20px/1.2 var(--display);
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--ink);
+}
+.report-dossier-head p {
+  font-size: 13px;
+  color: var(--ink);
+  margin: 4px 0 0;
+}
+.report-dossier-head p strong {
+  font-weight: 600;
+}
+.report-dossier-ref {
+  font-size: 12px;
+  letter-spacing: .09em;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.report-status-badge {
+  font-size: 12px;
+  letter-spacing: .1em;
+  border: 1px solid var(--rule);
+  padding: 3px 8px;
+  color: var(--muted);
+}
+.report-dossier .strip {
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 28px;
+}
+.report-section-row {
+  border-top: 1px solid var(--rule);
+  padding: 20px 0;
+}
+.report-section-row .sec-h {
+  border-bottom: 0;
+  padding-bottom: 8px;
+}
+.report-section-row .sec-h h2 {
+  font-size: 20px;
+}
+.report-section-body {
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: 820px;
+  font-size: 14px;
+}
+.report-section-body ol {
+  margin: 0;
+  padding-left: 20px;
+}
+.report-detail-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 24px;
+}
+.report-detail-summary .stat {
+  padding: 16px 20px 14px;
+  border-right: 1px solid var(--rule);
+}
+.report-detail-summary .stat:first-child {
+  padding-left: 0;
+}
+.report-detail-summary .stat:last-child {
+  border-right: 0;
+}
+.report-detail-summary .stat .mono {
+  color: var(--muted);
+  font-size: 11px;
+}
+.report-detail-summary .stat .num {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: .9;
+  letter-spacing: -.03em;
+}
+@media (max-width: 760px) {
+  .report-detail-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .report-detail-summary .stat:nth-child(2) {
+    border-right: 0;
+  }
+  .report-detail-summary .stat:nth-child(-n+2) {
+    border-bottom: 1px solid var(--rule);
+  }
+}
+.report-detail-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 16px;
+}
+.report-detail-row td:first-child {
+  border-left: 3px solid var(--c, var(--primary));
+}
+#detailReportTable .report-numbered > div {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  column-gap: 6px;
+  align-items: start;
+  min-height: 28px;
+}
+#detailReportTable .report-numbered > div > b {
+  display: block;
+  font: 500 12px/28px var(--mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+#detailReportTable .report-numbered > div > span:not(.isd-label-list) {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  font: inherit;
+  line-height: 28px;
+  color: inherit;
+}
+#detailReportTable .report-numbered > div > .isd-label-list {
+  align-content: center;
+  min-height: 28px;
+}
+#detailReportTable .dt .report-numbered > div > span {
+  font: 400 12px/28px var(--mono);
+  color: var(--ink);
+}
+#detailReportTable .ag .report-numbered > div > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#detailReportTable tr:has(.isd-label + .isd-label) :is(td.dt, td.ag, td:nth-child(6)) {
+  vertical-align: top;
+}
+#issuesPagination[hidden] {
+  display: none;
+}
+.report-evidence {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.evidence-photos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.evidence-thumb {
+  display: block;
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  overflow: hidden;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+}
+.evidence-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.evidence-thumb:hover {
+  border-color: var(--ink);
+}
+.evidence-thumb:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.report-evidence .dash {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Utilities, Spacing & Col-widths */
+.sec.full {
+  margin-top: 48px;
+}
+.sec-spaced {
+  margin-top: 40px;
+}
+.tbl-wrap {
+  margin-top: 16px;
+}
+.tbl th[style*="--w"],
+.tbl col[style*="--w"] {
+  width: var(--w);
+}
+.tbl tr.row-muted td,
+.tbl tr.row-muted td b {
+  color: var(--muted);
+}
+.person.person-muted span {
+  color: var(--muted);
+}
+.person-pos {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+}
+.dash {
+  color: var(--muted);
+}
+.chart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 380px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.chart-empty svg {
+  margin-bottom: 10px;
+  stroke: var(--muted);
+}
+.chart-empty span {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.geo-map-frame {
+  margin-top: 20px;
+  height: 480px;
+  border: 1px solid var(--rule);
+}
+.geo-map-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.geo-school-card {
+  margin-top: 20px;
+  padding: 24px;
+  border: 1px solid var(--rule);
+  background: var(--card);
+}
+.geo-school-card .mono-label {
+  font-size: 12px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 8px;
+}
+.geo-school-card h3 {
+  font: 700 18px/1.2 var(--display);
+  letter-spacing: -0.01em;
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+.geo-school-card p {
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+.geo-school-card .mono-note {
+  font-size: 12px;
+  color: var(--muted);
+}
+.fields-row {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.field-grow {
+  flex: 1;
+  min-width: 200px;
+}
+.field-zone {
+  width: 140px;
+}
+.legend i[style*="--c"] {
+  background: var(--c);
+}
+.legend.chart-legend {
+  margin-top: 12px;
+  padding-top: 0;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.concentric-callout {
+  cursor: pointer;
+}
+.concentric-center-hub {
+  pointer-events: none;
+}
+.concentric-pin-group {
+  pointer-events: none;
+}
+.meta-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ==========================================================================
+   #records · Kalendar log lawatan
+   ========================================================================== */
+#view-records .sec-h {
+  align-items: center;
+}
+#view-records .sec-h .seg {
+  margin-left: auto;
+}
+#view-records .sec-h .seg button {
+  height: 36px;
+}
+#view-records .sec-h > #btnExportCsv {
+  margin-left: 10px;
+}
+#calClrSel {
+  margin-top: 12px;
+}
+@media (max-width: 760px) {
+  #view-records .sec-h {
+    flex-wrap: wrap;
+    gap: 8px 14px;
+  }
+  #view-records .sec-h > #btnExportCsv {
+    margin-left: auto;
+  }
+  #view-records .sec-h .seg {
+    order: 3;
+    margin: 8px 0 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 900px) {
+  #view-records .cal-day {
+    min-height: 0;
+  }
+}
+
+
+
+/* ==========================================================================
+   AKSEN PETROL — header setiap paparan (Dashboard kecuali #view-overview, yang
+   hero-nya sudah jadi header) + penanda bahagian .sec-h. Diluluskan daripada
+   docs/handoff/MOCKUP_ACCENT_PETROL_HEADER.html varian B.
+   ========================================================================== */
+.tab-view:not(#view-overview) .mast {
+  position: relative;
+  overflow: hidden;
+  margin-top: 28px;
+  padding: 32px 40px 30px;
+  background: var(--petrol-deep);
+  color: var(--on-dark);
+}
+.tab-view:not(#view-overview) .mast::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background: repeating-linear-gradient(90deg, var(--petrol-line) 0 1px, transparent 1px calc(100% / 12));
+}
+.tab-view:not(#view-overview) .mast > * {
+  position: relative;
+}
+.tab-view:not(#view-overview) .mast .eyebrow {
+  color: var(--mint);
+}
+.tab-view:not(#view-overview) .mast h1 {
+  color: var(--on-dark);
+}
+.tab-view:not(#view-overview) .mast .period .mono {
+  color: var(--on-dark-2);
+}
+.tab-view:not(#view-overview) .mast .period b {
+  color: var(--mint);
+}
+.tab-view:not(#view-overview) .mast + .strip {
+  border-top: 0;
+}
+.sec-h {
+  align-items: center;
+  border-bottom: 2px solid var(--petrol);
+  padding-bottom: 12px;
+}
+.sec-h .idx {
+  display: inline-grid;
+  place-items: center;
+  min-width: 30px;
+  height: 30px;
+  padding: 0 6px;
+  background: var(--petrol-deep);
+  color: var(--mint);
+  letter-spacing: 0.04em;
+}
+.sec-sub {
+  color: var(--petrol);
+  font-weight: 500;
+}
+@media (max-width: 760px) {
+  .tab-view:not(#view-overview) .mast {
+    margin-top: 16px;
+    padding: 22px 20px 20px;
+  }
+}
+
+/* AKSEN PETROL — Mod Pembentangan: pengepala slaid jadi jalur petrol-deep (sama bahasa dengan .mast),
+   kad KPI/baris dapat penanda petrol supaya slaid tidak kosong. */
+.slide-stage {
+  --sp-y: clamp(20px, 2.5vw, 36px);
+  --sp-x: clamp(24px, 3.5vw, 44px);
+}
+.slide-content > div:first-child {
+  position: relative;
+  overflow: hidden;
+  margin: calc(-1 * var(--sp-y)) calc(-1 * var(--sp-x)) 0;
+  padding: var(--sp-y) calc(var(--sp-x) + 44px) 18px var(--sp-x);
+  background: var(--petrol-deep);
+  color: var(--on-dark);
+}
+.slide-content > div:first-child::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background: repeating-linear-gradient(90deg, var(--petrol-line) 0 1px, transparent 1px calc(100% / 12));
+}
+.slide-content > div:first-child > * {
+  position: relative;
+}
+.slide-content > div:first-child .kicker {
+  color: var(--mint);
+}
+.slide-content > div:first-child h2 {
+  color: var(--on-dark);
+}
+.slide-content > div:first-child .slide-desc {
+  margin: 0;
+  color: var(--on-dark-2);
+}
+.slide-kpi-card {
+  border-top: 3px solid var(--petrol);
+}
+.slide-card-row {
+  border-left: 3px solid var(--petrol);
+}
+.slide-footer {
+  border-top-color: var(--petrol);
+}
+.presentation-close {
+  border-color: var(--on-dark-rule);
+  background: transparent;
+  color: var(--on-dark);
+}
+.presentation-close:hover {
+  background: var(--petrol-line);
+}
+@media (max-width: 760px) {
+  .slide-stage {
+    --sp-y: 16px;
+    --sp-x: 16px;
+  }
+  .slide-content {
+    padding-top: 0;
+  }
+  .slide-content > div:first-child {
+    margin-bottom: 0;
+    padding: 56px 16px 18px;
+  }
+  .presentation-close {
+    background: transparent;
+    border-color: var(--on-dark-rule);
+    color: var(--on-dark);
+  }
+}
+.slide-kpi-card:first-child {
+  background: var(--petrol-deep);
+  border-color: var(--petrol-deep);
+}
+.slide-kpi-card:first-child span {
+  color: var(--on-dark-2);
+}
+.slide-kpi-card:first-child strong {
+  color: var(--mint);
+}
+@media (min-width: 761px) {
+  .slide-kpi-card {
+    min-height: 150px;
+  }
+  .slide-kpi-card strong {
+    font-size: clamp(32px, 4vw, 56px);
+  }
+}
+.slide-card-row .zb {
+  color: #fff;
+  font-weight: 700;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* Graf trend slaid: Chart.js (maintainAspectRatio:false) mesti ukur bekas ber-tinggi tetap.
+   Sebelum ini <canvas> terus dalam .slide-trend-shell (tinggi ikut kandungan) → graf & slaid membesar tanpa henti. */
+.slide-trend-shell {
+  flex: 1 1 0;
+  min-height: 220px;
+}
+.slide-trend-canvas {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+}
+@media (min-width: 761px) {
+  .slide-stage {
+    overflow: hidden;
+  }
+}
+@media (max-width: 760px) {
+  .slide-trend-shell {
+    min-height: 280px;
+  }
+}
+.slide-trend-meta {
+  margin-top: 14px;
+}
