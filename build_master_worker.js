@@ -111,7 +111,7 @@ function base64ToBuffer_(b64) {
 }
 
 /**
- * CLOUDFLARE WORKER ROUTER & EDGE ENGINE (PPD-ICT PLATFORM)
+ * CLOUDFLARE WORKER ROUTER & EDGE ENGINE (WHITE-LABEL PLATFORM)
  * 100% Full Feature Parity with Legacy GAS Backend + Cloudflare D1 SQL Speed
  */
 
@@ -4725,7 +4725,7 @@ async function handleQrApi(request, env) {
     const rawValue = body.value || body.qr || body.code || body.text || body.reportId || url.searchParams.get('value') || url.searchParams.get('qr') || url.searchParams.get('code') || url.searchParams.get('reportId') || '';
     const reportId = extractQrReportId_(rawValue);
     if (!reportId) {
-      return jsonResponse({ success: false, error: 'Kod QR tidak sah atau tidak mengandungi ID laporan PPD-ICT yang disokong.' }, 400);
+      return jsonResponse({ success: false, error: 'Kod QR tidak sah atau tidak mengandungi ID laporan yang disokong.' }, 400);
     }
 
     const row = await db.prepare(
@@ -8052,13 +8052,10 @@ async function handleReportPrintView(request, env, ctx) {
 '  <meta charset="UTF-8">' +
 '  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">' +
 '  <title>Laporan PTIS — ' + escapeHtml_(school) + ' (' + escapeHtml_(dateComp.dateLabel) + ')</title>' +
-'  <link rel="preconnect" href="https://fonts.googleapis.com">' +
-'  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' +
-'  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">' +
 '  <style>' +
 '    :root {' +
 '      --primary: #0f172a;' +
-'      --accent: #0284c7;' +
+'      --accent: #64748b;' +
 '      --text: #0f172a;' +
 '      --text-muted: #475569;' +
 '      --border: #cbd5e1;' +
@@ -8184,13 +8181,13 @@ async function handleReportPrintView(request, env, ctx) {
 '    .meta-table td { border: 1px solid #cbd5e1; padding: 5.5px 8px; padding-right: 6px; font-size: 11px; vertical-align: middle; overflow: visible; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; letter-spacing: normal; }' +
 '    .meta-label { background: #f1f5f9; font-weight: 700; color: #334155; width: 18%; text-transform: uppercase; font-size: 10px; letter-spacing: normal; }' +
 '    .meta-value { color: #0f172a; font-weight: 600; width: 32%; letter-spacing: normal; }' +
-'    .sec-head { background: #f1f5f9; border-left: 3.5px solid #0284c7; padding: 4px 8px; font-size: 11px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: normal; margin-top: 10px; margin-bottom: 4px; }' +
+'    .sec-head { background: #f1f5f9; border-left: 3.5px solid #64748b; padding: 4px 8px; font-size: 11px; font-weight: 800; color: #0f172a; text-transform: uppercase; letter-spacing: normal; margin-top: 10px; margin-bottom: 4px; }' +
 '    .sec-box { border: 1px solid #cbd5e1; border-radius: 2px; padding: 8px 12px 8px 10px; padding-right: 8px; background: #ffffff; font-size: 11px; line-height: 1.55; color: #1e293b; text-align: justify; overflow: visible; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; letter-spacing: normal; }' +
 '    .parallel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 6px; }' +
 '    .num-list { list-style: none; padding: 0; margin: 0; }' +
 '    .num-list li { position: relative; padding-left: 18px; padding-right: 6px; margin-bottom: 5px; font-size: 10.5px; line-height: 1.45; color: #1e293b; overflow: visible; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; letter-spacing: normal; }' +
 '    .num-list li:last-child { margin-bottom: 0; }' +
-'    .num-list li::before { content: attr(data-num); position: absolute; left: 0; top: 0; font-weight: 700; color: #0284c7; font-family: JetBrains Mono, monospace; }' +
+'    .num-list li::before { content: attr(data-num); position: absolute; left: 0; top: 0; font-weight: 700; color: #64748b; font-family: ui-monospace, monospace; }' +
 '    .photo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 6px; }' +
 '    .photo-card { border: 1px solid #cbd5e1; border-radius: 3px; overflow: hidden; background: #f8fafc; text-align: center; }' +
 '    .photo-card img { width: 100%; height: 130px; object-fit: cover; display: block; background: #e2e8f0; }' +
@@ -8243,7 +8240,7 @@ async function handleReportPrintView(request, env, ctx) {
 '    <table class="meta-table">' +
 '      <tr>' +
 '        <td class="meta-label">Sekolah / Lokasi</td>' +
-'        <td class="meta-value" style="font-size:12px; font-weight:800; color:#0284c7;">' + escapeHtml_(school) + '</td>' +
+'        <td class="meta-value" style="font-size:12px; font-weight:800; color:#475569;">' + escapeHtml_(school) + '</td>' +
 '        <td class="meta-label">Zon &amp; Kategori</td>' +
 '        <td class="meta-value">' + escapeHtml_(zInfo.name) + ' · ' + escapeHtml_(akauntabiliti) + '</td>' +
 '      </tr>' +

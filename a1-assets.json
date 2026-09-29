@@ -1,5 +1,6 @@
 {
   "/a1/public-config.js": "assets/public-config.js",
+  "/a1/generic-ui.css": "assets/generic-ui.css",
   "/a1/a1-theme.js": "assets/a1-theme.js",
   "/a1/a1-tokens.css": "master-a1/assets/a1-tokens.css",
   "/a1/a1-components.css": "master-a1/assets/a1-components.css",

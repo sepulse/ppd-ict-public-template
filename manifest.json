@@ -1,6 +1,6 @@
 {
-  "name": "PPD-ICT - Portal Unit ICT PPD Contoh",
-  "short_name": "PPD-ICT",
+  "name": "Portal ICT - PPD Contoh",
+  "short_name": "Portal ICT",
   "description": "Portal pengurusan laporan, dashboard, peta dan utiliti ICT untuk Pejabat Pendidikan Daerah Contoh.",
   "id": "/",
   "start_url": "/",
@@ -11,8 +11,8 @@
     "window-controls-overlay"
   ],
   "orientation": "portrait-primary",
-  "background_color": "#0c0e12",
-  "theme_color": "#0c0e12",
+  "background_color": "#F8FAFC",
+  "theme_color": "#F8FAFC",
   "lang": "ms-MY",
   "dir": "ltr",
   "prefer_related_applications": false,

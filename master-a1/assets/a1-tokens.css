@@ -1,16 +1,18 @@
-/* PPD-ICT MASTER A-1 — TOKEN & ASAS
-   Sumber kebenaran untuk warna, fon dan unit asas. Ubah token di sini, bukan dalam komponen.
-   Mod gelap: blok :root[data-theme="dark"] di hujung fail (DILULUSKAN 24 Sep — MOD_GELAP_A1.md). Aktif hanya pada halaman ber-data-a1 melalui skrip pra-cat. */
+/* White-label UI tokens.
+   Nilai lalai sengaja neutral supaya repo public tidak membawa identiti visual mana-mana PPD. */
 :root{
-  --paper:#F2F0EA; --paper-2:#E9E6DE; --card:#FAF9F5;
-  --ink:#111819; --ink-2:#3B4648; --muted:#5E6769; /* 24 Sep: #6A7375 4.26:1 gagal AA → 5.09 */ --rule:#D8D3C8; --rule-2:#C7C1B4;
-  --petrol:#0F4C52; --petrol-deep:#0A2B2F; --petrol-line:rgba(255,255,255,.12);
-  --mint:#8FE0D3; --on-dark:#F2F0EA; --on-dark-2:rgba(242,240,234,.62);
+  --paper:#F8FAFC; --paper-2:#F1F5F9; --card:#FFFFFF;
+  --ink:#0F172A; --ink-2:#334155; --muted:#64748B; --rule:#E2E8F0; --rule-2:#CBD5E1;
+  /* Nama token lama dikekalkan untuk compatibility sahaja; nilainya white-label neutral. */
+  --petrol:#475569; --petrol-deep:#F1F5F9; --petrol-line:rgba(15,23,42,.08);
+  --mint:#334155; --on-dark:#0F172A; --on-dark-2:#64748B;
   --isd:#DC2626; --on-isd:#FFFFFF;
-  --sel-bg:var(--ink); --sel-fg:var(--paper); /* pilihan nav aktif — mod gelap memetakan ke petrol-deep */
-  --z1:#2563EB; --z2:#16A34A; --z3:#F59E0B; --z4:#8B5CF6; --z5:#EC4899; --z6:#06B6D4; --z7:#D97706; --z8:#475569;
-  --display:"Archivo",system-ui,sans-serif; --sans:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
-  --scrim:rgba(17,24,25,.45); --on-dark-rule:rgba(255,255,255,.28); --hatch:rgba(255,255,255,.08);
+  --sel-bg:#E2E8F0; --sel-fg:#0F172A;
+  --z1:#64748B; --z2:#0F766E; --z3:#B45309; --z4:#7C3AED; --z5:#BE185D; --z6:#0369A1; --z7:#4D7C0F; --z8:#52525B;
+  --display:system-ui,-apple-system,"Segoe UI",sans-serif;
+  --sans:system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;
+  --scrim:rgba(15,23,42,.45); --on-dark-rule:rgba(15,23,42,.14); --hatch:rgba(15,23,42,.05);
   --side:252px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -18,25 +20,22 @@
 body{background:var(--paper);color:var(--ink);font:15px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 button{font:inherit;cursor:pointer}
-:focus-visible{outline:2px solid var(--petrol);outline-offset:2px}
+:focus-visible{outline:2px solid #64748B;outline-offset:2px}
 .mono{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
 
 svg.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
 
-/* ---------- MOD GELAP (MOD_GELAP_A1.md) — token sahaja; cetak kekal cerah (@media screen) ----------
-   Kontras: ink/paper 14.97 · muted/paper 6.03 · petrol/paper 6.55 · mint/petrol-deep 7.79 · isd/paper 4.86 */
+/* Mod gelap neutral. */
 @media screen{
   :root[data-theme="dark"]{
     color-scheme:dark;
-    --paper:#101615; --paper-2:#19201F; --card:#161D1C;
-    --ink:#ECE8DF; --ink-2:#BFC4C1; --muted:#8D9694; --rule:#29312F; --rule-2:#3A4341;
-    --petrol:#4FA9A1;              /* aksen: teks, isian meter, hover — lebih cerah supaya terbaca atas gelap */
-    --petrol-deep:#0F3D43;         /* permukaan hero/dock/barisan kerja — kekal "satu permukaan gelap" yang menonjol */
-    --petrol-line:rgba(255,255,255,.12);
-    --mint:#8FE0D3; --on-dark:#F2F0EA; --on-dark-2:rgba(242,240,234,.66);
-    --isd:#EF4444; --on-isd:#101615;
-    --sel-bg:var(--petrol-deep); --sel-fg:var(--on-dark); /* nav aktif: bukan blok krim terang; mint .k kekal atas petrol */
+    --paper:#0F172A; --paper-2:#111827; --card:#1E293B;
+    --ink:#F8FAFC; --ink-2:#CBD5E1; --muted:#94A3B8; --rule:#334155; --rule-2:#475569;
+    --petrol:#94A3B8; --petrol-deep:#1E293B; --petrol-line:rgba(255,255,255,.08);
+    --mint:#CBD5E1; --on-dark:#F8FAFC; --on-dark-2:#94A3B8;
+    --isd:#EF4444; --on-isd:#FFFFFF;
+    --sel-bg:#334155; --sel-fg:#F8FAFC;
     --scrim:rgba(0,0,0,.62); --on-dark-rule:rgba(255,255,255,.28); --hatch:rgba(255,255,255,.08);
   }
-  :root[data-theme="dark"] ::selection{background:var(--petrol);color:var(--paper)}
+  :root[data-theme="dark"] ::selection{background:#475569;color:#F8FAFC}
 }

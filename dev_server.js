@@ -257,7 +257,7 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, '127.0.0.1', () => {
   console.log(`====================================================`);
-  console.log(`🚀 PPD-ICT Local Dev Server is RUNNING!`);
+  console.log(`🚀 Portal ICT Local Dev Server is RUNNING!`);
   console.log(`📍 URL: http://localhost:${PORT}/`);
   console.log(`📍 Dashboard: http://localhost:${PORT}/index.html`);
   console.log(`📍 PTIS Form: http://localhost:${PORT}/ptis.html`);

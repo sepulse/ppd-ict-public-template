@@ -1,0 +1,111 @@
+/* Generic white-label presentation layer.
+   Loaded after page-specific CSS so adopters start from a neutral, familiar admin UI. */
+
+:root {
+  --generic-radius-sm: 6px;
+  --generic-radius: 10px;
+  --generic-shadow: 0 1px 2px rgba(15, 23, 42, .06);
+}
+
+body { letter-spacing: 0; }
+.side { background: var(--card); padding-top: 22px; }
+.brand { font-family: var(--sans); font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
+.brand i { color: inherit; font-weight: 700; }
+.nav { margin-top: 28px; gap: 4px; }
+.nav a { border-left: 0; border-radius: var(--generic-radius-sm); }
+.nav a.on { background: var(--sel-bg); color: var(--sel-fg); border-left: 0; }
+.nav a.on .k { color: var(--muted); }
+.top { border-bottom-color: var(--rule); }
+
+.btn,
+.iconbtn,
+.ctl input,
+.ctl select,
+.ctl textarea,
+input,
+select,
+textarea { border-radius: var(--generic-radius-sm); }
+
+.btn { box-shadow: none; }
+.btn-mint,
+.btn-ink { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.btn-mint:hover,
+.btn-ink:hover { background: var(--ink-2); border-color: var(--ink-2); }
+.btn-line:hover { background: var(--paper-2); }
+
+.hero,
+.mast,
+.a-mast,
+.p-mast,
+.w-panel,
+.q-stage {
+  background: var(--card) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--rule);
+  border-radius: var(--generic-radius);
+  box-shadow: var(--generic-shadow);
+}
+.hero::before,
+.mast::before,
+.a-mast::before,
+.p-mast::before,
+.q-grid { display: none !important; }
+.hero-l { border-right-color: var(--rule); }
+.hero-eyebrow,
+.hero-r h3 .mono,
+.meter-l,
+.legend,
+.w-panel p,
+.q-stage p { color: var(--muted) !important; }
+.hero-eyebrow b,
+.hero-line em,
+.mast .mono,
+.a-mast .mono,
+.p-mast .mono { color: var(--ink-2) !important; }
+.big .n,
+.big .of { color: var(--ink) !important; }
+.meter { background: var(--paper-2); }
+.meter span { background: var(--ink-2); }
+.cell { border-color: var(--rule-2); }
+
+.strip,
+.tiles { border-color: var(--rule); }
+.stat,
+.tile,
+.sec + .sec { border-color: var(--rule); }
+.tile,
+.visit,
+.stat { background: transparent; }
+.tile:hover,
+.visit:hover { background: var(--paper-2); color: var(--ink); }
+.tile:hover p { color: var(--ink-2); }
+.tile:hover .tic { border-color: var(--rule-2); color: var(--ink); }
+.tile:hover .no { -webkit-text-stroke-color: var(--muted); }
+.tile .tic,
+.iss .ic { border-radius: var(--generic-radius-sm); }
+
+.card,
+.panel,
+.dlg,
+.modal-card,
+.a-card,
+.p-card,
+.g-card,
+.q-card,
+.w-card { border-radius: var(--generic-radius) !important; box-shadow: var(--generic-shadow); }
+
+.zb { border-radius: 999px; }
+.sec-h .idx,
+.rank .no,
+.w-sec .sec-h .mono { color: var(--muted); }
+
+html[data-theme="dark"] .hero,
+html[data-theme="dark"] .mast,
+html[data-theme="dark"] .a-mast,
+html[data-theme="dark"] .p-mast,
+html[data-theme="dark"] .w-panel,
+html[data-theme="dark"] .q-stage { background: var(--card) !important; color: var(--ink) !important; }
+
+@media (max-width: 900px) {
+  .side { background: var(--card); }
+}

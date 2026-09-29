@@ -2,7 +2,7 @@
 <!-- BUILD: __BUILD_VERSION__ -->
 <html lang="ms" data-a1>
 <head>
-  <script>console.log('[PPD-ICT] Build:', '__BUILD_VERSION__');</script>
+  <script>console.log('[Portal ICT] Build:', '__BUILD_VERSION__');</script>
   <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -18,7 +18,7 @@
   <meta property="og:title" content="Sistem Pelaporan Lawatan Sekolah (PTIS) — PPD Contoh">
   <meta property="og:description" content="Borang laporan lawatan dan khidmat bantu teknikal ICT rasmi PPD Contoh dengan sokongan mod luar talian (Offline PWA).">
   <meta property="og:image" content="https://ppd.example.invalid/icons/icon-512.png?v=10">
-  <meta property="og:site_name" content="PPD-ICT">
+  <meta property="og:site_name" content="Portal ICT">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -27,11 +27,11 @@
   <meta name="twitter:image" content="https://ppd.example.invalid/icons/icon-512.png?v=10">
 
   <link rel="manifest" href="/manifest.webmanifest?v=10">
-  <meta name="theme-color" content="#0A2B2F">
+  <meta name="theme-color" content="#F8FAFC">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="PPD-ICT">
+  <meta name="apple-mobile-web-app-title" content="Portal ICT">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=10">
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=10">
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png?v=10">
@@ -43,9 +43,6 @@
   <!-- Enjin Tema A-1 & Tipografi -->
   <script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
   <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/a1/a1-tokens.css?v=__BUILD_VERSION__">
   <link rel="stylesheet" href="/a1/a1-components.css?v=__BUILD_VERSION__">
   <link rel="stylesheet" href="/a1/ptis-a1.css?v=__BUILD_VERSION__">
@@ -304,6 +301,7 @@
   </script>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
 
+  <link rel="stylesheet" href="/a1/generic-ui.css?v=__BUILD_VERSION__">
 </head>
 <body data-page="ptis">
 <svg width="0" height="0" class="no-print p-sprite" aria-hidden="true" hidden>
@@ -330,7 +328,7 @@
     <div class="p-pvbar-left">
       <div class="p-pwa-icon">📲</div>
       <div>
-        <div id="pwaPromptTitle" class="p-pwa-title">Pasang Aplikasi PPD-ICT</div>
+        <div id="pwaPromptTitle" class="p-pwa-title">Pasang Aplikasi Portal ICT</div>
         <div id="pwaPromptDesc" class="p-pwa-desc">Boleh dibuka sepantas kilat &amp; berfungsi luar talian di telefon anda.</div>
       </div>
     </div>
@@ -350,7 +348,7 @@
           <div class="p-pwa-icon">📲</div>
           <div>
             <div id="iosModalTitle" class="p-ios-title">Pasang pada iPhone / iPad</div>
-            <div class="p-ios-sub">Aplikasi Web Progresif (PWA) PPD-ICT</div>
+            <div class="p-ios-sub">Aplikasi Web Progresif (PWA) Portal ICT</div>
           </div>
         </div>
         <button id="btnCloseIosModal" type="button" class="btn btn-line btn-sm" aria-label="Tutup panduan">✕</button>
@@ -358,7 +356,7 @@
 
       <div class="p-ios-body">
         <div class="p-ios-sub">
-          Pasang aplikasi <strong>PPD-ICT</strong> terus ke Skrin Utama (Home Screen) untuk akses pantas tanpa pelayar sesawang dan sokongan pengisian borang luar talian.
+          Pasang aplikasi <strong>Portal ICT</strong> terus ke Skrin Utama (Home Screen) untuk akses pantas tanpa pelayar sesawang dan sokongan pengisian borang luar talian.
         </div>
 
         <div class="fields">
@@ -391,7 +389,7 @@
 
         <div class="p-ios-tip">
           <span>💡</span>
-          <span><strong>Petua:</strong> Ikon aplikasi PPD-ICT akan dipasang terus pada Skrin Utama anda seperti aplikasi App Store biasa.</span>
+          <span><strong>Petua:</strong> Ikon aplikasi Portal ICT akan dipasang terus pada Skrin Utama anda seperti aplikasi App Store biasa.</span>
         </div>
 
         <button id="btnUnderstandIosModal" type="button" class="p-ios-btn">
@@ -403,7 +401,7 @@
 
   <div class="shell">
     <aside class="side no-print">
-      <div class="brand">PPDK<i>.CH</i></div>
+      <div class="brand">Portal ICT</div>
       <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
       <nav class="nav" aria-label="Utama">
         <div class="nav-label mono">Ruang kerja</div>
@@ -427,7 +425,7 @@
     <main class="main">
       <header class="top no-print">
         <button class="iconbtn menu-btn" aria-label="Menu"><svg class="i"><use href="#i-menu"/></svg></button>
-        <div class="crumb mono"><span class="hide-s">PPD-ICT</span><span class="hide-s">/</span><b>Borang PTIS</b></div>
+        <div class="crumb mono"><span class="hide-s">Portal ICT</span><span class="hide-s">/</span><b>Borang PTIS</b></div>
         <div class="top-r">
           <a class="ag-login-link" id="authGateLoginLink" href="#authGateOverlay">Log masuk staf</a>
           <a class="ag-login-link" id="authGateLogoutLink" href="#" hidden>Log keluar</a>

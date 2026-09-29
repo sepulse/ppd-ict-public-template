@@ -1,5 +1,4 @@
-/* PPD-ICT MASTER A-1 — KOMPONEN
-   Bergantung pada a1-tokens.css. Rujuk MASTER_DESIGN_A1.md untuk peraturan. */
+/* Komponen asas white-label. Bergantung pada a1-tokens.css. */
 /* ---------- SHELL ---------- */
 .shell{display:grid;grid-template-columns:var(--side) 1fr;min-height:100vh}
 .side{position:sticky;top:0;height:100vh;border-right:1px solid var(--rule);padding:28px 18px 20px;display:flex;flex-direction:column;background:var(--paper)}
@@ -48,7 +47,7 @@
 .btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;transition:transform .2s ease}
 .btn:hover svg{transform:translateX(4px)}
 .btn-mint{background:var(--mint);color:var(--petrol-deep)}
-.btn-mint:hover{background:#A8EADF}
+.btn-mint:hover{background:var(--ink-2)}
 .btn-ghost{border-color:rgba(255,255,255,.28);color:var(--on-dark)}
 .btn-ghost:hover{background:rgba(255,255,255,.06)}
 
@@ -506,7 +505,7 @@ button.frac:hover{text-decoration:underline;text-underline-offset:4px}
    Sama komposisi dengan kad log masuk Admin (.a-login-card). */
 html[data-a1] #authGateOverlay{background:var(--paper);padding:24px;font-family:var(--sans);overflow-y:auto}
 html[data-a1] #authGateCard{max-width:420px;background:var(--card);border:1px solid var(--ink);border-radius:0;box-shadow:none;padding:40px 36px;color:var(--ink)}
-html[data-a1] #authGateCard::before{content:"PPD-ICT · Staf JTK/PPTM";display:block;margin-bottom:12px;font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+html[data-a1] #authGateCard::before{content:"PORTAL ICT · STAF";display:block;margin-bottom:12px;font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 html[data-a1] #authGateCard h2{margin:0;font:700 28px/1.1 var(--display);font-stretch:92%;letter-spacing:-.02em;color:var(--ink)}
 html[data-a1] #authGateCard p.ag-sub{margin:8px 0 24px;font-size:14px;line-height:1.5;color:var(--ink-2)}
 html[data-a1] .ag-field{margin-bottom:18px}

@@ -20,7 +20,7 @@
 
   var KEY = 'theme_mode';
   var LEGACY = ['jtk_dashboard_theme', 'ppdk_theme', 'theme'];
-  var META = { light: '#0A2B2F', dark: '#101615' };
+  var META = { light: '#F8FAFC', dark: '#0F172A' };
   var root = document.documentElement;
   var active = root.hasAttribute('data-a1');
   var mq = null;

@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>PPD-ICT — Pasang aplikasi</title>
-<meta name="description" content="Pasang PPD-ICT untuk membuka Borang PTIS, Dashboard dan Peta dari skrin utama.">
+<title>Portal ICT — Pasang aplikasi</title>
+<meta name="description" content="Pasang Portal ICT untuk membuka Borang PTIS, Dashboard dan Peta dari skrin utama.">
 <link rel="canonical" href="https://ppd.example.invalid/pwa">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="PPD-ICT">
+<meta name="apple-mobile-web-app-title" content="Portal ICT">
 <script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
   <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
 <link rel="manifest" href="/manifest.webmanifest?v=10">
@@ -23,17 +23,16 @@
 // Keadaan lab asal: pendaftaran SW dilumpuhkan.
 if(false && 'serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js',{scope:'/'}).catch(()=>{}));}
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/a1/a1-tokens.css?v=__BUILD_VERSION__">
 <link rel="stylesheet" href="/a1/a1-components.css?v=__BUILD_VERSION__">
 <script src="/a1/a1-shell.js?v=__BUILD_VERSION__"></script>
 <link rel="stylesheet" href="/a1/pwa-a1.css?v=__BUILD_VERSION__">
+  <link rel="stylesheet" href="/a1/generic-ui.css?v=__BUILD_VERSION__">
 </head>
 <body data-page="pwa">
 <div class="shell">
   <aside class="side" id="sidebar">
-    <div class="brand">PPDK<i>.CH</i></div>
+    <div class="brand">Portal ICT</div>
     <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
     <nav class="nav" aria-label="Utama">
       <div class="nav-label mono">Ruang kerja</div>
@@ -54,17 +53,17 @@ if(false && 'serviceWorker' in navigator){window.addEventListener('load',()=>nav
   <main class="main">
     <header class="top">
       <button class="iconbtn menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
-      <div class="crumb mono"><span>PPD-ICT</span><span>/</span><b>Pasang aplikasi</b></div>
+      <div class="crumb mono"><span>Portal ICT</span><span>/</span><b>Pasang aplikasi</b></div>
       <div class="top-r"><button class="iconbtn" id="darkModeBtn" type="button" aria-label="Tukar tema"><svg class="i"><use href="#i-moon"/></svg></button></div>
     </header>
     <section class="mast">
-      <div><div class="eyebrow mono">Aplikasi</div><h1>PPD-ICT pada skrin utama anda</h1>
+      <div><div class="eyebrow mono">Aplikasi</div><h1>Portal ICT pada skrin utama anda</h1>
         <p class="lead">Buka Borang PTIS, Dashboard dan Peta terus dari ikon — tanpa bar pelayar. Borang boleh diisi tanpa talian dan dihantar apabila talian pulih.</p></div>
     </section>
 
     <div class="w-top">
       <section class="w-panel" aria-live="polite">
-        <div class="w-app"><img src="/a1/pwa/icon-512.png?v=__BUILD_VERSION__" alt="Ikon aplikasi PPD-ICT"><div><b>PPD-ICT</b><span>Unit ICT PPD Contoh</span></div></div>
+        <div class="w-app"><img src="/a1/pwa/icon-512.png?v=__BUILD_VERSION__" alt="Ikon aplikasi Portal ICT"><div><b>Portal ICT</b><span>Unit ICT PPD Contoh</span></div></div>
         <div class="w-state" id="state"><span class="skel"></span></div>
         <p class="w-foot mono">Percuma · tiada gedung aplikasi · kemas kini sendiri</p>
       </section>
@@ -103,7 +102,7 @@ const PWA_DOMAINS=(window.PPD_SYSTEM_CONFIG&&window.PPD_SYSTEM_CONFIG.organizati
 const PWA_ROOT_DOMAIN=PWA_DOMAINS.root||'ppd.example.invalid';
 const PWA_URL='https://'+PWA_ROOT_DOMAIN+'/pwa';
 const STEPS={
-  android:[['Tekan "Pasang aplikasi"','Jika butang itu tiada, tekan menu '+IC.dots+' Chrome.'],['Pilih "Pasang aplikasi" atau "Tambah ke skrin utama"','Sahkan. Ikon PPD-ICT muncul pada skrin utama.']],
+  android:[['Tekan "Pasang aplikasi"','Jika butang itu tiada, tekan menu '+IC.dots+' Chrome.'],['Pilih "Pasang aplikasi" atau "Tambah ke skrin utama"','Sahkan. Ikon Portal ICT muncul pada skrin utama.']],
   ios:[['Buka '+PWA_ROOT_DOMAIN+'/pwa dalam Safari','Pemasangan pada iPhone hanya melalui Safari.'],['Tekan Kongsi '+IC.share,'Di bar bawah Safari.'],['Pilih "Tambah ke Skrin Utama" '+IC.plus,'Tekan "Tambah" di penjuru kanan atas.']],
   desktop:[['Tekan ikon pasang '+IC.inst+' di bar alamat','Chrome atau Edge. Atau tekan butang "Pasang aplikasi".'],['Sahkan "Pasang"','Aplikasi dibuka dalam tetingkapnya sendiri.']]
 };

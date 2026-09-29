@@ -5,9 +5,9 @@ ROOT = Path(__file__).resolve().parents[1]
 ICONS = ROOT / "icons"
 ICONS.mkdir(parents=True, exist_ok=True)
 
-BG = (15, 85, 89, 255)
+BG = (51, 65, 85, 255)
 FG = (248, 247, 242, 255)
-ACCENT = (126, 220, 207, 255)
+ACCENT = (148, 163, 184, 255)
 
 
 def make_icon(size: int) -> Image.Image:
@@ -52,7 +52,7 @@ save_png(32, "favicon-32x32.png")
 make_icon(64).save(ICONS / "favicon.ico", format="ICO", sizes=[(16, 16), (32, 32), (48, 48), (64, 64)])
 
 svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#0f5559"/>
+  <rect width="512" height="512" fill="#334155"/>
   <g stroke="#f8f7f2" stroke-width="24" stroke-linecap="round">
     <path d="M256 256 150 160M256 256 362 160M256 256 150 352M256 256 362 352"/>
   </g>
@@ -60,8 +60,8 @@ svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
     <circle cx="150" cy="160" r="48"/><circle cx="362" cy="160" r="48"/>
     <circle cx="150" cy="352" r="48"/><circle cx="362" cy="352" r="48"/>
   </g>
-  <circle cx="256" cy="256" r="60" fill="#7edccf"/>
-  <circle cx="256" cy="256" r="22" fill="#0f5559"/>
+  <circle cx="256" cy="256" r="60" fill="#94a3b8"/>
+  <circle cx="256" cy="256" r="22" fill="#334155"/>
 </svg>
 """
 (ICONS / "icon.svg").write_text(svg, encoding="utf-8")
@@ -74,4 +74,4 @@ pwa_dir = ROOT / "assets" / "pwa"
 pwa_dir.mkdir(parents=True, exist_ok=True)
 (pwa_dir / "icon-512.png").write_bytes((ICONS / "icon-512.png").read_bytes())
 
-print("Generic PPD-ICT icon set generated.")
+print("Generic white-label icon set generated.")

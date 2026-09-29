@@ -3,30 +3,30 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>PPD-ICT — Master A-1 · Home</title>
+<title>Portal ICT — Home</title>
 <meta name="description" content="Portal rasmi, pengesanan radar sekolah, papan pemuka JTK, dan pelaporan PTIS Unit ICT Pejabat Pendidikan Daerah Contoh.">
 <link rel="canonical" href="https://ppd.example.invalid">
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ppd.example.invalid">
-<meta property="og:title" content="PPD-ICT — Master A-1 · Home">
+<meta property="og:title" content="Portal ICT — Home">
 <meta property="og:description" content="Portal rasmi, pengesanan radar sekolah, papan pemuka JTK, dan pelaporan PTIS Unit ICT PPD Contoh.">
 <meta property="og:image" content="https://ppd.example.invalid/icons/icon-512.png?v=10">
-<meta property="og:site_name" content="PPD-ICT">
+<meta property="og:site_name" content="Portal ICT">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PPD-ICT — Master A-1 · Home">
+<meta name="twitter:title" content="Portal ICT — Home">
 <meta name="twitter:description" content="Portal rasmi, pengesanan radar sekolah, papan pemuka JTK, dan pelaporan PTIS Unit ICT PPD Contoh.">
 <meta name="twitter:image" content="https://ppd.example.invalid/icons/icon-512.png?v=10">
 
 <!-- PWA Manifest & Icons -->
 <link rel="manifest" href="/manifest.webmanifest?v=10">
-<meta name="theme-color" content="#0A2B2F">
+<meta name="theme-color" content="#F8FAFC">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="PPD-ICT">
+<meta name="apple-mobile-web-app-title" content="Portal ICT">
 <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=10">
 <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=10">
 <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png?v=10">
@@ -35,13 +35,10 @@
 <link rel="icon" type="image/svg+xml" href="/icons/icon.svg?v=10">
 <link rel="shortcut icon" href="/favicon.ico">
 
-<!-- Tipografi Master A-1 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Tipografi generic -->
 
 
-<!-- Gaya Master A-1 & Halaman -->
+<!-- Gaya generic & Halaman -->
 <script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
   <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
 <link rel="stylesheet" href="/a1/a1-tokens.css?v=__BUILD_VERSION__">
@@ -73,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (window.AuthGate) window.AuthGate.init(null, { optional: true });
 });
 </script>
+  <link rel="stylesheet" href="/a1/generic-ui.css?v=__BUILD_VERSION__">
 </head>
 <body data-page="home">
 
@@ -107,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <div class="shell">
   <!-- SIDEBAR (A-1 NATIVE) -->
   <aside class="side" id="sidebar">
-    <div class="brand">PPDK<i>.CH</i></div>
+    <div class="brand">Portal ICT</div>
     <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
     <nav class="nav" aria-label="Utama">
       <div class="nav-label mono">Ruang kerja</div>
@@ -132,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <header class="top">
       <div style="display:flex;align-items:center;gap:14px">
         <button class="iconbtn menu-btn" id="menuBtn" aria-label="Menu" aria-controls="sidebar" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
-        <div class="crumb mono"><span class="hide-s">PPD-ICT /</span><span class="hide-s">Ruang kerja /</span><b>Home</b></div>
+        <div class="crumb mono"><span class="hide-s">Portal ICT /</span><span class="hide-s">Ruang kerja /</span><b>Home</b></div>
       </div>
       <div class="top-r">
         <a class="ag-login-link" id="authGateLoginLink" href="#authGateOverlay">Log masuk staf</a>
@@ -197,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <!-- PINTASAN -->
     <nav class="tiles" aria-label="Pintasan">
       <a class="tile" href="/qrcode"><span class="hd"><span class="no">01</span><span class="tic"><svg class="i"><use href="#i-qr"/></svg></span></span><h3>Kod QR &amp; Short URL</h3><p>Jana pautan ppd.example.invalid/slug dan kod QR rasmi untuk mana-mana destinasi.</p><span class="go">Buka alat <svg viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a>
-      <a class="tile" href="/pwa"><span class="hd"><span class="no">02</span><span class="tic"><svg class="i"><use href="#i-install"/></svg></span></span><h3>Pasang aplikasi (PWA)</h3><p>Pasang PPD-ICT pada telefon atau desktop untuk sokongan luar talian.</p><span class="go">Pasang <svg viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a>
+      <a class="tile" href="/pwa"><span class="hd"><span class="no">02</span><span class="tic"><svg class="i"><use href="#i-install"/></svg></span></span><h3>Pasang aplikasi (PWA)</h3><p>Pasang Portal ICT pada telefon atau desktop untuk sokongan luar talian.</p><span class="go">Pasang <svg viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a>
       <a class="tile" href="/map?mod=radar" id="cardPetaSekolah"><span class="hd"><span class="no">03</span><span class="tic"><svg class="i"><use href="#i-radar"/></svg></span></span><h3>Radar Sekolah</h3><p>Peta kedudukan sekolah dan radar liputan zon PPD anda.</p><span class="go">Buka radar <svg viewBox="0 0 24 24"><path d="M7 17L17 7M8 7h9v9"/></svg></span></a>
     </nav>
 

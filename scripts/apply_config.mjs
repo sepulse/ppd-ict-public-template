@@ -60,11 +60,13 @@ for (const manifestName of ['manifest.json', 'manifest.webmanifest']) {
   const manifestPath = path.join(root, manifestName);
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   const domains = organization.domains || {};
-  const systemName = organization.systemName || 'PPD-ICT';
+  const systemName = organization.systemName || 'Portal ICT';
   const orgShort = organization.organizationShortName || 'PPD Contoh';
-  manifest.name = `${systemName} - Portal ${organization.unitName || 'Unit ICT'} ${orgShort}`;
+  manifest.name = `${systemName} - ${orgShort}`;
   manifest.short_name = systemName;
   manifest.description = `Portal pengurusan laporan, dashboard, peta dan utiliti ICT untuk ${organization.organizationName || orgShort}.`;
+  manifest.background_color = '#F8FAFC';
+  manifest.theme_color = '#F8FAFC';
   if (Array.isArray(manifest.shortcuts)) {
     manifest.shortcuts.forEach(item => {
       if (item.short_name === 'Dashboard' && domains.dashboard) item.url = `https://${domains.dashboard}`;
@@ -94,6 +96,11 @@ fs.writeFileSync(
   `  'use strict';\n` +
   `  const config = ${JSON.stringify(runtime, null, 2)};\n` +
   `  root.PPD_SYSTEM_CONFIG = Object.freeze(config);\n` +
+  `  const isLocal = root.location && /^(localhost|127\\.0\\.0\\.1)$/.test(root.location.hostname || '');\n` +
+  `  if (isLocal && root.navigator && root.navigator.serviceWorker) {\n` +
+  `    root.navigator.serviceWorker.getRegistrations().then(list => list.forEach(reg => reg.unregister())).catch(() => {});\n` +
+  `    if (root.caches && root.caches.keys) root.caches.keys().then(keys => keys.forEach(key => root.caches.delete(key))).catch(() => {});\n` +
+  `  }\n` +
   `  function applyBranding(){\n` +
   `    if (!root.document) return;\n` +
   `    const org = config.organization || {};\n` +
@@ -102,7 +109,8 @@ fs.writeFileSync(
   `      ['PEJABAT PENDIDIKAN DAERAH CONTOH', String(org.organizationName || 'Pejabat Pendidikan Daerah Contoh').toUpperCase()],\n` +
   `      ['PPD CONTOH', String(org.organizationShortName || 'PPD Contoh').toUpperCase()],\n` +
   `      ['PPD Contoh', org.organizationShortName || 'PPD Contoh'],\n` +
-  `      ['PPD-ICT', org.systemName || 'PPD-ICT'],\n` +
+  `      ['PPD-ICT', org.systemName || 'Portal ICT'],\n` +
+  `      ['Portal ICT', org.systemName || 'Portal ICT'],\n` +
   `      ['ppd.example.invalid', (org.domains && org.domains.root) || 'ppd.example.invalid'],\n` +
   `      ['dashboard.ppd.example.invalid', (org.domains && org.domains.dashboard) || 'dashboard.ppd.example.invalid'],\n` +
   `      ['admin.ppd.example.invalid', (org.domains && org.domains.admin) || 'admin.ppd.example.invalid'],\n` +

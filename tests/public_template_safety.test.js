@@ -21,6 +21,13 @@ const forbidden = [
   [/SJKC\s+CHUNG\s+HUA/i, 'contoh sekolah production'],
   [/BAKO\s*&\s*MUARA\s+TEBAS/i, 'nama kawasan production'],
   [/RTM\s+SARAWAK/i, 'hab production']
+  ,[/fonts\.googleapis\.com/i, 'Google Fonts dependency from original visual template']
+  ,[/\bArchivo\b/i, 'Archivo typography from original visual template']
+  ,[/IBM\s+Plex/i, 'IBM Plex typography from original visual template']
+  ,[/#0A2B2F/i, 'original dark accent color']
+  ,[/#0F4C52/i, 'original petrol accent color']
+  ,[/#8FE0D3/i, 'original mint accent color']
+  ,[/#A8EADF/i, 'original mint hover color']
 ];
 
 function walk(dir, out = []) {

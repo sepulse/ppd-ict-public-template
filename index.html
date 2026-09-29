@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>PPD-ICT — Master A-1 · Dashboard</title>
+  <title>Portal ICT — Dashboard</title>
   <link rel="manifest" href="/manifest.webmanifest?v=10">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=10">
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=10">
@@ -12,14 +12,11 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png?v=10">
   <link rel="icon" type="image/svg+xml" href="/icons/icon.svg?v=10">
   <link rel="shortcut icon" href="/favicon.ico">
-  <meta name="theme-color" content="#0A2B2F">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#F8FAFC">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 
   <style>
-    /* PPD-ICT — Master A-1 Dashboard */
+    /* Portal ICT — generic Dashboard */
   </style>
   <script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
   <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
@@ -33,6 +30,7 @@
   <script src="/a1/a1-categories.js?v=__BUILD_VERSION__"></script>
   <script src="/a1/a1-shell.js?v=__BUILD_VERSION__"></script>
   <script defer src="/a1/overview-swiss.js?v=__BUILD_VERSION__"></script>
+  <link rel="stylesheet" href="/a1/generic-ui.css?v=__BUILD_VERSION__">
 </head>
 <body data-page="dashboard">
   <svg class="sr" aria-hidden="true">
@@ -42,9 +40,9 @@
 
 
 <div class="shell">
-  <!-- SIDEBAR (MASTER A-1 NATIVE) -->
+  <!-- Sidebar -->
   <aside class="side" id="sidebar">
-    <div class="brand">PPDK<i>.CH</i></div>
+    <div class="brand">Portal ICT</div>
     <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
     <nav class="nav" aria-label="Utama">
       <div class="nav-label mono">Ruang kerja</div>
@@ -68,11 +66,11 @@
 
   <!-- MAIN AREA -->
   <main class="main">
-    <!-- TOPBAR (MASTER A-1) -->
+    <!-- Topbar -->
     <header class="top">
       <div class="meta-row">
         <button class="iconbtn menu-btn" id="menuBtn" type="button" aria-label="Menu" aria-controls="sidebar" aria-expanded="false"><svg class="i"><use href="#i-menu"/></svg></button>
-        <div class="crumb mono"><span class="hide-s">PPD-ICT /</span><span class="hide-s">Dashboard /</span><b id="crumbCurrent">Gambaran keseluruhan</b></div>
+        <div class="crumb mono"><span class="hide-s">Portal ICT /</span><span class="hide-s">Dashboard /</span><b id="crumbCurrent">Gambaran keseluruhan</b></div>
       </div>
       <div class="top-r">
         <span class="mono" id="topDateLabel"></span>
@@ -84,7 +82,7 @@
       </div>
     </header>
 
-    <!-- GLOBAL FILTER STRIP (MASTER A-1) -->
+    <!-- Global filter strip -->
     <div class="fbar" id="filterStrip" aria-label="Penapis dashboard">
       <button type="button" class="btn btn-line btn-sm" id="btnFilterOpen" onclick="openFilterDialog()" aria-haspopup="dialog">
         <svg class="i"><use href="#i-filter"/></svg>
@@ -97,7 +95,7 @@
       <span class="mono status" id="filterDataStatus">Memuat data rasmi…</span>
     </div>
 
-    <!-- FILTER DIALOG MODAL (MASTER A-1) -->
+    <!-- Filter dialog -->
     <dialog class="dlg" id="filterDialog" aria-labelledby="filterHeading">
       <div class="dlg-h">
         <h2 id="filterHeading">Tapis dashboard</h2>
@@ -189,13 +187,13 @@
 
     <!-- Hidden state elements preserved for script compatibility -->
     <button id="btnResetAll" type="button" hidden aria-hidden="true"></button>
-    <span id="periodText" hidden aria-hidden="true">Tahun 2026</span>
+    <span id="periodText" hidden aria-hidden="true">Semua tempoh</span>
     <span id="pageHeadingTitle" hidden aria-hidden="true">Gambaran Keseluruhan</span>
-    <span id="pageHeadingSubtitle" hidden aria-hidden="true">Prestasi lawatan, liputan 8 zon dan tindakan teknikal terkini.</span>
+    <span id="pageHeadingSubtitle" hidden aria-hidden="true">Ringkasan prestasi dan aktiviti ICT.</span>
     <span id="shell-page-label" hidden aria-hidden="true">Dashboard</span>
 
     <!-- ====================================================================
-         TAB 1: GAMBARAN KESELURUHAN (OVERVIEW) — MASTER A-1
+         TAB 1: GAMBARAN KESELURUHAN (OVERVIEW)
          ==================================================================== -->
     <section id="view-overview" class="tab-view active">
       <!-- Masthead -->
@@ -203,11 +201,11 @@
         <div>
           <span class="eyebrow mono">Ruang kerja / Dashboard</span>
           <h1>Gambaran keseluruhan</h1>
-          <p id="pageScopeText" class="mono">September 2026 · Semua zon · Semua sekolah</p>
+          <p id="pageScopeText" class="mono">Memuatkan skop data…</p>
         </div>
         <div class="period">
           <span class="mono">Tempoh</span>
-          <b id="overviewPeriodHeading">01–23 September 2026</b>
+          <b id="overviewPeriodHeading">—</b>
         </div>
       </header>
 
@@ -215,16 +213,16 @@
       <section class="hero" id="overviewHero" aria-label="Metrik utama">
         <div class="hero-l">
           <div class="hero-eyebrow mono">
-            <span>Lawatan · <b id="overviewHeroPeriod">September 2026</b></span>
+            <span>Lawatan · <b id="overviewHeroPeriod">—</b></span>
             <span id="overviewHeroZoneScope">Semua zon</span>
           </div>
           <div class="big">
-            <span class="n" id="overviewHeroValue">30</span>
+            <span class="n" id="overviewHeroValue">—</span>
             <span class="of">lawatan</span>
           </div>
           <p class="hero-line" id="overviewHeroLine">
-            ke <b id="overviewHeroSchoolsCount">21</b> sekolah dalam tempoh ini.
-            <em>Purata <span id="overviewDailyAvg">1.3</span></em> sehari, puncak <span id="overviewDailyPeak">5</span>.
+            ke <b id="overviewHeroSchoolsCount">—</b> sekolah dalam tempoh ini.
+            <em>Purata <span id="overviewDailyAvg">—</span></em> sehari, puncak <span id="overviewDailyPeak">—</span>.
           </p>
           <div class="cta">
             <a class="btn btn-ghost" href="#records" id="overviewCtaRecords">
@@ -234,7 +232,7 @@
         </div>
 
         <div class="hero-r">
-          <h3>Corak lawatan harian <span class="mono" id="overviewDailyPeriod">September 2026</span></h3>
+          <h3>Corak lawatan harian <span class="mono" id="overviewDailyPeriod">—</span></h3>
           <div>
             <div class="seg" role="group" aria-label="Paparan graf" id="overviewChartSeg">
               <button type="button" class="active" id="btnModeTotal" aria-pressed="true" onclick="setOverviewChartMode('total')">Jumlah harian</button>
@@ -285,7 +283,7 @@
         </div>
       </details>
 
-      <!-- Strip 4 Stat Master A-1 -->
+      <!-- Strip 4 Stat generic -->
       <div class="strip">
         <div class="stat">
           <span class="mono">Sekolah dilawati</span>
@@ -294,18 +292,18 @@
         </div>
         <div class="stat">
           <span class="mono">Pegawai terlibat</span>
-          <div class="num" id="overviewMetricOfficers">37</div>
+          <div class="num" id="overviewMetricOfficers">—</div>
           <p id="overviewMetricOfficersSub">JTK &amp; PPTM</p>
         </div>
         <div class="stat">
           <span class="mono">Tiket</span>
-          <div class="num"><span id="overviewMetricIsd">14</span> <span class="isd-tag">ISD</span></div>
+          <div class="num"><span id="overviewMetricIsd">—</span> <span class="isd-tag">ISD</span></div>
           <p id="overviewMetricIsdSub">Dirujuk ke meja bantuan</p>
         </div>
         <div class="stat">
           <span class="mono">Aduan direkod</span>
-          <div class="num" id="overviewMetricComplaints">20</div>
-          <p id="overviewMetricComplaintsSub">Rangkaian 50% daripada semua</p>
+          <div class="num" id="overviewMetricComplaints">—</div>
+          <p id="overviewMetricComplaintsSub">Menunggu data</p>
         </div>
       </div>
 
@@ -337,10 +335,10 @@
           <div class="sec-h">
             <span class="idx">03</span>
             <h2>Kategori aduan</h2>
-            <a class="lnk" href="#issues"><span id="overviewIssueTotal">20</span> aduan</a>
+            <a class="lnk" href="#issues"><span id="overviewIssueTotal">—</span> aduan</a>
           </div>
           <div id="overviewIssueList"></div>
-          <p class="znote">Aduan direkod mengikut lima kategori Master A-1.</p>
+          <p class="znote">Kategori akan dikira daripada rekod organisasi anda.</p>
         </section>
       </div>
 
@@ -921,7 +919,7 @@
               <div id="executiveReportContent" class="report-dossier">
                 <div class="report-dossier-head">
                   <div>
-                    <div class="report-dossier-ref mono">PPD-ICT / LAPORAN EKSEKUTIF / DOK 02</div>
+                    <div class="report-dossier-ref mono">Portal ICT / LAPORAN EKSEKUTIF / DOK 02</div>
                     <h3>Laporan Khidmat Bantu ICT PTIS PPD Contoh</h3>
                     <p>Tempoh: <strong id="reportPeriodTitle">Tahun 2026</strong></p>
                   </div>
@@ -1244,12 +1242,12 @@
     let issuesPurposeChartInstance = null;
     let issuesMainChartInstance = null;
     if (typeof Chart !== 'undefined') {
-      Chart.defaults.font.family = "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+      Chart.defaults.font.family = "'Segoe UI', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
     }
     if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
       document.fonts.ready.then(() => {
         if (typeof Chart !== 'undefined') {
-          Chart.defaults.font.family = "'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+          Chart.defaults.font.family = "'Segoe UI', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
         }
         [zoneChartInstance, memberChartInstance, issuesPurposeChartInstance, issuesMainChartInstance]
           .filter(Boolean)
@@ -1462,7 +1460,7 @@
               usingSnapshot: true,
               snapshotSavedAt: snapshot.savedAt
             });
-            console.warn('[PPD-ICT] Bootstrap gagal; snapshot tempatan digunakan.', e);
+            console.warn('[Portal ICT] Bootstrap gagal; snapshot tempatan digunakan.', e);
           } else {
             allRecords = [];
             bootstrapFilters = {};
@@ -1471,10 +1469,10 @@
               usingSnapshot: false,
               snapshotSavedAt: null
             });
-            console.warn('[PPD-ICT LAB] Bootstrap data tidak tersedia. Paparan dikekalkan kosong tanpa data demo.', e);
+            console.warn('[Portal ICT LAB] Bootstrap data tidak tersedia. Paparan dikekalkan kosong tanpa data demo.', e);
           }
         } else {
-          console.warn('[PPD-ICT LAB] Segerak gagal; data sedia ada dikekalkan.', e);
+          console.warn('[Portal ICT LAB] Segerak gagal; data sedia ada dikekalkan.', e);
         }
       } finally {
         dashboardRefreshing = false;
@@ -2178,12 +2176,12 @@
 
             <!-- Lencana Rank Solid (#1, #2, ...) Berwarna Rasmi Zon -->
             <rect x="18" y="${itemY - 12}" width="25" height="25" rx="7" fill="${t.color}" />
-            <text x="30.5" y="${itemY + 4.5}" text-anchor="middle" fill="#ffffff" font-family="var(--font-display, IBM Plex Sans, sans-serif)" font-size="12px" font-weight="900">
+            <text x="30.5" y="${itemY + 4.5}" text-anchor="middle" fill="#ffffff" font-family="var(--font-display, Segoe UI, sans-serif)" font-size="12px" font-weight="900">
               #${i + 1}
             </text>
 
             <!-- Label Zon: ZON 1 - ZON 8 Sahaja -->
-            <text x="50" y="${itemY - 2}" fill="${textColorMain}" font-family="var(--font-display, IBM Plex Sans, sans-serif)" font-size="15.5px" font-weight="800">
+            <text x="50" y="${itemY - 2}" fill="${textColorMain}" font-family="var(--font-display, Segoe UI, sans-serif)" font-size="15.5px" font-weight="800">
               ${t.id}
             </text>
 
@@ -2192,12 +2190,12 @@
             <rect x="50" y="${itemY + 5}" width="${Math.min(175, (t.pct / 25) * 175)}" height="5.5" rx="2.8" fill="${t.color}" />
 
             <!-- Peratus Perkongsian Lawatan -->
-            <text x="250" y="${itemY + 4.5}" fill="${t.color}" font-family="var(--font-display, IBM Plex Sans, sans-serif)" font-size="17.5px" font-weight="900">
+            <text x="250" y="${itemY + 4.5}" fill="${t.color}" font-family="var(--font-display, Segoe UI, sans-serif)" font-size="17.5px" font-weight="900">
               ${Math.round(t.pct)}%
             </text>
 
             <!-- Jumlah Lawatan Bersih -->
-            <text x="330" y="${itemY + 4.5}" text-anchor="start" fill="${textColorMuted}" font-family="var(--font-main, IBM Plex Sans, sans-serif)" font-size="13px" font-weight="700">
+            <text x="330" y="${itemY + 4.5}" text-anchor="start" fill="${textColorMuted}" font-family="var(--font-main, Segoe UI, sans-serif)" font-size="13px" font-weight="700">
               ${t.visits} Lawatan
             </text>
           </g>
@@ -2231,10 +2229,10 @@
           <circle cx="${cx}" cy="${cy}" r="${rCenter}" fill="${cardBg}" stroke="${cardBorder}" stroke-width="2.4" filter="url(#hub-shadow)"/>
 
           <!-- Kandungan Teks: X Lawatan sahaja -->
-          <text x="${cx}" y="${cy + 3}" text-anchor="middle" fill="${centerValColor}" font-family="var(--font-display, IBM Plex Sans, sans-serif)" font-size="34px" font-weight="900" id="hubVal">
+          <text x="${cx}" y="${cy + 3}" text-anchor="middle" fill="${centerValColor}" font-family="var(--font-display, Segoe UI, sans-serif)" font-size="34px" font-weight="900" id="hubVal">
             ${centerCount}
           </text>
-          <text x="${cx}" y="${cy + 22}" text-anchor="middle" fill="${textColorMuted}" font-family="var(--font-main, IBM Plex Sans, sans-serif)" font-size="12px" font-weight="700" letter-spacing="0" id="hubLabel">
+          <text x="${cx}" y="${cy + 22}" text-anchor="middle" fill="${textColorMuted}" font-family="var(--font-main, Segoe UI, sans-serif)" font-size="12px" font-weight="700" letter-spacing="0" id="hubLabel">
             ${centerLabel}
           </text>
         </g>
@@ -2505,8 +2503,8 @@
           '<circle cx="37.5" cy="9.5" r="1.5" fill="#ffffff" opacity="0.40"/>' +
           '<!-- Teks Berpusat Sempurna (Pusat X=23) dengan Bayang Lembut -->' +
           '<g>' +
-            '<text x="23" y="16.5" text-anchor="middle" fill="#ffffff" font-family="var(--font-main, IBM Plex Sans, sans-serif)" font-size="8.5px" font-weight="800" letter-spacing="1.2px" opacity="0.95">ZON</text>' +
-            '<text x="23" y="35.5" text-anchor="middle" fill="#ffffff" font-family="var(--font-display, IBM Plex Sans, sans-serif)" font-size="19.5px" font-weight="900" letter-spacing="-0.03em">' + zoneNum + '</text>' +
+            '<text x="23" y="16.5" text-anchor="middle" fill="#ffffff" font-family="var(--font-main, Segoe UI, sans-serif)" font-size="8.5px" font-weight="800" letter-spacing="1.2px" opacity="0.95">ZON</text>' +
+            '<text x="23" y="35.5" text-anchor="middle" fill="#ffffff" font-family="var(--font-display, Segoe UI, sans-serif)" font-size="19.5px" font-weight="900" letter-spacing="-0.03em">' + zoneNum + '</text>' +
           '</g>' +
           '<!-- Garisan Sempadan Dalaman Elegan -->' +
           '<rect x="0.5" y="0.5" width="45" height="45" rx="10.5" stroke="#ffffff" stroke-width="1" stroke-opacity="0.25" fill="none" />' +
@@ -2576,7 +2574,7 @@
         };
       });
 
-      // Populate zonesMetricsStrip (.strip Master A-1)
+      // Populate zonesMetricsStrip (.strip generic)
       const metricsStrip = document.getElementById('zonesMetricsStrip');
       if (metricsStrip) {
         const totalVisits = comparativeRows.length;
@@ -2619,7 +2617,7 @@
         `;
       }
 
-      // 01 / Perbandingan zon — ledger .zledger satu lajur (Master A-1)
+      // 01 / Perbandingan zon — ledger .zledger satu lajur (generic)
       const maxVisits = Math.max(...zoneStats.map(z => z.visits), 1);
       const isPpdRow = r => {
         const z = String(r.zoneName || r.zoneId || '').trim().toUpperCase();
@@ -2773,7 +2771,7 @@
         }
       }
 
-      // 03 / Butiran zon — jadual .tbl Master A-1
+      // 03 / Butiran zon — jadual .tbl generic
       detailEl.innerHTML = zoneStats.map(z => {
         const zNum = z.id.replace(/\D/g, '');
         const topCat = (window.A1Cat && typeof window.A1Cat.classify === 'function')
@@ -4283,7 +4281,8 @@
       const title = reportMode === 'school' ? 'Laporan JTK Mengikut Sekolah' : 'Laporan JTK Mengikut Lawatan';
       const win = window.open('', '_blank');
       if (!win) return;
-      win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(title)}</title><style>@page{size:A4 landscape;margin:7mm}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-family:Arial,sans-serif;color:#172033}h2{margin:0 0 4px}p{margin:0 0 10px;color:#64748b}table{width:100%;border-collapse:collapse;font-size: 12px}th{padding:6px 7px;background:#172554;color:#dbeafe;border:1px solid #172554;text-align:left;font-size:7.5px;letter-spacing:.04em}td{border-bottom:1px solid #dbe2ea;padding:6px 7px;vertical-align:top}.report-detail-row td:first-child{border-left:3px solid var(--report-zone-color,#2563eb);font-weight:700}.report-school-name{font-weight:700}.report-officers span,.report-numbered div{display:block;margin-bottom:2px}.report-isd{display:inline-block;padding:1px 4px;border-radius:999px;background:#ef4444;color:#fff;font-weight:700}.report-isd-empty{color:#94a3b8}.evidence-thumb img{width:28px;height:28px;object-fit:cover}.evidence-thumb{display:inline-block;margin:2px}th:last-child,td:last-child{width:146px}.evidence-photos{display:block;margin-bottom:2px}.toolbar{margin-bottom:10px}.toolbar button{padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;background:#fff}@media print{.toolbar{display:none}}</style></head><body><div class="toolbar"><button onclick="window.print()">Cetak / Save PDF</button></div><h2>${escapeHtml(title)}</h2><p>PPD Contoh · ${escapeHtml(getPeriodText())}</p><table><thead>${detailReportHeadHtml(true)}</thead><tbody>${detailReportBodyHtml(rows,0,true)}</tbody></table><script>window.onload=function(){${autoPrint ? 'setTimeout(function(){window.print()},250);' : ''}}<\/script></body></html>`);
+      win.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(title)}</title><style>@page{size:A4 landscape;margin:7mm}*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}body{font-family:Arial,sans-serif;color:#172033}h2{margin:0 0 4px}p{margin:0 0 10px;color:#64748b}table{width:100%;border-collapse:collapse;font-size: 12px}th{padding:6px 7px;background:#172554;color:#dbeafe;border:1px solid #172554;text-align:left;font-size:7.5px;letter-spacing:.04em}td{border-bottom:1px solid #dbe2ea;padding:6px 7px;vertical-align:top}.report-detail-row td:first-child{border-left:3px solid var(--report-zone-color,#2563eb);font-weight:700}.report-school-name{font-weight:700}.report-officers span,.report-numbered div{display:block;margin-bottom:2px}.report-isd{display:inline-block;padding:1px 4px;border-radius:999px;background:#ef4444;color:#fff;font-weight:700}.report-isd-empty{color:#94a3b8}.evidence-thumb img{width:28px;height:28px;object-fit:cover}.evidence-thumb{display:inline-block;margin:2px}th:last-child,td:last-child{width:146px}.evidence-photos{display:block;margin-bottom:2px}.toolbar{margin-bottom:10px}.toolbar button{padding:6px 10px;border:1px solid #cbd5e1;border-radius:6px;background:#fff}@media print{.toolbar{display:none}}</style>  <link rel="stylesheet" href="/a1/generic-ui.css?v=__BUILD_VERSION__">
+</head><body><div class="toolbar"><button onclick="window.print()">Cetak / Save PDF</button></div><h2>${escapeHtml(title)}</h2><p>PPD Contoh · ${escapeHtml(getPeriodText())}</p><table><thead>${detailReportHeadHtml(true)}</thead><tbody>${detailReportBodyHtml(rows,0,true)}</tbody></table><script>window.onload=function(){${autoPrint ? 'setTimeout(function(){window.print()},250);' : ''}}<\/script></body></html>`);
       win.document.close();
     }
 
@@ -4376,7 +4375,7 @@
       if (presentationTrendChartInstance) presentationTrendChartInstance.destroy();
       const ctx = canvas.getContext('2d');
       const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-      const petrolColor = cssVar('--petrol') || '#0F4C52';
+      const petrolColor = cssVar('--petrol') || '#475569';
       const inkColor = cssVar('--ink-2') || '#3B4648';
       const mutedColor = cssVar('--muted') || '#5E6769';
       const ruleColor = cssVar('--rule') || '#D8D3C8';
@@ -4722,7 +4721,7 @@
       if (crumbEl) crumbEl.textContent = label;
       const crumbCurrent = document.getElementById('crumbCurrent');
       if (crumbCurrent) crumbCurrent.textContent = (tabId === 'overview') ? 'Gambaran keseluruhan' : label;
-      document.title = `${label} — PPD-ICT`;
+      document.title = `${label} — Portal ICT`;
 
       if (window.A1Shell && typeof window.A1Shell.setActive === 'function') {
         window.A1Shell.setActive(tabId);

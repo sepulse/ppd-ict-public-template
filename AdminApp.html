@@ -2,17 +2,17 @@
 <!-- BUILD: __BUILD_VERSION__ -->
 <html lang="ms" data-a1>
 <head>
-  <script>console.log('[PPD-ICT] Build:', '__BUILD_VERSION__');</script>
+  <script>console.log('[Portal ICT] Build:', '__BUILD_VERSION__');</script>
   <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Portal Admin – Dashboard JTK PPD Contoh</title>
   <link rel="manifest" href="/manifest.webmanifest?v=10">
-  <meta name="theme-color" content="#0c0e12">
+  <meta name="theme-color" content="#F8FAFC">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="PPD-ICT">
+  <meta name="apple-mobile-web-app-title" content="Portal ICT">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=10">
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=10">
   <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png?v=10">
@@ -93,10 +93,7 @@
 
   <script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
   <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
-  <!-- Tipografi & Tema Master A-1 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tipografi & Tema generic -->
   <link rel="stylesheet" href="/a1/a1-tokens.css?v=__BUILD_VERSION__">
   <link rel="stylesheet" href="/a1/a1-components.css?v=__BUILD_VERSION__">
   <link rel="stylesheet" href="/a1/tuntutan-print.css?v=__BUILD_VERSION__">
@@ -105,6 +102,7 @@
   <script src="/a1/a1-admin-queue.js?v=__BUILD_VERSION__"></script>
   <script src="/a1/a1-shell.js?v=__BUILD_VERSION__"></script>
 <script src="/a1/a1-production-data.js?v=__BUILD_VERSION__"></script>
+  <link rel="stylesheet" href="/a1/generic-ui.css?v=__BUILD_VERSION__">
 </head>
 <body data-page="admin">
 
@@ -141,7 +139,7 @@
 
   <div id="appShell" class="shell hidden">
     <aside class="side" id="sidebar">
-      <div class="brand">PPDK<i>.CH</i></div>
+      <div class="brand">Portal ICT</div>
       <div class="brand-sub mono"><b>Pentadbiran</b> · PPD Contoh</div>
       <nav class="nav" aria-label="Pentadbiran" id="nav">
         <div class="nav-label mono">Pentadbiran</div>
@@ -163,7 +161,7 @@
     <main class="main">
       <header class="top">
         <button class="iconbtn menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
-        <div class="crumb mono"><span>PPD-ICT</span><span>/</span><span>Pentadbiran</span><span>/</span><b id="crumb">Utama</b></div>
+        <div class="crumb mono"><span>Portal ICT</span><span>/</span><span>Pentadbiran</span><span>/</span><b id="crumb">Utama</b></div>
         <div class="top-r">
           <div class="a-who"><span class="a-av" id="whoAv">SA</span><div><b id="whoName">Super Admin</b><span class="mono" id="whoRole">Semua zon</span></div></div>
           <button class="iconbtn" id="darkModeBtn" type="button" aria-label="Tukar tema" title="Tukar mod paparan"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg></button>
@@ -2458,7 +2456,7 @@
       });
     }
 
-    /* ---------------- Ringkasan Utama & Jalur Metrik (Master A-1) ---------------- */
+    /* ---------------- Ringkasan Utama & Jalur Metrik (generic) ---------------- */
     let homeSummaryData = null;
     let homeSummaryError = null;
 
@@ -2657,7 +2655,7 @@
       }).join('');
     }
 
-    /* --- Master A-1: Barisan Kerja & Ringkasan Utama --- */
+    /* --- generic: Barisan Kerja & Ringkasan Utama --- */
     let adminQueueRecords = null;
     let adminQueueFb = null;
     let adminQueueStaff = null;

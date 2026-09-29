@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PPD-ICT — Peta (A-1)</title>
+  <title>Portal ICT — Peta</title>
   <link rel="manifest" href="/manifest.webmanifest?v=10">
   <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180.png?v=10">
   <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png?v=10">
@@ -15,9 +15,6 @@
   <script src="/a1/a1-theme.js?v=__BUILD_VERSION__"></script>
   <script src="/a1/public-config.js?v=__BUILD_VERSION__"></script>
   <script src="/a1/a1-shell.js?v=__BUILD_VERSION__"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="/a1/a1-tokens.css?v=__BUILD_VERSION__">
   <link rel="stylesheet" href="/a1/a1-components.css?v=__BUILD_VERSION__">
@@ -27,6 +24,7 @@
     .svg-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
   </style>
 <script src="/a1/a1-production-data.js?v=__BUILD_VERSION__"></script>
+  <link rel="stylesheet" href="/a1/generic-ui.css?v=__BUILD_VERSION__">
 </head>
 <body data-page="geospatial">
 <svg class="svg-defs" aria-hidden="true">
@@ -52,7 +50,7 @@
 
 <div class="shell" id="shell">
   <aside class="side" id="sidebar">
-    <div class="brand">PPDK<i>.CH</i></div>
+    <div class="brand">Portal ICT</div>
     <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
     <nav class="nav" aria-label="Utama">
       <div class="nav-label mono">Ruang kerja</div>
@@ -68,7 +66,7 @@
       <a href="/qrcode" title="QR &amp; Short URL"><svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z"/></svg>QR &amp; Short URL<span class="k">10</span></a>
     </nav>
     <div class="side-foot">
-      <div class="sim mono"><span class="dot"></span><span id="lblDataStatus">Peta A-1 · Data Aktif</span></div>
+      <div class="sim mono"><span class="dot"></span><span id="lblDataStatus">Data peta · Aktif</span></div>
       <button class="g-railbtn" id="railBtn" aria-expanded="true" title="Lipat menu"><svg><use href="#i-rail"/></svg>Lipat menu</button>
       <a href="/admin" title="Login Admin"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Login Admin</a>
     </div>
@@ -84,7 +82,7 @@
     <section class="g-panel" id="panel" aria-label="Kawalan peta">
       <button class="g-grab" id="grab" aria-expanded="false" aria-controls="panel"><i></i><span id="grabT">Senarai &amp; tapis</span></button>
       <header class="g-ph">
-        <div><span class="mono">PPD-ICT / Peta</span><h1>Peta sekolah</h1></div>
+        <div><span class="mono">Portal ICT / Peta</span><h1>Peta sekolah</h1></div>
         <button class="iconbtn" id="pToggle" aria-label="Lipat panel" aria-controls="panel" aria-expanded="true" title="Lipat panel"><svg><use href="#i-pclose"/></svg></button>
       </header>
       <div class="g-body" id="panelBody">

@@ -3,7 +3,7 @@
  * Strategy: Stale-While-Revalidate & Network-First with Offline Fallback
  */
 
-const CACHE_NAME = 'ppd-ict-pwa-v1-__BUILD_VERSION__';
+const CACHE_NAME = 'portal-ict-white-label-v2-__BUILD_VERSION__';
 
 const PRECACHE_RESOURCES = [
   "/",
@@ -26,6 +26,7 @@ const PRECACHE_RESOURCES = [
   "/a1/a1-icons.js?v=__BUILD_VERSION__",
   "/a1/a1-production-data.js?v=__BUILD_VERSION__",
   "/a1/public-config.js?v=__BUILD_VERSION__",
+  "/a1/generic-ui.css?v=__BUILD_VERSION__",
   "/a1/a1-shell.js?v=__BUILD_VERSION__",
   "/a1/a1-theme.js?v=__BUILD_VERSION__",
   "/a1/a1-tokens.css?v=__BUILD_VERSION__",

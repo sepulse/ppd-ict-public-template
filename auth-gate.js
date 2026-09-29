@@ -122,7 +122,7 @@
     var homeArrow = document.getElementById('i-back') ? '<svg class="i" aria-hidden="true"><use href="#i-back"/></svg>' : '<span aria-hidden="true">←</span>';
     overlayEl.innerHTML =
       '<div id="authGateCard" role="dialog" aria-modal="true" aria-labelledby="authGateTitle">' +
-        '<div class="ag-top"><span class="mono">PPD-ICT · STAF JTK/PPTM</span><a class="lnk" id="authGateHome" href="/">' + homeArrow + '<span>Laman utama</span></a></div>' +
+        '<div class="ag-top"><span class="mono">PORTAL ICT · STAF</span><a class="lnk" id="authGateHome" href="/">' + homeArrow + '<span>Laman utama</span></a></div>' +
         '<h2 id="authGateTitle">Log Masuk Staf</h2>' +
         '<p class="ag-sub" id="authGateSub">Akses terhad kepada staf JTK/PPTM PPD Contoh dalam senarai dibenarkan.</p>' +
         '<div id="authGateError"></div>' +
