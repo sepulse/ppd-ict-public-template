@@ -2,7 +2,7 @@
 
 Template sumber terbuka untuk Pejabat Pendidikan Daerah (PPD) membina portal pengurusan ICT berasaskan sistem PTIS/JTK. Ia menyediakan borang lawatan, dashboard, peta/radar sekolah, PWA luar talian, pentadbiran, audit, QR/short URL dan integrasi pilihan Facebook/Telegram.
 
-Antara muka lalai menggunakan **white-label neutral**: system font, palet slate/gray, ikon generik dan placeholder organisasi. Ia sengaja tidak menyalin accent, tipografi atau branding visual sistem asal supaya setiap PPD boleh membina identiti sendiri.
+Antara muka lalai menggunakan **white-label neutral**: system font, palet slate/gray, ikon rounded-line generik dan placeholder organisasi. Shell desktop menggunakan **top application bar + horizontal module navigation** (bukan sidebar kiri) supaya ia tidak menyalin layout, accent, tipografi atau branding visual sistem asal.
 
 Repo ini ialah versi **disanitasi untuk penggunaan semula**. Ia tidak mengandungi sejarah Git, akaun, token, kata laluan, senarai pegawai, sekolah, koordinat atau konfigurasi production daripada PPD asal.
 

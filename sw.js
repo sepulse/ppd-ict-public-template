@@ -3,7 +3,7 @@
  * Strategy: Stale-While-Revalidate & Network-First with Offline Fallback
  */
 
-const CACHE_NAME = 'portal-ict-white-label-v2-__BUILD_VERSION__';
+const CACHE_NAME = 'portal-ict-white-label-v3-__BUILD_VERSION__';
 
 const PRECACHE_RESOURCES = [
   "/",

@@ -27,48 +27,27 @@
   <link rel="stylesheet" href="/a1/generic-ui.css?v=__BUILD_VERSION__">
 </head>
 <body data-page="geospatial">
-<svg class="svg-defs" aria-hidden="true">
-  <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
-  <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6.4-6.4"/></symbol>
-  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z"/></symbol>
-  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
-  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
-  <symbol id="i-next" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
-  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
-  <symbol id="i-loc" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="8"/></symbol>
-  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
-  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
-  <symbol id="i-form" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol>
-  <symbol id="i-nav" viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8z"/></symbol>
-  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
-  <symbol id="i-pclose" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM9 4v16"/><path d="M16 9l-3 3 3 3"/></symbol>
-  <symbol id="i-popen" viewBox="0 0 24 24"><path d="M3 4h18v16H3zM9 4v16"/><path d="M13 9l3 3-3 3"/></symbol>
-  <symbol id="i-rail" viewBox="0 0 24 24"><path d="M11 7l-5 5 5 5M18 7l-5 5 5 5"/></symbol>
-  <symbol id="i-fs" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
-  <symbol id="i-qr" viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z"/></symbol>
-</svg>
-
 <div class="shell" id="shell">
   <aside class="side" id="sidebar">
     <div class="brand">Portal ICT</div>
     <div class="brand-sub mono">Unit ICT · PPD Contoh</div>
     <nav class="nav" aria-label="Utama">
       <div class="nav-label mono">Ruang kerja</div>
-      <a href="/" title="Home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>Home<span class="k">01</span></a>
-      <a href="/ptis" title="Borang PTIS"><svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>Borang PTIS<span class="k">02</span></a>
-      <a href="/dashboard#overview" title="Dashboard"><svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>Dashboard<span class="k">03</span></a>
-      <a href="/dashboard#zones" title="Analitik Zon"><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg>Analitik Zon<span class="k">04</span></a>
-      <a href="/dashboard#members" title="Ahli JTK"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg>Ahli JTK<span class="k">05</span></a>
-      <a href="/dashboard#issues" title="Isu &amp; Tujuan"><svg viewBox="0 0 24 24"><path d="M12 3l10 18H2z"/><path d="M12 10v5M12 18h.01"/></svg>Isu &amp; Tujuan<span class="k">06</span></a>
-      <a href="/dashboard#records" title="Rekod Lawatan"><svg viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>Rekod Lawatan<span class="k">07</span></a>
-      <a class="on" href="/map" title="Peta" aria-current="page"><svg viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></svg>Peta<span class="k">08</span></a>
-      <a href="/dashboard#report" title="Laporan Rasmi"><svg viewBox="0 0 24 24"><path d="M3 4h18v12H3z"/><path d="M8 20h8M12 16v4M7 12l3-3 2 2 4-4"/></svg>Laporan Rasmi<span class="k">09</span></a>
-      <a href="/qrcode" title="QR &amp; Short URL"><svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 18h2v2h-2zM14 18h2v2h-2zM18 14h2v2h-2z"/></svg>QR &amp; Short URL<span class="k">10</span></a>
+      <a href="/" title="Home"><svg class="i"><use href="#i-home"/></svg>Home<span class="k">01</span></a>
+      <a href="/ptis" title="Borang PTIS"><svg class="i"><use href="#i-form"/></svg>Borang PTIS<span class="k">02</span></a>
+      <a href="/dashboard#overview" title="Dashboard"><svg class="i"><use href="#i-grid"/></svg>Dashboard<span class="k">03</span></a>
+      <a href="/dashboard#zones" title="Analitik Zon"><svg class="i"><use href="#i-bar"/></svg>Analitik Zon<span class="k">04</span></a>
+      <a href="/dashboard#members" title="Ahli JTK"><svg class="i"><use href="#i-team"/></svg>Ahli JTK<span class="k">05</span></a>
+      <a href="/dashboard#issues" title="Isu &amp; Tujuan"><svg class="i"><use href="#i-alert"/></svg>Isu &amp; Tujuan<span class="k">06</span></a>
+      <a href="/dashboard#records" title="Rekod Lawatan"><svg class="i"><use href="#i-log"/></svg>Rekod Lawatan<span class="k">07</span></a>
+      <a class="on" href="/map" title="Peta" aria-current="page"><svg class="i"><use href="#i-map"/></svg>Peta<span class="k">08</span></a>
+      <a href="/dashboard#report" title="Laporan Rasmi"><svg class="i"><use href="#i-report"/></svg>Laporan Rasmi<span class="k">09</span></a>
+      <a href="/qrcode" title="QR &amp; Short URL"><svg class="i"><use href="#i-qr"/></svg>QR &amp; Short URL<span class="k">10</span></a>
     </nav>
     <div class="side-foot">
       <div class="sim mono"><span class="dot"></span><span id="lblDataStatus">Data peta · Aktif</span></div>
       <button class="g-railbtn" id="railBtn" aria-expanded="true" title="Lipat menu"><svg><use href="#i-rail"/></svg>Lipat menu</button>
-      <a href="/admin" title="Login Admin"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="5" y="11" width="14" height="10"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Login Admin</a>
+      <a href="/admin" title="Login Admin"><svg class="i"><use href="#i-lock"/></svg>Login Admin</a>
     </div>
   </aside>
 

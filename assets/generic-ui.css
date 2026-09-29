@@ -1,21 +1,175 @@
-/* Generic white-label presentation layer.
-   Loaded after page-specific CSS so adopters start from a neutral, familiar admin UI. */
+/* White-label layout v2.
+   Aplikasi menggunakan top navigation + card workspace supaya tidak mewarisi shell asal. */
 
 :root {
-  --generic-radius-sm: 6px;
-  --generic-radius: 10px;
-  --generic-shadow: 0 1px 2px rgba(15, 23, 42, .06);
+  --generic-radius-sm: 8px;
+  --generic-radius: 14px;
+  --generic-radius-lg: 18px;
+  --generic-shadow: 0 1px 2px rgba(15, 23, 42, .05), 0 8px 24px rgba(15, 23, 42, .04);
+  --appbar-h: 76px;
 }
 
-body { letter-spacing: 0; }
-.side { background: var(--card); padding-top: 22px; }
-.brand { font-family: var(--sans); font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
-.brand i { color: inherit; font-weight: 700; }
-.nav { margin-top: 28px; gap: 4px; }
-.nav a { border-left: 0; border-radius: var(--generic-radius-sm); }
-.nav a.on { background: var(--sel-bg); color: var(--sel-fg); border-left: 0; }
-.nav a.on .k { color: var(--muted); }
-.top { border-bottom-color: var(--rule); }
+body { letter-spacing: 0; background: var(--paper); }
+
+/* ---------- NEW APPLICATION SHELL: TOP BAR, NOT LEFT SIDEBAR ---------- */
+.shell,
+.shell.rail { display: block; min-height: 100vh; }
+
+.side,
+.shell.rail .side {
+  position: sticky;
+  inset: 0 0 auto 0;
+  z-index: 900;
+  width: 100%;
+  height: var(--appbar-h);
+  padding: 9px clamp(18px, 3vw, 48px);
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "brand nav foot"
+    "sub   nav foot";
+  align-items: center;
+  column-gap: 22px;
+  border: 0;
+  border-bottom: 1px solid var(--rule);
+  background: var(--card);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .02);
+  overflow: hidden;
+  transform: none;
+  visibility: visible;
+}
+
+.brand,
+.shell.rail .brand {
+  grid-area: brand;
+  align-self: end;
+  padding: 0;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.2;
+  font-weight: 750;
+  letter-spacing: -.015em;
+  white-space: nowrap;
+}
+.brand i { color: inherit; font-weight: inherit; }
+.brand-sub,
+.shell.rail .brand-sub {
+  grid-area: sub;
+  align-self: start;
+  display: block;
+  padding: 2px 0 0;
+  color: var(--muted);
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.nav,
+.shell.rail .nav {
+  grid-area: nav;
+  min-width: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav-label { display: none !important; }
+
+.nav a,
+.shell.rail .nav a,
+.side .nav .nav-tab {
+  flex: 0 0 auto;
+  width: auto;
+  min-height: 42px;
+  padding: 0 11px;
+  display: inline-flex;
+  grid-template-columns: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font: 600 12.5px/1 var(--sans);
+  text-align: center;
+  white-space: nowrap;
+}
+.nav a:hover,
+.shell.rail .nav a:hover,
+.side .nav .nav-tab:hover { background: var(--paper-2); color: var(--ink); }
+.nav a.on,
+.side .nav .nav-tab.active,
+.side .nav .nav-tab.on {
+  background: var(--sel-bg);
+  color: var(--sel-fg);
+  border: 0;
+  font-weight: 700;
+}
+.nav a .k,
+.shell.rail .nav a .k,
+.side .nav .nav-tab .k { display: none; }
+
+.nav svg,
+.side .nav .nav-tab svg,
+svg.i {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none;
+}
+
+.side-foot,
+.shell.rail .side-foot {
+  grid-area: foot;
+  margin: 0;
+  padding: 0 0 0 14px;
+  border: 0;
+  border-left: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.side-foot .sim { display: none !important; }
+.side-foot a,
+.a-back {
+  min-height: 40px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 9px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.side-foot a:hover { background: var(--paper-2); }
+.g-railbtn { display: none !important; }
+
+.scrim { display: none !important; }
+.menu-btn { display: none !important; }
+
+/* ---------- WORKSPACE ---------- */
+.main {
+  width: min(100%, 1520px);
+  margin: 0 auto;
+  padding: 0 clamp(18px, 3vw, 44px) 52px;
+}
+.top {
+  height: 62px;
+  border-bottom: 1px solid var(--rule);
+}
+.crumb { color: var(--muted); }
+.crumb b { color: var(--ink); }
 
 .btn,
 .iconbtn,
@@ -25,7 +179,7 @@ body { letter-spacing: 0; }
 input,
 select,
 textarea { border-radius: var(--generic-radius-sm); }
-
+.iconbtn { background: var(--card); }
 .btn { box-shadow: none; }
 .btn-mint,
 .btn-ink { background: var(--ink); color: var(--paper); border-color: var(--ink); }
@@ -33,56 +187,117 @@ textarea { border-radius: var(--generic-radius-sm); }
 .btn-ink:hover { background: var(--ink-2); border-color: var(--ink-2); }
 .btn-line:hover { background: var(--paper-2); }
 
-.hero,
+/* Headings become open workspace headers instead of branded dark strips. */
 .mast,
 .a-mast,
-.p-mast,
-.w-panel,
-.q-stage {
-  background: var(--card) !important;
+.p-mast {
+  margin-top: 0;
+  padding: 28px 0 20px !important;
+  background: transparent !important;
   color: var(--ink) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.mast::before,
+.a-mast::before,
+.p-mast::before { display: none !important; }
+.mast .mono,
+.a-mast .mono,
+.p-mast .mono { color: var(--muted) !important; }
+
+/* KPI hero becomes two independent cards. */
+.hero {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: 14px;
+  background: transparent !important;
+  color: var(--ink) !important;
+  border: 0 !important;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+}
+.hero::before { display: none !important; }
+.hero-l,
+.hero-r {
+  padding: 28px 30px;
+  background: var(--card);
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--generic-radius-lg);
+  box-shadow: var(--generic-shadow);
+}
+.hero-eyebrow,
+.hero-r h3 .mono,
+.meter-l,
+.legend { color: var(--muted) !important; }
+.hero-eyebrow b,
+.hero-line em { color: var(--ink-2) !important; }
+.big .n,
+.big .of { color: var(--ink) !important; }
+.meter { background: var(--paper-2); border-radius: 999px; overflow: hidden; }
+.meter span { background: var(--ink-2); border-radius: inherit; }
+.cell { border-color: var(--rule-2); border-radius: 3px; }
+
+/* Metrics become standalone cards instead of a ruled strip. */
+.strip {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  border: 0;
+}
+.stat,
+.strip .stat {
+  min-width: 0;
+  padding: 20px;
+  background: var(--card);
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--generic-radius);
+  box-shadow: var(--generic-shadow);
+}
+.stat:first-child,
+.stat:last-child { padding-left: 20px; }
+
+.grid2 { gap: 14px; margin-top: 28px; }
+.grid2 > .sec,
+.grid2 > .sec + .sec {
+  padding: 22px;
+  background: var(--card);
   border: 1px solid var(--rule);
   border-radius: var(--generic-radius);
   box-shadow: var(--generic-shadow);
 }
-.hero::before,
-.mast::before,
-.a-mast::before,
-.p-mast::before,
-.q-grid { display: none !important; }
-.hero-l { border-right-color: var(--rule); }
-.hero-eyebrow,
-.hero-r h3 .mono,
-.meter-l,
-.legend,
-.w-panel p,
-.q-stage p { color: var(--muted) !important; }
-.hero-eyebrow b,
-.hero-line em,
-.mast .mono,
-.a-mast .mono,
-.p-mast .mono { color: var(--ink-2) !important; }
-.big .n,
-.big .of { color: var(--ink) !important; }
-.meter { background: var(--paper-2); }
-.meter span { background: var(--ink-2); }
-.cell { border-color: var(--rule-2); }
+.sec + .sec { margin-top: 0; }
+.sec-h { border-bottom-color: var(--rule); }
+.sec-h .idx,
+.rank .no,
+.w-sec .sec-h .mono { color: var(--muted); }
 
-.strip,
-.tiles { border-color: var(--rule); }
-.stat,
+.tiles {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  border: 0;
+}
 .tile,
-.sec + .sec { border-color: var(--rule); }
-.tile,
-.visit,
-.stat { background: transparent; }
-.tile:hover,
-.visit:hover { background: var(--paper-2); color: var(--ink); }
+.tile:last-child {
+  min-height: 190px;
+  padding: 22px;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: var(--generic-radius);
+  box-shadow: var(--generic-shadow);
+}
+.tile:hover { background: var(--paper-2); color: var(--ink); }
 .tile:hover p { color: var(--ink-2); }
+.tile .tic,
+.iss .ic { border-radius: 10px; }
 .tile:hover .tic { border-color: var(--rule-2); color: var(--ink); }
 .tile:hover .no { -webkit-text-stroke-color: var(--muted); }
-.tile .tic,
-.iss .ic { border-radius: var(--generic-radius-sm); }
 
 .card,
 .panel,
@@ -93,19 +308,96 @@ textarea { border-radius: var(--generic-radius-sm); }
 .g-card,
 .q-card,
 .w-card { border-radius: var(--generic-radius) !important; box-shadow: var(--generic-shadow); }
-
 .zb { border-radius: 999px; }
-.sec-h .idx,
-.rank .no,
-.w-sec .sec-h .mono { color: var(--muted); }
 
-html[data-theme="dark"] .hero,
-html[data-theme="dark"] .mast,
-html[data-theme="dark"] .a-mast,
-html[data-theme="dark"] .p-mast,
+/* Utilities/pages that previously used branded dark panels. */
+.w-panel,
+.q-stage {
+  background: var(--card) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--rule);
+  border-radius: var(--generic-radius);
+  box-shadow: var(--generic-shadow);
+}
+.q-grid { display: none !important; }
+.w-panel p,
+.q-stage p { color: var(--muted) !important; }
+
+/* Map keeps its internal split panel, but the global navigation is now above it. */
+body[data-page="geospatial"] .g-wrap,
+body[data-page="geospatial"] .g-wrap.pc {
+  width: 100%;
+  height: calc(100vh - var(--appbar-h));
+}
+body[data-page="geospatial"] .g-mtop.top { top: calc(var(--appbar-h) + 14px); }
+.shell.rail .nav a { font-size: 12.5px; padding: 0 11px; justify-items: initial; }
+.shell.rail .side-foot a { font-size: 12px; justify-content: center; }
+
+html[data-theme="dark"] .side { background: var(--card); }
+html[data-theme="dark"] .hero-l,
+html[data-theme="dark"] .hero-r,
+html[data-theme="dark"] .stat,
+html[data-theme="dark"] .tile,
+html[data-theme="dark"] .grid2 > .sec,
 html[data-theme="dark"] .w-panel,
 html[data-theme="dark"] .q-stage { background: var(--card) !important; color: var(--ink) !important; }
 
+@media (max-width: 1180px) {
+  :root { --appbar-h: 112px; }
+  .side,
+  .shell.rail .side {
+    height: var(--appbar-h);
+    grid-template-columns: minmax(0,1fr) max-content;
+    grid-template-rows: 46px 48px;
+    grid-template-areas:
+      "brand foot"
+      "nav nav";
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .brand { align-self: center; }
+  .brand-sub { display: none; }
+  .nav { width: 100%; }
+  .side-foot { justify-self: end; }
+  .hero { grid-template-columns: 1fr; }
+  .hero-l { border-bottom: 1px solid var(--rule) !important; }
+}
+
 @media (max-width: 900px) {
-  .side { background: var(--card); }
+  :root { --appbar-h: 108px; }
+  .side,
+  .shell.rail .side {
+    display: grid;
+    position: sticky;
+    width: 100%;
+    height: var(--appbar-h);
+    transform: none;
+    visibility: visible;
+    overflow: hidden;
+  }
+  body.lock { overflow: auto; }
+  .main { padding: 0 16px 34px; }
+  .top { height: 56px; }
+  .strip { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .stat:nth-child(-n+2) { border-bottom: 1px solid var(--rule) !important; }
+  .tiles { grid-template-columns: 1fr; }
+  .grid2 { grid-template-columns: 1fr; }
+  .grid2 > .sec + .sec { margin-top: 0; }
+  body[data-page="geospatial"] .g-wrap,
+  body[data-page="geospatial"] .g-wrap.pc { height: calc(100dvh - var(--appbar-h)); }
+  body[data-page="geospatial"] .g-mtop { display: none; }
+}
+
+@media (max-width: 560px) {
+  :root { --appbar-h: 104px; }
+  .side,
+  .shell.rail .side { padding-inline: 12px; }
+  .side-foot a { font-size: 0; width: 40px; padding: 0; justify-content: center; }
+  .nav a,
+  .shell.rail .nav a,
+  .side .nav .nav-tab { min-height: 40px; padding: 0 10px; font-size: 12px; }
+  .hero-l,
+  .hero-r { padding: 22px 18px; }
+  .strip { grid-template-columns: 1fr; }
+  .tiles { gap: 10px; }
 }
